@@ -1,5 +1,12 @@
 *.class
 
+.project
+.settings/
+
+.classpath
+
+derby.log
+
 # Package Files #
 *.jar
 *.war
