@@ -8,16 +8,21 @@
 		<artifactId>parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<groupId>net.phyokyaw.jaquapi</groupId>
-	<artifactId>temperature</artifactId>
-	<name>temperature</name>
+	<artifactId>webconsole</artifactId>
+	<name>webconsole</name>
 	<url>http://maven.apache.org</url>
 	<packaging>bundle</packaging>
 	<dependencies>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>net.phyokyaw.jaquapi</groupId>
-			<artifactId>core</artifactId>
-			<version>${project.version}</version>
+			<artifactId>temperature</artifactId>
+			<version>1.0-SNAPSHOT</version>
 			<type>bundle</type>
 		</dependency>
 	</dependencies>
