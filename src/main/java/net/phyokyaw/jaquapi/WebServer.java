@@ -1,4 +1,4 @@
-package com.sjl;
+package net.phyokyaw.jaquapi;
 
 import java.io.*;
 import java.net.*;
@@ -22,7 +22,7 @@ public class WebServer
 	private static final String LOG_PATH = "./var/logs/access/yyyy_mm_dd.request.log";
 	
 	private static final String WEB_XML = "META-INF/webapp/WEB-INF/web.xml";
-    private static final String CLASS_ONLY_AVAILABLE_IN_IDE = "com.sjl.IDE";
+    private static final String CLASS_ONLY_AVAILABLE_IN_IDE = "net.phyokyaw.jaquapi.IDE";
     private static final String PROJECT_RELATIVE_PATH_TO_WEBAPP = "src/main/java/META-INF/webapp";
     
     public static interface WebContext

@@ -1,4 +1,4 @@
-package com.sjl;
+package net.phyokyaw.jaquapi;
 
 public class IDE {
 	// This class is a place-holder used to identify whether the

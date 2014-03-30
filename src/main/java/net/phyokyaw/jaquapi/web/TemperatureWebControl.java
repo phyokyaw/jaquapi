@@ -1,12 +1,12 @@
-package com.sjl.web;
+package net.phyokyaw.jaquapi.web;
+
+import net.phyokyaw.jaquapi.dao.TemperatureService;
+import net.phyokyaw.jaquapi.dao.model.TemperatureRecord;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.sjl.dao.TemperatureService;
-import com.sjl.dao.model.TemperatureRecord;
 
 @Controller
 public class TemperatureWebControl {

@@ -1,4 +1,4 @@
-package com.sjl.web;
+package net.phyokyaw.jaquapi.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -4,10 +4,10 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.sjl</groupId>
-	<artifactId>webapp</artifactId>
+	<groupId>net.phyokyaw</groupId>
+	<artifactId>jaquapi</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>WebApp</name>
+	<name>jaquapi</name>
 	<description></description>
 
 	<repositories>
@@ -104,7 +104,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.sjl.Main</mainClass>
+									<mainClass>net.phyokyaw.jaquapi.Main</mainClass>
 								</transformer>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
@@ -243,6 +243,12 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>2.8</version>
 		</dependency>
 	</dependencies>
 </project>

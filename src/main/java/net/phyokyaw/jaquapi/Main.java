@@ -1,4 +1,4 @@
-package com.sjl;
+package net.phyokyaw.jaquapi;
 
 public class Main
 {
