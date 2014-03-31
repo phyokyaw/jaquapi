@@ -36,6 +36,21 @@
 			})
 		}, 2000);
 	})();
+	(function poll1() {
+		setTimeout(function() {
+			$.ajax({
+				dataType : "json",
+				url : "/ph",
+				type : "GET",
+				success : function(data) {
+					Gauge.Collection.get('phGuage').setValue(data.value);
+				},
+				dataType : "json",
+				complete : poll1,
+				timeout : 2000
+			})
+		}, 2000);
+	})();
 </script>
 <script>
 	!function(d, s, id) {

@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.dao;
+package net.phyokyaw.jaquapi;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -6,23 +6,24 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
-import net.phyokyaw.jaquapi.dao.model.TemperatureRecord;
+import net.phyokyaw.jaquapi.dao.PhDao;
+import net.phyokyaw.jaquapi.dao.model.PhRecord;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class AquaTemperatureService implements TemperatureService {
-	private static Logger logger = LoggerFactory.getLogger(AquaTemperatureService.class);
+@Service("ph")
+public class PhService implements AquaService {
+	private static Logger logger = LoggerFactory.getLogger(PhService.class);
 
-	private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+	private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
 
 	private double value = 0.0;
 
 	@Autowired
-	private TemperatureDao dao;
+	private PhDao dao;
 
 	@PostConstruct
 	private void setup() {
@@ -31,7 +32,7 @@ public class AquaTemperatureService implements TemperatureService {
 			public void run() {
 				update();
 			}
-		}, 0L, 1L, TimeUnit.MINUTES);
+		}, 0L, 3L, TimeUnit.MINUTES);
 		scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
@@ -42,14 +43,20 @@ public class AquaTemperatureService implements TemperatureService {
 
 	private void update() {
 		logger.info("Updating value");
-		value = 0.0;
+		value = 5.0;
 	}
 
 	private void record() {
 		logger.info("Saving value");
-		TemperatureRecord record = new TemperatureRecord();
+		PhRecord record = new PhRecord();
 		record.setValue(value);
 		dao.save(record);
+	}
+
+	public PhRecord getPhRecord() {
+		PhRecord ph = new PhRecord();
+		ph.setValue(getValue());
+		return ph;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package net.phyokyaw.jaquapi.web;
 
-import net.phyokyaw.jaquapi.TemperatureService;
-import net.phyokyaw.jaquapi.dao.model.TemperatureRecord;
+import net.phyokyaw.jaquapi.PhService;
+import net.phyokyaw.jaquapi.dao.model.PhRecord;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class TemperatureWebControl {
+public class PhWebControl {
 
 	@Autowired
-	@Qualifier("temperature")
-	private TemperatureService temperatureService;
+	@Qualifier("ph")
+	private PhService phService;
 
-	@RequestMapping("/temperature")
-	public @ResponseBody TemperatureRecord getTemp() {
-		return temperatureService.getTemperatureRecord();
-	}
-}
+	@RequestMapping("/ph")
+	public @ResponseBody PhRecord getPh() {
+		return phService.getPhRecord();
+	}}
