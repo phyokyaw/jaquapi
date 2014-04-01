@@ -1,8 +1,6 @@
 package net.phyokyaw.jaquapi;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ScheduledFuture;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -19,32 +17,29 @@ import org.springframework.stereotype.Service;
 public class TemperatureService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 
-	private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
-
-	private double value = 0.0;
-
+	@Autowired
+	private ScheduledService scheduledService;
 	@Autowired
 	private TemperatureDao dao;
+	private double value = 0.0;
+
+	private ScheduledFuture<?> schedule;
+
+	@PreDestroy
+	private void shutdown() {
+		if (schedule != null) {
+			schedule.cancel(false);
+		}
+	}
 
 	@PostConstruct
 	private void setup() {
-		scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+		schedule = scheduledService.addSchedule(new Runnable() {
 			@Override
 			public void run() {
 				update();
 			}
-		}, 0L, 1L, TimeUnit.MINUTES);
-		scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-			@Override
-			public void run() {
-				record();
-			}
-		}, 0L, 5L, TimeUnit.MINUTES);
-	}
-
-	@PreDestroy
-	private void shutdown() {
-		scheduledExecutorService.shutdown();
+		}, 1000 * 5); //5s
 	}
 
 	private void update() {
