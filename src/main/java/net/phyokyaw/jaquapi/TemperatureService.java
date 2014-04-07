@@ -1,6 +1,12 @@
 package net.phyokyaw.jaquapi;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.ScheduledFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -15,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 @Service("temperature")
 public class TemperatureService implements AquaService {
-	private static Logger logger = LoggerFactory.getLogger(TemperatureService.class);
+	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
+	private static final String TEMP_FILE_NAME = "/w1_slave";
+	private static final String TEMP_FILE_PATH = "/sys/bus/w1/devices/28-0000054b468a";
 
 	@Autowired
 	private ScheduledService scheduledService;
@@ -23,35 +31,66 @@ public class TemperatureService implements AquaService {
 	private TemperatureDao dao;
 	private double value = 0.0;
 
-	private ScheduledFuture<?> schedule;
+	private ScheduledFuture<?> updateSchedule;
+	private ScheduledFuture<?> recordSchedule;
 
 	@PreDestroy
 	private void shutdown() {
-		if (schedule != null) {
-			schedule.cancel(false);
+		if (updateSchedule != null) {
+			updateSchedule.cancel(false);
+		}
+		if (recordSchedule != null) {
+			recordSchedule.cancel(false);
 		}
 	}
 
 	@PostConstruct
 	private void setup() {
-		schedule = scheduledService.addSchedule(new Runnable() {
+		updateSchedule = scheduledService.addSchedule(new Runnable() {
 			@Override
 			public void run() {
 				update();
 			}
 		}, 1000 * 5); //5s
+		recordSchedule = scheduledService.addSchedule(new Runnable() {
+			@Override
+			public void run() {
+				record();
+			}
+		}, 1000 * 5); //5s
 	}
 
 	private void update() {
-		logger.debug("Updating value");
-		value = 20.0;
+		logger.debug("Updating temp value");
+		String file = getTempFilePath() + TEMP_FILE_NAME;
+		try {
+			byte[] encoded = Files.readAllBytes(Paths.get(file));
+			String fileData = Charset.defaultCharset().decode(ByteBuffer.wrap(encoded)).toString();
+			Pattern pattern = Pattern.compile(".*t=(\\d+)");
+			Matcher matcher = pattern.matcher(fileData);
+			if (matcher.find()) {
+				value = Double.parseDouble(matcher.group(1)) / 1000;
+			} else {
+				throw new Exception("Unable to temp in file");
+			}
+		} catch (Exception e) {
+			logger.error("Unable to read temp", e);
+		}
+	}
+
+	private String getTempFilePath() {
+		return "/scratch/dev/jaquapi/src/test/resources";
 	}
 
 	private void record() {
-		logger.debug("Saving value");
-		TemperatureRecord record = new TemperatureRecord();
-		record.setValue(value);
-		dao.save(record);
+		try {
+			logger.debug("Saving temp value");
+			TemperatureRecord record = new TemperatureRecord();
+			record.setValue(value);
+			dao.save(record);
+		} catch(Exception ex) {
+			logger.error("Unable to save", ex);
+		}
 	}
 
 	public TemperatureRecord getTemperatureRecord() {

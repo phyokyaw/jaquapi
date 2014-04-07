@@ -2,7 +2,6 @@ package net.phyokyaw.jaquapi.dao.model;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,20 +11,20 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class TemperatureRecord {
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @Column
-    private double value;
+	@Column
+	private double value;
 
-	@Basic(optional = false)
-    @Column(insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date storedTime;
+	// columnDefinition could simply be = "TIMESTAMP", as the other settings are the MySQL default
+	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date storedTime;
 
 
-    public double getValue() {
+	public double getValue() {
 		return value;
 	}
 
