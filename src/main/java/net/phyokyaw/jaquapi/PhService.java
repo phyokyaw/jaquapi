@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
-	private double value = 0.0;
+	private double value = 4.0;
 
 	@Autowired
 	private PhDao dao;

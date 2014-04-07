@@ -43,12 +43,12 @@ public class TemperatureService implements AquaService {
 	}
 
 	private void update() {
-		logger.info("Updating value");
+		logger.debug("Updating value");
 		value = 20.0;
 	}
 
 	private void record() {
-		logger.info("Saving value");
+		logger.debug("Saving value");
 		TemperatureRecord record = new TemperatureRecord();
 		record.setValue(value);
 		dao.save(record);
