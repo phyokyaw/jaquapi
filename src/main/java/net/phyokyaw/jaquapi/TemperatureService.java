@@ -94,9 +94,7 @@ public class TemperatureService implements AquaService {
 	}
 
 	public TemperatureRecord getTemperatureRecord() {
-		TemperatureRecord temp = new TemperatureRecord();
-		temp.setValue(getValue());
-		return temp;
+		return dao.findLatest().get(0);
 	}
 
 	@Override

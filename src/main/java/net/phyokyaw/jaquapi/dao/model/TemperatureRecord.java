@@ -19,7 +19,7 @@ public class TemperatureRecord {
 	private double value;
 
 	// columnDefinition could simply be = "TIMESTAMP", as the other settings are the MySQL default
-	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+	@Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date storedTime;
 

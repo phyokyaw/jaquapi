@@ -1,5 +1,7 @@
 package net.phyokyaw.jaquapi;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.concurrent.ScheduledFuture;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
-	private static String PH_READER_PROC = "phreader.py";
+	private static String PH_READER_PROC = "/scratch/dev/jaquapi/scripts/phreader.py";
 	private double value = 4.0;
 
 	@Autowired
@@ -55,7 +57,20 @@ public class PhService implements AquaService {
 
 	private void update() {
 		logger.info("Updating ph value");
-		value = 5.0;
+		try {
+			Runtime r = Runtime.getRuntime();
+			Process p;
+			String line;
+			p = r.exec(PH_READER_PROC);
+			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			while ((line = is.readLine()) != null) {
+				value = Double.parseDouble(line);
+			}
+			System.out.flush();
+			p.waitFor(); // wait for process to complete
+		} catch (Exception e) {
+			logger.error("Error executing ph reader", e);
+		}
 	}
 
 	private void record() {

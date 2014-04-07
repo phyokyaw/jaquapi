@@ -2,7 +2,6 @@ package net.phyokyaw.jaquapi.dao.model;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,8 +18,8 @@ public class PhRecord {
 	@Column
 	private double value;
 
-	@Basic(optional = false)
-	@Column(insertable = false, updatable = false)
+	// columnDefinition could simply be = "TIMESTAMP", as the other settings are the MySQL default
+	@Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date storedTime;
 
