@@ -2,25 +2,41 @@ package net.phyokyaw.jaquapi;
 
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import org.springframework.stereotype.Component;
+
+import com.pi4j.gpio.extension.mcp.MCP23017GpioProvider;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.i2c.I2CBus;
-import com.pi4j.io.i2c.I2CDevice;
-import com.pi4j.io.i2c.I2CFactory;
 
+@Component
 public class I2CDeviceChip {
+	private GpioController gpio = null;
+	private MCP23017GpioProvider gpioProvider = null;
 
-	private I2CDevice device;
-
-	public I2CDeviceChip() {
+	@PostConstruct
+	private void setup() {
 		try {
-			I2CBus bus = I2CFactory.getInstance(0);
-			device = bus.getDevice(32);
+			gpio = GpioFactory.getInstance();
+			gpioProvider = new MCP23017GpioProvider(I2CBus.BUS_0, 0x20);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public I2CDevice getDevice() {
-		return device;
+	@PreDestroy
+	private void deactivate() {
+		gpio.shutdown();
+	}
+
+	public GpioPinDigitalOutput getGpioPinDigitalOutput(Pin pin, String name) {
+		return gpio.provisionDigitalOutputPin(gpioProvider, pin, name, PinState.LOW);
 	}
 }

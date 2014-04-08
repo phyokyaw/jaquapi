@@ -1,25 +1,16 @@
 package net.phyokyaw.jaquapi.dao.model;
 
-import net.phyokyaw.jaquapi.I2CDeviceChip;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
 
 public abstract class I2CDevice {
-	public static final String I2C_ID = "I2C";
 
-	@Autowired
-	private I2CDeviceChip chip;
+	protected GpioPinDigitalOutput pin;
 
-	private final int i2Cpin;
-
-	public I2CDevice(int i2Cpin) {
-		this.i2Cpin = i2Cpin;
-	}
-	public int getI2Cpin() {
-		return i2Cpin;
+	public I2CDevice(GpioPinDigitalOutput pin) {
+		this.pin = pin;
 	}
 
 	public void setState(boolean isOn) {
-
+		//
 	}
 }

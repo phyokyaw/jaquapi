@@ -1,30 +1,44 @@
 package net.phyokyaw.jaquapi;
 
 import net.phyokyaw.jaquapi.dao.model.WaveMaker;
+import net.phyokyaw.jaquapi.wm.AllSameWMMode;
 import net.phyokyaw.jaquapi.wm.RandomWMMode;
+import net.phyokyaw.jaquapi.wm.SomeOnWMMode;
 import net.phyokyaw.jaquapi.wm.WaveMakerMode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.pi4j.gpio.extension.mcp.MCP23017Pin;
+
+@Service
 public class WaveMakerControlService {
 	private static final Logger logger = LoggerFactory.getLogger(WaveMakerControlService.class);
 
 	private WaveMakerMode current;
 	private WaveMakerMode previous;
 
+	@Autowired
+	private I2CDeviceChip i2cChip;
+
 	private final WaveMaker[] wm = new WaveMaker[2];
+	{
+		wm[0] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_A0, "Left WM"));
+		wm[1] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_A1, "Right WM"));
+	}
 
 	public WaveMakerMode getRandom(double start, double end, boolean isIndi) {
 		return new RandomWMMode(wm, start, end);
 	}
 
 	public WaveMakerMode getAllState(boolean isOn) {
-		return null;
+		return new AllSameWMMode(wm, isOn);
 	}
 
-	public WaveMakerMode getSomeState(String[] id, boolean isOn) {
-		return null;
+	public WaveMakerMode getSomeState(String[] names, boolean isOn) {
+		return new SomeOnWMMode(wm, names, isOn);
 	}
 
 	public void activate(WaveMakerMode mode) {
