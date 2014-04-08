@@ -1,5 +1,7 @@
 package net.phyokyaw.jaquapi.web;
 
+import java.util.List;
+
 import net.phyokyaw.jaquapi.TemperatureService;
 import net.phyokyaw.jaquapi.dao.model.TemperatureRecord;
 
@@ -17,7 +19,7 @@ public class TemperatureWebControl {
 	private TemperatureService temperatureService;
 
 	@RequestMapping("/temperature")
-	public @ResponseBody TemperatureRecord getTemp() {
-		return temperatureService.getTemperatureRecord();
+	public @ResponseBody List<TemperatureRecord> getTodayTempRecord() {
+		return temperatureService.getTodayTempRecord();
 	}
 }

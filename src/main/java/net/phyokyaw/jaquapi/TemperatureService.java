@@ -4,6 +4,9 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,8 +96,25 @@ public class TemperatureService implements AquaService {
 		}
 	}
 
-	public TemperatureRecord getTemperatureRecord() {
-		return dao.findLatest().get(0);
+	public List<TemperatureRecord> getTodayTempRecord() {
+		Calendar date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		return dao.findByDate(date.getTime());
+	}
+
+	public List<TemperatureRecord> getLast7DaysRecord() {
+		Calendar calendar = new GregorianCalendar();
+		calendar.add(Calendar.DAY_OF_MONTH, -7);
+		return dao.findByDate(calendar.getTime());
+	}
+
+	public List<TemperatureRecord> getLastMonthRecord() {
+		Calendar calendar = new GregorianCalendar();
+		calendar.add(Calendar.MONTH, -1);
+		return dao.findByDate(calendar.getTime());
 	}
 
 	@Override

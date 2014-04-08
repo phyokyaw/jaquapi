@@ -7,6 +7,8 @@
 	href="<c:url value='/c/jquery.gridster.min.css' />">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/style.css' />" />
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value='/c/toggle-switch.css' />" />
 <script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/s/Chart.min.js' />"></script>
@@ -154,11 +156,38 @@ myNewChart.Line(data);
         </li>
         <li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
         <H3 class="controls">Temperature history</H3>
-        <canvas id="tempHistory" width="400" height="160"></canvas>
+        <canvas id="tempHistory" width="400" height="130"></canvas>
+        <div class="toggle-container">
+        <div class="switch-toggle switch-3 switch-android">
+	<input id="day-tp" name="temperatureHistorySelection" type="radio" checked>
+	<label for="day-tp" onclick="">Day</label>
+
+	<input id="week-tp" name="temperatureHistorySelection" type="radio">
+	<label for="week-tp" onclick="">Week</label>
+	
+	<input id="month-tp" name="temperatureHistorySelection" type="radio">
+	<label for="month-tp" onclick="">Month</label>
+
+	<a></a>
+</div>
+</div>
         </li>
         <li data-row="2" data-col="2" data-sizex="2" data-sizey="1">
         <H3 class="controls">Ph level history</H3>
-        <canvas id="phHistory" width="400" height="160"></canvas>
+        <canvas id="phHistory" width="400" height="130"></canvas>
+                <div class="toggle-container">
+        <div class="switch-toggle switch-3 switch-android">
+	<input id="day-ph" name="phHistorySelection" type="radio" checked>
+	<label for="day-ph" onclick="">Day</label>
+
+	<input id="week-ph" name="phHistorSelectiony" type="radio">
+	<label for="week-ph" onclick="">Week</label>
+	
+	<input id="month-ph" name="phHistorySelection" type="radio">
+	<label for="month-ph" onclick="">Month</label>
+	<a></a>
+</div>
+</div>
         </li>
         <li data-row="3" data-col="2" data-sizex="2" data-sizey="1"></li>
         

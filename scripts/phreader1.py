@@ -1,3 +1,3 @@
 #!/usr/bin/python
 
-print("14.5")
+print("8.5")

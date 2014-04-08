@@ -57,6 +57,9 @@ ul {
     background: red!important;
 }
 
+.toggle-container {
+	width:200px;
+}
 
 .controls {
     margin-bottom: 10px;

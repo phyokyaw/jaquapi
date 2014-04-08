@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 @Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
-	private static String PH_READER_PROC = "/scratch/dev/jaquapi/scripts/phreader.py";
-	private double value = 4.0;
+	private static String PH_READER_PROC = "/scratch/dev/jaquapi/scripts/phreader1.py";
+	private double value = 0.0;
 
 	@Autowired
 	private ScheduledService scheduledService;
@@ -56,7 +56,6 @@ public class PhService implements AquaService {
 	}
 
 	private void update() {
-		logger.info("Updating ph value");
 		try {
 			Runtime r = Runtime.getRuntime();
 			Process p;
@@ -68,6 +67,7 @@ public class PhService implements AquaService {
 			}
 			System.out.flush();
 			p.waitFor(); // wait for process to complete
+			logger.info("Updating ph value with: " + value);
 		} catch (Exception e) {
 			logger.error("Error executing ph reader", e);
 		}

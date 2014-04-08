@@ -16,6 +16,15 @@
 			<name>SpringSource Repository</name>
 			<url>http://repo.springsource.org/release</url>
 		</repository>
+			<repository>
+		<id>oss-snapshots-repo</id>
+		<name>Sonatype OSS Maven Repository</name>
+		<url>https://oss.sonatype.org/content/groups/public</url>
+		<snapshots>
+			<enabled>true</enabled>
+			<updatePolicy>always</updatePolicy>
+		</snapshots>
+	</repository>
 	</repositories>
 
 	<properties>
@@ -123,6 +132,12 @@
 	</build>
 
 	<dependencies>
+
+<dependency>
+	<groupId>com.pi4j</groupId>
+	<artifactId>pi4j-core</artifactId>
+	<version>${project.version}</version>
+</dependency>
 
 		<!-- SPRING DEPENDENCIES -->
 		<dependency>

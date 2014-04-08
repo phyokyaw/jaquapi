@@ -1,5 +1,6 @@
 package net.phyokyaw.jaquapi;
 
+
 public class Main
 {
 	public static void main(String... anArgs) throws Exception
