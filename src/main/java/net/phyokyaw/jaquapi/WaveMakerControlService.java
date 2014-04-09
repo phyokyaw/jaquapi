@@ -1,5 +1,7 @@
 package net.phyokyaw.jaquapi;
 
+import javax.annotation.PostConstruct;
+
 import net.phyokyaw.jaquapi.dao.model.WaveMaker;
 import net.phyokyaw.jaquapi.wm.AllSameWMMode;
 import net.phyokyaw.jaquapi.wm.RandomWMMode;
@@ -24,7 +26,9 @@ public class WaveMakerControlService {
 	private I2CDeviceChip i2cChip;
 
 	private final WaveMaker[] wm = new WaveMaker[2];
-	{
+
+	@PostConstruct
+	private void setup() {
 		wm[0] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_A0, "Left WM"));
 		wm[1] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_A1, "Right WM"));
 	}
@@ -46,6 +50,7 @@ public class WaveMakerControlService {
 	}
 
 	public void activate(WaveMakerMode mode, boolean resumePreviousMode, double afterSec) {
+		logger.debug("Activating mode");
 		if (current != null) {
 			current.deactivate();
 			previous = current;
