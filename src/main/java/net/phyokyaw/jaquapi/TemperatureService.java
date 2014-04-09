@@ -82,15 +82,15 @@ public class TemperatureService implements AquaService {
 	}
 
 	private String getTempFilePath() {
-		return "/scratch/dev/jaquapi/src/test/resources";
+		return TEMP_FILE_PATH;
 	}
 
 	private void record() {
 		try {
-			logger.debug("Saving temp value");
 			TemperatureRecord record = new TemperatureRecord();
 			record.setValue(value);
 			dao.save(record);
+			logger.info("Saving temp value: " + record.getValue());
 		} catch(Exception ex) {
 			logger.error("Unable to save", ex);
 		}
@@ -115,6 +115,12 @@ public class TemperatureService implements AquaService {
 		Calendar calendar = new GregorianCalendar();
 		calendar.add(Calendar.MONTH, -1);
 		return dao.findByDate(calendar.getTime());
+	}
+
+	public TemperatureRecord getTemperature() {
+		TemperatureRecord temp = new TemperatureRecord();
+		temp.setValue(this.getValue());
+		return temp;
 	}
 
 	@Override

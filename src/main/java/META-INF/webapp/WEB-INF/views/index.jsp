@@ -109,13 +109,13 @@ myNewChart.Line(data);
         <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
         <H3 class="controls">Ph Meter</H3>
 				<canvas id="phGuage"  width="150" height="150" data-type="canv-gauge"
-					data-title="Ph" data-min-value="4" data-max-value="12"
-					data-major-ticks="4 5 6 7 8 9 10 11 12" data-minor-ticks=".5"
+					data-title="Ph" data-min-value="4" data-max-value="15"
+					data-major-ticks="4 5 6 7 8 9 10 11 12 13 14 15" data-minor-ticks=".5"
 					data-stroke-ticks="true" data-units="Level" data-value-format="3.2"
 					data-glow="true" data-animation-delay="10"
 					data-animation-duration="200" data-animation-fn="bounce"
 					data-colors-needle="#f00 #00f"
-					data-highlights="4 5 #ff0000, 5 7.7 #ffff00, 7.7 8.8 #00cc00, 8.8 12 #eaa"></canvas>
+					data-highlights="4 5 #ff0000, 5 7.7 #ffff00, 7.7 8.8 #00cc00, 8.8 15 #eaa"></canvas>
         </li>
         <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
         <H3 class="controls">ORP Meter</H3>

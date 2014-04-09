@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 @Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
-	private static String PH_READER_PROC = "/scratch/dev/jaquapi/scripts/phreader1.py";
-	private double value = 0.0;
+	private static String PH_READER_PROC = "/home/pi/phreader.py";
+	private double value = 0.0d;
 
 	@Autowired
 	private ScheduledService scheduledService;
@@ -46,13 +46,13 @@ public class PhService implements AquaService {
 			public void run() {
 				update();
 			}
-		}, 1000 * 5); //5s
+		}, 1000 * 10); //5s
 		recordSchedule = scheduledService.addSchedule(new Runnable() {
 			@Override
 			public void run() {
 				record();
 			}
-		}, 1000 * 5); //5s
+		}, 1000 * 15); //5s
 	}
 
 	private void update() {
@@ -74,10 +74,10 @@ public class PhService implements AquaService {
 	}
 
 	private void record() {
-		logger.info("Saving ph value");
 		PhRecord record = new PhRecord();
 		record.setValue(value);
 		dao.save(record);
+		logger.info("Saving ph value: " + record.getValue());
 	}
 
 	public PhRecord getPhRecord() {

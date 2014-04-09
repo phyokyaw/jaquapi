@@ -1,6 +1,7 @@
 package net.phyokyaw.jaquapi.dao.model;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinState;
 
 public abstract class I2CDevice {
 
@@ -12,5 +13,14 @@ public abstract class I2CDevice {
 
 	public void setState(boolean isOn) {
 		//
+	}
+
+	public boolean isOn() {
+		return pin.getState() == PinState.HIGH;
+	}
+
+	@Override
+	public String toString() {
+		return pin.getName();
 	}
 }

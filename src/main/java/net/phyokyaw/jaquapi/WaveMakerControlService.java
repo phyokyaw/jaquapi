@@ -29,9 +29,10 @@ public class WaveMakerControlService {
 
 	@PostConstruct
 	private void setup() {
-		logger.debug("Creating Wave Maker devices");
-		wm[0] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_A0, "Left WM"));
-		wm[1] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_A1, "Right WM"));
+		wm[0] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_B0, "Left WM"));
+		logger.info("Wave maker devices created with name " + wm[0] + " with " + wm[0].isOn());
+		wm[1] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_B1, "Right WM"));
+		logger.info("Wave maker devices created with name " + wm[1] + " with " + wm[1].isOn());
 	}
 
 	public WaveMakerMode getRandom(double start, double end, boolean isIndi) {
@@ -51,7 +52,7 @@ public class WaveMakerControlService {
 	}
 
 	public void activate(WaveMakerMode mode, boolean resumePreviousMode, double afterSec) {
-		logger.debug("Activating mode");
+		logger.info("Activating mode");
 		if (current != null) {
 			current.deactivate();
 			previous = current;

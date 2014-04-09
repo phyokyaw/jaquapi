@@ -23,6 +23,9 @@ public class TemperatureRecord {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date storedTime;
 
+	public Date getStoredTime() {
+		return storedTime;
+	}
 
 	public double getValue() {
 		return value;

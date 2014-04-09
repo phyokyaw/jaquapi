@@ -19,7 +19,12 @@ public class TemperatureWebControl {
 	private TemperatureService temperatureService;
 
 	@RequestMapping("/temperature")
-	public @ResponseBody List<TemperatureRecord> getTodayTempRecord() {
+	public @ResponseBody TemperatureRecord getTemperature() {
+		return temperatureService.getTemperature();
+	}
+
+	@RequestMapping("/temperature_history")
+	public @ResponseBody List<TemperatureRecord> getTempRecordHistory() {
 		return temperatureService.getTodayTempRecord();
 	}
 }

@@ -15,6 +15,8 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.event.PinEvent;
+import com.pi4j.io.gpio.event.PinListener;
 import com.pi4j.io.i2c.I2CBus;
 
 @Component
@@ -29,8 +31,8 @@ public class I2CDeviceChip {
 		logger.debug("Setting up I2CDeviceChip");
 		try {
 			gpio = GpioFactory.getInstance();
-			gpioProvider = new MCP23017GpioProvider(I2CBus.BUS_0, 0x20);
-			logger.debug("gpio provided created");
+			gpioProvider = new MCP23017GpioProvider(I2CBus.BUS_1, 0x20);
+			logger.info("gpio provider created");
 		} catch (IOException e) {
 			logger.debug("Unable to create GPIO provider");
 		}
@@ -42,6 +44,13 @@ public class I2CDeviceChip {
 	}
 
 	public GpioPinDigitalOutput getGpioPinDigitalOutput(Pin pin, String name) {
-		return gpio.provisionDigitalOutputPin(gpioProvider, pin, name, PinState.LOW);
+		gpioProvider.addListener(pin, new PinListener() {
+
+			@Override
+			public void handlePinEvent(PinEvent arg0) {
+				logger.info("State changed " + arg0.getPin().getName());
+			}
+		});
+		return gpio.provisionDigitalOutputPin(gpioProvider, pin, name, PinState.HIGH);
 	}
 }
