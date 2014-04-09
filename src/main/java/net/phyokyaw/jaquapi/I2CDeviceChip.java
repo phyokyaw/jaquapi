@@ -26,6 +26,7 @@ public class I2CDeviceChip {
 
 	@PostConstruct
 	private void setup() {
+		logger.debug("Setting up I2CDeviceChip");
 		try {
 			gpio = GpioFactory.getInstance();
 			gpioProvider = new MCP23017GpioProvider(I2CBus.BUS_0, 0x20);
