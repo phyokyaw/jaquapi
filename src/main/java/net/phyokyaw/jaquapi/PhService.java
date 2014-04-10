@@ -13,9 +13,8 @@ import net.phyokyaw.jaquapi.dao.model.PhRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service("ph")
+//@Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
 	private static String PH_READER_PROC = "/home/pi/phreader.py";

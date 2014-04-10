@@ -21,9 +21,8 @@ import net.phyokyaw.jaquapi.dao.model.TemperatureRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service("temperature")
+//@Service("temperature")
 public class TemperatureService implements AquaService {
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 	private static final String TEMP_FILE_NAME = "/w1_slave";

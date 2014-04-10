@@ -27,7 +27,7 @@ public class ScheduledExcutionService implements ScheduledService {
 	}
 
 	@Override
-	public ScheduledFuture<?> addSchedule(Runnable runnable) {
-		return scheduledExecutorService.schedule(runnable, 0L, TimeUnit.MILLISECONDS);
+	public ScheduledFuture<?> addSchedule(long delay, Runnable runnable) {
+		return scheduledExecutorService.schedule(runnable, delay, TimeUnit.MILLISECONDS);
 	}
 }

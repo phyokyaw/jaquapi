@@ -23,20 +23,20 @@ public class WmWebControl {
 	}
 
 	@RequestMapping("/wmActivateRandomMode")
-	public void activateRandomMode(@RequestParam("start") int start, @RequestParam("start") int end, @RequestParam("isSync") boolean isSync) {
-		WaveMakerMode newMode = wmService.getRandom(start, end, isSync);
+	public void activateRandomMode(@RequestParam("min_on") int min_on, @RequestParam("max_on") int max_on, @RequestParam("isSync") boolean isSync) {
+		WaveMakerMode newMode = wmService.getRandomMode(min_on, max_on, isSync);
 		wmService.activate(newMode);
 	}
 
 	@RequestMapping("/wmActivateAllMode")
 	public void activateAllMode(@RequestParam("isOn") boolean isOn) {
-		WaveMakerMode newMode = wmService.getAllState(isOn);
+		WaveMakerMode newMode = wmService.getAllMode(isOn);
 		wmService.activate(newMode);
 	}
 
 	@RequestMapping("/wmActivateSomeMode")
-	public void activateSomeMode(@RequestParam("names[]") String[] names, @RequestParam("isOn") boolean isOn) {
-		WaveMakerMode newMode = wmService.getSomeState(names, isOn);
+	public void activateSomeMode(@RequestParam("names[]") String[] names) {
+		WaveMakerMode newMode = wmService.getSomeOnMode(names);
 		wmService.activate(newMode);
 	}
 }
