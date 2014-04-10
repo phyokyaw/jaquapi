@@ -4,5 +4,6 @@ import java.util.concurrent.ScheduledFuture;
 
 
 public interface ScheduledService {
-	ScheduledFuture<?> addSchedule(Runnable runnable, long milliSec);
+	ScheduledFuture<?> addScheduleAtFixrate(Runnable runnable, long milliSec);
+	ScheduledFuture<?> addSchedule(Runnable runnable);
 }

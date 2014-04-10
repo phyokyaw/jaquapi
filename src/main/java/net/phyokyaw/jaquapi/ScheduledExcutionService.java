@@ -22,7 +22,12 @@ public class ScheduledExcutionService implements ScheduledService {
 	}
 
 	@Override
-	public ScheduledFuture<?> addSchedule(Runnable runnable, long milliSec) {
+	public ScheduledFuture<?> addScheduleAtFixrate(Runnable runnable, long milliSec) {
 		return scheduledExecutorService.scheduleAtFixedRate(runnable, 0L, milliSec, TimeUnit.MILLISECONDS);
+	}
+
+	@Override
+	public ScheduledFuture<?> addSchedule(Runnable runnable) {
+		return scheduledExecutorService.schedule(runnable, 0L, TimeUnit.MILLISECONDS);
 	}
 }

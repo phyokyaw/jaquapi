@@ -41,13 +41,13 @@ public class PhService implements AquaService {
 
 	@PostConstruct
 	private void setup() {
-		updateSchedule = scheduledService.addSchedule(new Runnable() {
+		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
 				update();
 			}
 		}, 1000 * 10); //5s
-		recordSchedule = scheduledService.addSchedule(new Runnable() {
+		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
 				record();

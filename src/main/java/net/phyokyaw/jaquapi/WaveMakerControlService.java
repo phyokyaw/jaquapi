@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.pi4j.gpio.extension.mcp.MCP23017Pin;
 
-@Service
+@Service("wm")
 public class WaveMakerControlService {
 	private static final Logger logger = LoggerFactory.getLogger(WaveMakerControlService.class);
 
@@ -35,8 +35,8 @@ public class WaveMakerControlService {
 		logger.info("Wave maker devices created with name " + wm[1] + " with " + wm[1].isOn());
 	}
 
-	public WaveMakerMode getRandom(double start, double end, boolean isIndi) {
-		return new RandomWMMode(wm, start, end);
+	public WaveMakerMode getRandom(double start, double end, boolean isSync) {
+		return new RandomWMMode(wm, start, end, isSync);
 	}
 
 	public WaveMakerMode getAllState(boolean isOn) {
@@ -63,4 +63,5 @@ public class WaveMakerControlService {
 			// TODO
 		}
 	}
+
 }
