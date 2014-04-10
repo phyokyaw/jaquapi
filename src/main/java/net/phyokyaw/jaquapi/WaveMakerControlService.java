@@ -29,9 +29,9 @@ public class WaveMakerControlService {
 
 	@PostConstruct
 	private void setup() {
-		wm[0] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_B0, "Left WM"));
+		wm[0] = new WaveMaker("Left", i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_B0.getName()));
 		logger.info("Wave maker devices created with name " + wm[0] + " with " + wm[0].isOn());
-		wm[1] = new WaveMaker(i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_B1, "Right WM"));
+		wm[1] = new WaveMaker("Right", i2cChip.getGpioPinDigitalOutput(MCP23017Pin.GPIO_B1.getName()));
 		logger.info("Wave maker devices created with name " + wm[1] + " with " + wm[1].isOn());
 	}
 

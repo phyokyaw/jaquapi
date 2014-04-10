@@ -1,21 +1,13 @@
 package net.phyokyaw.jaquapi.wm;
 
-import net.phyokyaw.jaquapi.ScheduledService;
+import net.phyokyaw.jaquap.Mode;
 import net.phyokyaw.jaquapi.dao.model.WaveMaker;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-public abstract class WaveMakerMode {
+public abstract class WaveMakerMode extends Mode {
 
 	protected final WaveMaker[] wm;
 
 	public WaveMakerMode(WaveMaker[] wm) {
 		this.wm = wm;
 	}
-
-	@Autowired
-	protected ScheduledService scheduledService;
-
-	public abstract void deactivate();
-	public abstract void activate();
 }

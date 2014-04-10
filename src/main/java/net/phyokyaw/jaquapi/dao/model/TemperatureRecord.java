@@ -27,6 +27,10 @@ public class TemperatureRecord {
 		return storedTime;
 	}
 
+	public void setStoredTime(Date storedTime) {
+		this.storedTime = storedTime;
+	}
+
 	public double getValue() {
 		return value;
 	}

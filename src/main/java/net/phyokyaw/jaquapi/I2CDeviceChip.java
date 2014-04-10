@@ -1,6 +1,8 @@
 package net.phyokyaw.jaquapi;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -10,13 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.pi4j.gpio.extension.mcp.MCP23017GpioProvider;
+import com.pi4j.gpio.extension.mcp.MCP23017Pin;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.event.PinEvent;
-import com.pi4j.io.gpio.event.PinListener;
 import com.pi4j.io.i2c.I2CBus;
 
 @Component
@@ -25,6 +25,7 @@ public class I2CDeviceChip {
 
 	private GpioController gpio = null;
 	private MCP23017GpioProvider gpioProvider = null;
+	private final Map<String, GpioPinDigitalOutput> outputPins = new HashMap<String, GpioPinDigitalOutput>();
 
 	@PostConstruct
 	private void setup() {
@@ -33,6 +34,15 @@ public class I2CDeviceChip {
 			gpio = GpioFactory.getInstance();
 			gpioProvider = new MCP23017GpioProvider(I2CBus.BUS_1, 0x20);
 			logger.info("gpio provider created");
+			outputPins.put(MCP23017Pin.GPIO_B0.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B0, PinState.HIGH));
+			outputPins.put(MCP23017Pin.GPIO_B1.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B1, PinState.HIGH));
+			outputPins.put(MCP23017Pin.GPIO_B2.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B2, PinState.HIGH));
+			outputPins.put(MCP23017Pin.GPIO_B3.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B3, PinState.HIGH));
+			outputPins.put(MCP23017Pin.GPIO_B4.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B4, PinState.HIGH));
+			outputPins.put(MCP23017Pin.GPIO_B5.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B5, PinState.HIGH));
+			outputPins.put(MCP23017Pin.GPIO_B6.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B6, PinState.HIGH));
+			outputPins.put(MCP23017Pin.GPIO_B7.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B7, PinState.HIGH));
+			logger.info("Outpins provisioned");
 		} catch (IOException e) {
 			logger.debug("Unable to create GPIO provider");
 		}
@@ -43,14 +53,7 @@ public class I2CDeviceChip {
 		gpio.shutdown();
 	}
 
-	public GpioPinDigitalOutput getGpioPinDigitalOutput(Pin pin, String name) {
-		gpioProvider.addListener(pin, new PinListener() {
-
-			@Override
-			public void handlePinEvent(PinEvent arg0) {
-				logger.info("State changed " + arg0.getPin().getName());
-			}
-		});
-		return gpio.provisionDigitalOutputPin(gpioProvider, pin, name, PinState.HIGH);
+	public GpioPinDigitalOutput getGpioPinDigitalOutput(String pinName) {
+		return outputPins.get(pinName);
 	}
 }
