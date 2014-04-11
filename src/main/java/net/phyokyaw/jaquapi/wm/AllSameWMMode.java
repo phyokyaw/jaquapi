@@ -10,12 +10,16 @@ public class AllSameWMMode extends WaveMakerMode {
 	}
 
 	@Override
-	public void deactivate() {
-		// TODO Auto-generated method stub
-	}
+	public void deactivate() {}
 
 	@Override
 	public void activate() {
-		// TODO Auto-generated method stub
+		for (WaveMaker w : availableWMs) {
+			if (isOn) {
+				w.on();
+			} else {
+				w.off();
+			}
+		}
 	}
 }

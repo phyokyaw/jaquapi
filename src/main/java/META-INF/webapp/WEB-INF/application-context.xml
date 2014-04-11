@@ -13,6 +13,8 @@
 
 	<context:annotation-config />
 	
+	
+	
 	<!-- BoneCP configuration -->
 	<bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
