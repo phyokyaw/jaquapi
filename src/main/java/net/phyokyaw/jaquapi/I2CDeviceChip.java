@@ -9,7 +9,6 @@ import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.pi4j.gpio.extension.mcp.MCP23017GpioProvider;
 import com.pi4j.gpio.extension.mcp.MCP23017Pin;
@@ -19,7 +18,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.i2c.I2CBus;
 
-@Component
+//@Component
 public class I2CDeviceChip {
 	private static final Logger logger = LoggerFactory.getLogger(I2CDeviceChip.class);
 

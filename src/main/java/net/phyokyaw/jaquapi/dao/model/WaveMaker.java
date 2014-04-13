@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.PinState;
 
 public class WaveMaker {
 	private static Logger logger = LoggerFactory.getLogger(WaveMaker.class);
@@ -65,7 +64,7 @@ public class WaveMaker {
 	}
 
 	public void start(long stopTime) {
-		i2CDevice.getPin().setState(PinState.LOW);
+		i2CDevice.setOn(true);
 		isFinished.set(false);
 		if (stopTime > 0) {
 			scheduledExecutorService.schedule(new Runnable() {
@@ -79,7 +78,7 @@ public class WaveMaker {
 	}
 
 	public void off() {
-		i2CDevice.getPin().setState(PinState.HIGH);
+		i2CDevice.setOn(false);
 		logger.info("Stopped " + this.getName() + " resting");
 		try {
 			Thread.sleep(REST_TIME);

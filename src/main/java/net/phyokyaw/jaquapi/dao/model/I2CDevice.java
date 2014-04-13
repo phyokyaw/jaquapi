@@ -7,20 +7,20 @@ public class I2CDevice {
 
 	private final GpioPinDigitalOutput pin;
 
-	public GpioPinDigitalOutput getPin() {
-		return pin;
-	}
-
 	public I2CDevice(GpioPinDigitalOutput pin) {
 		this.pin = pin;
 	}
 
-	public void setState(boolean isOn) {
-		//
+	public void setOn(boolean isOn) {
+		if (isOn) {
+			pin.setState(PinState.LOW);
+		} else {
+			pin.setState(PinState.HIGH);
+		}
 	}
 
 	public boolean isOn() {
-		return pin.getState() == PinState.HIGH;
+		return pin.getState() == PinState.LOW;
 	}
 
 	@Override

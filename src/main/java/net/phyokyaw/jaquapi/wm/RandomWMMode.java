@@ -25,8 +25,8 @@ public class RandomWMMode extends WaveMakerMode {
 			if (runningSchedule != null) {
 				runningSchedule.cancel(false);
 			}
-			for (WaveMaker m : availableWMs) {
-				m.deactivateAndStop();
+			for (WaveMaker wm : availableWMs) {
+				wm.deactivateAndStop();
 			}
 		}
 		activated = false;
