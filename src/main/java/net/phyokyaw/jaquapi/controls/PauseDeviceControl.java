@@ -24,12 +24,6 @@ public class PauseDeviceControl extends DeviceControl {
 	}
 
 	@Override
-	public void deactivate() throws InterruptedException {
-		super.deactivate();
-
-	}
-
-	@Override
 	public void activate() throws Exception {
 		for (Device device : devices) {
 			DeviceControl current = device.getCurrentdeviceControl();
@@ -42,7 +36,7 @@ public class PauseDeviceControl extends DeviceControl {
 			device.setActive(active);
 		}
 		logger.info("paused active");
-		pausedSchedule = scheduledExecutorService.schedule(new Runnable() {
+		scheduledExecutorService.schedule(new Runnable() {
 			@Override
 			public void run() {
 				for(DeviceControl previousDeviceControl: currentControls.values()) {

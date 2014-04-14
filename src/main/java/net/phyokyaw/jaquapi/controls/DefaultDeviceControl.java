@@ -14,11 +14,6 @@ public class DefaultDeviceControl extends DeviceControl {
 	}
 
 	@Override
-	public void deactivate() {
-		super.deactivate();
-	}
-
-	@Override
 	public void activate() throws Exception {
 		super.activate();
 		for (int i = 0; i < devices.length; i++) {

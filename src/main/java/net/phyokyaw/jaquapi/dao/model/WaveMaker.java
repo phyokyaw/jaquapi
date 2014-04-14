@@ -2,7 +2,6 @@ package net.phyokyaw.jaquapi.dao.model;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -22,8 +21,6 @@ public class WaveMaker extends Device {
 
 	private final AtomicBoolean isReady = new AtomicBoolean(false);
 
-	private ScheduledFuture<?> runner;
-
 	private ScheduledExecutorService scheduledExecutorService;
 
 	public void activate(double min_on, double max_on) {
@@ -31,7 +28,7 @@ public class WaveMaker extends Device {
 		double randNumber = Math.random();
 		final long runFor = (long) (((randNumber * (max_on - min_on)) + min_on) * 1000);
 		start(runFor);
-		runner = scheduledExecutorService.schedule(new Runnable() {
+		scheduledExecutorService.schedule(new Runnable() {
 			@Override
 			public void run() {
 				if (isReady.get()) {
@@ -44,7 +41,7 @@ public class WaveMaker extends Device {
 	public void deactivate() throws InterruptedException {
 		if (scheduledExecutorService != null) {
 			scheduledExecutorService.shutdown();
-			scheduledExecutorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+			scheduledExecutorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 		}
 	}
 

@@ -2,9 +2,6 @@ package net.phyokyaw.jaquapi.controls;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -14,8 +11,6 @@ public class SchedulableDeviceControl extends DeviceControl {
 
 	private static Logger logger = LoggerFactory.getLogger(SchedulableDeviceControl.class);
 
-	private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
-	private ScheduledFuture<?> scheduleService;
 	private final ScheduleOnOff[] schedule;
 
 	public SchedulableDeviceControl(Device[] devices, final ScheduleOnOff[] schedule) {
@@ -26,40 +21,21 @@ public class SchedulableDeviceControl extends DeviceControl {
 	@Override
 	public void activate() throws Exception {
 		super.activate();
-		scheduleService = scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+		scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
 				Date date = new Date();
 				boolean shouldBeOn = false;
 				for (ScheduleOnOff onOff : schedule) {
-					logger.info("on " + onOff.getBeginOn());
-					logger.info("off " + onOff.getEndOn());
-					logger.info("current " + date);
 					if (date.after(onOff.getBeginOn()) && date.before(onOff.getEndOn())) {
 						shouldBeOn = true;
 						break;
 					}
 				}
-				if (!Thread.interrupted())
-				{
-					logger.info("Setting device active to be " + shouldBeOn);
-					// i2CDevice.setOn(shouldBeOn);
-				}
+				logger.info("Setting device active to be " + shouldBeOn);
+				// i2CDevice.setOn(shouldBeOn);
 			}
 		}, 0L, 5 * 1000, TimeUnit.MILLISECONDS);
-	}
-
-	@Override
-	public void deactivate() {
-		super.deactivate();
-		scheduleService.cancel(false);
-		try {
-			scheduledExecutorService.awaitTermination(100, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		logger.info("Schedule deactivated");
 	}
 
 	public static class ScheduleOnOff {

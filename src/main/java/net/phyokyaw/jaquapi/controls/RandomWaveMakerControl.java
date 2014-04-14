@@ -1,6 +1,5 @@
 package net.phyokyaw.jaquapi.controls;
 
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import net.phyokyaw.jaquapi.dao.model.WaveMaker;
@@ -11,7 +10,6 @@ public class RandomWaveMakerControl extends DeviceControl {
 	private final boolean isSync;
 
 	private int runningIndex;
-	private ScheduledFuture<?> runningSchedule;
 	private boolean activated = false;
 
 	public RandomWaveMakerControl(WaveMaker[] waveMakers, double min_on, double max_on, boolean isSync) {
@@ -23,14 +21,11 @@ public class RandomWaveMakerControl extends DeviceControl {
 
 	@Override
 	public void deactivate() throws InterruptedException {
-		super.deactivate();
 		if (activated) {
 			for (Device device : devices) {
 				((WaveMaker) device).deactivate();
 			}
-			if (runningSchedule != null) {
-				runningSchedule.cancel(false);
-			}
+			super.deactivate();
 		}
 		activated = false;
 	}
@@ -41,7 +36,7 @@ public class RandomWaveMakerControl extends DeviceControl {
 		if (isSync) {
 			((WaveMaker) devices[runningIndex]).activate(min_on, max_on);
 			final int size = devices.length;
-			runningSchedule = scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+			scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 				@Override
 				public void run() {
 					if (((WaveMaker) devices[runningIndex]).isReady()) {
