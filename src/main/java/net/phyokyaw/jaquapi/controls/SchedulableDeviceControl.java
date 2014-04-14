@@ -40,8 +40,11 @@ public class SchedulableDeviceControl extends DeviceControl {
 						break;
 					}
 				}
-				logger.info("Setting device active to be " + shouldBeOn);
-				// i2CDevice.setOn(shouldBeOn);
+				if (!Thread.interrupted())
+				{
+					logger.info("Setting device active to be " + shouldBeOn);
+					// i2CDevice.setOn(shouldBeOn);
+				}
 			}
 		}, 0L, 5 * 1000, TimeUnit.MILLISECONDS);
 	}
@@ -50,6 +53,13 @@ public class SchedulableDeviceControl extends DeviceControl {
 	public void deactivate() {
 		super.deactivate();
 		scheduleService.cancel(false);
+		try {
+			scheduledExecutorService.awaitTermination(100, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		logger.info("Schedule deactivated");
 	}
 
 	public static class ScheduleOnOff {

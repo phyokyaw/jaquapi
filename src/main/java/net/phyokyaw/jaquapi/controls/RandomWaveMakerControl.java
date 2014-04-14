@@ -22,14 +22,14 @@ public class RandomWaveMakerControl extends DeviceControl {
 	}
 
 	@Override
-	public void deactivate() {
+	public void deactivate() throws InterruptedException {
 		super.deactivate();
 		if (activated) {
+			for (Device device : devices) {
+				((WaveMaker) device).deactivate();
+			}
 			if (runningSchedule != null) {
 				runningSchedule.cancel(false);
-			}
-			for (Device device : devices) {
-				((WaveMaker) device).deactivateAndStop();
 			}
 		}
 		activated = false;
@@ -49,7 +49,9 @@ public class RandomWaveMakerControl extends DeviceControl {
 						if (size == runningIndex) {
 							runningIndex = 0;
 						}
-						((WaveMaker) devices[runningIndex]).activate(min_on, max_on);
+						if (!Thread.interrupted()) {
+							((WaveMaker) devices[runningIndex]).activate(min_on, max_on);
+						}
 					}
 
 				}

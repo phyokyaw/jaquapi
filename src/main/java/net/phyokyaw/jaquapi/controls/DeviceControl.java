@@ -17,11 +17,12 @@ public abstract class DeviceControl {
 		this.devices = devices;
 	}
 
-	public void deactivate() {
+	public void deactivate() throws InterruptedException {
 		for (Device device : devices) {
 			device.setCurrentDeviceControl(null);
 		}
 	};
+
 	public void activate() throws Exception {
 		logger.info("Deactivating previous control");
 		for (Device device : devices) {

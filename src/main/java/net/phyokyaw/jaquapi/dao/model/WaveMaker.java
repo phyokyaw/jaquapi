@@ -24,9 +24,10 @@ public class WaveMaker extends Device {
 
 	private ScheduledFuture<?> runner;
 
-	private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+	private ScheduledExecutorService scheduledExecutorService;
 
 	public void activate(double min_on, double max_on) {
+		scheduledExecutorService = Executors.newScheduledThreadPool(3);
 		double randNumber = Math.random();
 		final long runFor = (long) (((randNumber * (max_on - min_on)) + min_on) * 1000);
 		start(runFor);
@@ -40,10 +41,10 @@ public class WaveMaker extends Device {
 		}, CHECK_FOR_FINISH_INTERVAL, TimeUnit.MILLISECONDS);
 	}
 
-	public void deactivateAndStop() {
-		if (runner != null) {
-			runner.cancel(false);
-			stop();
+	public void deactivate() throws InterruptedException {
+		if (scheduledExecutorService != null) {
+			scheduledExecutorService.shutdown();
+			scheduledExecutorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
 		}
 	}
 

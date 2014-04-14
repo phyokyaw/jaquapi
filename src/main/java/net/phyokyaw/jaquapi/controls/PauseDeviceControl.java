@@ -24,11 +24,9 @@ public class PauseDeviceControl extends DeviceControl {
 	}
 
 	@Override
-	public void deactivate() {
+	public void deactivate() throws InterruptedException {
 		super.deactivate();
-		if (pausedSchedule != null) {
-			pausedSchedule.cancel(false);
-		}
+
 	}
 
 	@Override
