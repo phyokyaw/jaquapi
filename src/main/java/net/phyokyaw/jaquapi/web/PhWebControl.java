@@ -1,7 +1,7 @@
 package net.phyokyaw.jaquapi.web;
 
-import net.phyokyaw.jaquapi.PhService;
 import net.phyokyaw.jaquapi.dao.model.PhRecord;
+import net.phyokyaw.jaquapi.services.PhService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi;
+package net.phyokyaw.jaquapi.services;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;

@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.dao.model;
+package net.phyokyaw.jaquapi.controls;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -10,22 +10,22 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
+public class SchedulableDeviceControl extends DeviceControl {
 
-public class SchedulableControl {
-
-	private static Logger logger = LoggerFactory.getLogger(SchedulableControl.class);
-
-	private I2CDevice i2CDevice;
-
-	public void setDevice(GpioPinDigitalOutput pin) {
-		i2CDevice = new I2CDevice(pin);
-	}
+	private static Logger logger = LoggerFactory.getLogger(SchedulableDeviceControl.class);
 
 	private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
 	private ScheduledFuture<?> scheduleService;
+	private final ScheduleOnOff[] schedule;
 
-	public void activate(final ScheduleOnOff[] schedule) {
+	public SchedulableDeviceControl(Device[] devices, final ScheduleOnOff[] schedule) {
+		super(devices);
+		this.schedule = schedule;
+	}
+
+	@Override
+	public void activate() throws Exception {
+		super.activate();
 		scheduleService = scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
@@ -40,13 +40,15 @@ public class SchedulableControl {
 						break;
 					}
 				}
-				logger.info("Device on should be " + shouldBeOn);
+				logger.info("Setting device active to be " + shouldBeOn);
 				// i2CDevice.setOn(shouldBeOn);
 			}
 		}, 0L, 5 * 1000, TimeUnit.MILLISECONDS);
 	}
 
+	@Override
 	public void deactivate() {
+		super.deactivate();
 		scheduleService.cancel(false);
 	}
 

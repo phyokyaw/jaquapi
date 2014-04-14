@@ -9,7 +9,8 @@
 
 	<context:component-scan base-package="net.phyokyaw.jaquapi" />
 	<context:component-scan base-package="net.phyokyaw.jaquapi.dao.model" />
-	<context:component-scan base-package="net.phyokyaw.jaquapi.wm" />
+	<context:component-scan base-package="net.phyokyaw.jaquapi.services" />
+	<context:component-scan base-package="net.phyokyaw.jaquapi.controls" />
 
 	<context:annotation-config />
 	

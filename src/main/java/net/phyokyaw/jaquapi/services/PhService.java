@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi;
+package net.phyokyaw.jaquapi.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

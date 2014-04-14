@@ -2,8 +2,8 @@ package net.phyokyaw.jaquapi.web;
 
 import java.util.List;
 
-import net.phyokyaw.jaquapi.TemperatureService;
 import net.phyokyaw.jaquapi.dao.model.TemperatureRecord;
+import net.phyokyaw.jaquapi.services.TemperatureService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

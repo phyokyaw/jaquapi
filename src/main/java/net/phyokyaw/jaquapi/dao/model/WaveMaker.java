@@ -6,37 +6,25 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import net.phyokyaw.jaquapi.controls.Device;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
+public class WaveMaker extends Device {
+	public WaveMaker(String name) {
+		super(name);
+	}
 
-public class WaveMaker {
 	private static Logger logger = LoggerFactory.getLogger(WaveMaker.class);
 	private static final int CHECK_FOR_FINISH_INTERVAL = 500;
 	private static final long REST_TIME = 3000L;
 
-	private final String name;
-
-	private final AtomicBoolean isFinished = new AtomicBoolean(false);
+	private final AtomicBoolean isReady = new AtomicBoolean(false);
 
 	private ScheduledFuture<?> runner;
 
 	private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
-
-	private I2CDevice i2CDevice;
-
-	public WaveMaker(String name) {
-		this.name = name;
-	}
-
-	public void setDevice(GpioPinDigitalOutput pin) {
-		i2CDevice = new I2CDevice(pin);
-	}
-
-	public String getName() {
-		return name;
-	}
 
 	public void activate(double min_on, double max_on) {
 		double randNumber = Math.random();
@@ -45,7 +33,7 @@ public class WaveMaker {
 		runner = scheduledExecutorService.schedule(new Runnable() {
 			@Override
 			public void run() {
-				if (isFinished.get()) {
+				if (isReady.get()) {
 					start(runFor);
 				}
 			}
@@ -55,42 +43,38 @@ public class WaveMaker {
 	public void deactivateAndStop() {
 		if (runner != null) {
 			runner.cancel(false);
-			off();
+			stop();
 		}
 	}
 
-	public void on() {
-		start(0L);
-	}
-
-	public void start(long stopTime) {
-		i2CDevice.setOn(true);
-		isFinished.set(false);
+	private void start(long stopTime) {
+		//i2CDevice.setOn(true);
+		isReady.set(false);
 		if (stopTime > 0) {
 			scheduledExecutorService.schedule(new Runnable() {
 				@Override
 				public void run() {
-					off();
+					stop();
 				}
 			}, stopTime, TimeUnit.MILLISECONDS);
 		}
 		logger.info("Started " + this.getName() + " will stop in " + stopTime / 1000 +"s");
 	}
 
-	public void off() {
-		i2CDevice.setOn(false);
+	private void stop() {
+		//i2CDevice.setOn(false);
 		logger.info("Stopped " + this.getName() + " resting");
 		try {
 			Thread.sleep(REST_TIME);
 		} catch (InterruptedException e) {
 			logger.warn("Thread interrupted");
 		} finally {
-			isFinished.set(true);
+			isReady.set(true);
 		}
 		logger.info("Rest finished " + this.getName());
 	}
 
-	public boolean isFinished() {
-		return isFinished.get();
+	public boolean isReady() {
+		return isReady.get();
 	}
 }
