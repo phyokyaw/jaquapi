@@ -24,7 +24,7 @@ public class WaveMaker extends Device {
 	private ScheduledExecutorService scheduledExecutorService;
 
 	public void activate(double min_on, double max_on) {
-		scheduledExecutorService = Executors.newScheduledThreadPool(3);
+		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 		double randNumber = Math.random();
 		final long runFor = (long) (((randNumber * (max_on - min_on)) + min_on) * 1000);
 		start(runFor);

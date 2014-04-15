@@ -28,7 +28,7 @@ public abstract class DeviceControl {
 	};
 
 	public void activate() throws Exception {
-		scheduledExecutorService = Executors.newScheduledThreadPool(5);
+		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 		logger.info("Deactivating previous control");
 		scheduledExecutorService.schedule(new Runnable() {
 			@Override
