@@ -42,3 +42,4 @@ derby.log
 *.ear
 
 dependency*
+db/*

@@ -6,19 +6,21 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
-
+	
 	<context:component-scan base-package="net.phyokyaw.jaquapi" />
 	<context:component-scan base-package="net.phyokyaw.jaquapi.dao.model" />
 	<context:component-scan base-package="net.phyokyaw.jaquapi.services" />
 	<context:component-scan base-package="net.phyokyaw.jaquapi.controls" />
 
 	<context:annotation-config />
+
+	<import resource="devices.xml"/>
 	
 	<!-- BoneCP configuration -->
 	<bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="org.hsqldb.jdbcDriver" />
-		<property name="jdbcUrl" value="jdbc:hsqldb:mem:aname" />
+		<property name="jdbcUrl" value="jdbc:hsqldb:file:db/aquadb" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="idleConnectionTestPeriodInMinutes" value="60" />
