@@ -7,11 +7,10 @@
 	href="<c:url value='/c/jquery.gridster.min.css' />">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/style.css' />" />
-	<link rel="stylesheet" type="text/css"
+<link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/toggle-switch.css' />" />
 <script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/s/Chart.min.js' />"></script>
+<script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/s/jquery-1.11.0.min.js' />"></script>
 <script type="text/javascript"
@@ -25,22 +24,23 @@
 		//Get context with jQuery - using jQuery's .get() method.
 		var ctx = $("#tempHistory").get(0).getContext("2d");
 		//This will get the first returned node in the jQuery collection.
-		var myNewChart = new Chart(ctx);
+		var tempHistoryChart = new Chart(ctx);
 		var data = {
-	labels : ["January","February","March","April","May","June","July"],
-	datasets : [
-
-		{
-			fillColor : "rgba(151,187,205,0.5)",
-			strokeColor : "rgba(151,187,205,1)",
-			pointColor : "rgba(151,187,205,1)",
-			pointStrokeColor : "#fff",
-			data : [28,48,40,19,96,27,100]
+			labels : ["January","February","March","April","May","June","July"],
+			datasets : [
+		
+				{
+					fillColor : "rgba(151,187,205,0.5)",
+					strokeColor : "rgba(151,187,205,1)",
+					pointColor : "rgba(151,187,205,1)",
+					pointStrokeColor : "#fff",
+					data : ${userId}
+				}
+			]
 		}
-	]
-}
-myNewChart.Line(data);
- ctx = $("#phHistory").get(0).getContext("2d");
+		tempHistoryChart.Line(data);
+
+/*  ctx = $("#phHistory").get(0).getContext("2d");
 		//This will get the first returned node in the jQuery collection.
 		myNewChart = new Chart(ctx);
 		data = {
@@ -55,8 +55,23 @@ myNewChart.Line(data);
 		}
 	]
 }
-myNewChart.Line(data);
+myNewChart.Line(data); */
 	});
+	(function poll() {
+		setTimeout(function() {
+			$.ajax({
+				dataType : "json",
+				url : "/temperature_history?days=1",
+				type : "GET",
+				success : function(data) {
+					myNewChart.Line(data);
+				},
+				dataType : "json",
+				complete : poll,
+				timeout : 2000
+			})
+		}, 2000);
+	})();
 	(function poll() {
 		setTimeout(function() {
 			$.ajax({
@@ -72,7 +87,7 @@ myNewChart.Line(data);
 			})
 		}, 2000);
 	})();
-	(function poll1() {
+	/* (function poll1() {
 		setTimeout(function() {
 			$.ajax({
 				dataType : "json",
@@ -86,16 +101,16 @@ myNewChart.Line(data);
 				timeout : 2000
 			})
 		}, 2000);
-	})();
+	})(); */
 </script>
 </head>
 
 <body>
 	<H2 align="center">Aqua control</H2>
 	<div class="gridster">
-    <ul>
-        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-        <H3 class="controls">Temperature</H3>
+		<ul>
+			<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+				<H3 class="controls">Temperature</H3>
 				<canvas id="tempGuage" width="150" height="150"
 					data-type="canv-gauge" data-title="Temp" data-min-value="15"
 					data-max-value="30"
@@ -105,21 +120,21 @@ myNewChart.Line(data);
 					data-animation-duration="200" data-animation-fn="bounce"
 					data-colors-needle="#f00 #00f"
 					data-highlights="15 20 #ff0000, 20 23 #ffff00, 23 28 #00cc00, 28 30 #eaa"></canvas>
-        </li>
-        <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
-        <H3 class="controls">Ph Meter</H3>
-				<canvas id="phGuage"  width="150" height="150" data-type="canv-gauge"
+			</li>
+			<li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+				<H3 class="controls">Ph Meter</H3>
+				<canvas id="phGuage" width="150" height="150" data-type="canv-gauge"
 					data-title="Ph" data-min-value="4" data-max-value="15"
-					data-major-ticks="4 5 6 7 8 9 10 11 12 13 14 15" data-minor-ticks=".5"
-					data-stroke-ticks="true" data-units="Level" data-value-format="3.2"
-					data-glow="true" data-animation-delay="10"
+					data-major-ticks="4 5 6 7 8 9 10 11 12 13 14 15"
+					data-minor-ticks=".5" data-stroke-ticks="true" data-units="Level"
+					data-value-format="3.2" data-glow="true" data-animation-delay="10"
 					data-animation-duration="200" data-animation-fn="bounce"
 					data-colors-needle="#f00 #00f"
 					data-highlights="4 5 #ff0000, 5 7.7 #ffff00, 7.7 8.8 #00cc00, 8.8 15 #eaa"></canvas>
-        </li>
-        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
-        <H3 class="controls">ORP Meter</H3>
-				<canvas id="orpGuage"  width="150" height="150"
+			</li>
+			<li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+				<H3 class="controls">ORP Meter</H3>
+				<canvas id="orpGuage" width="150" height="150"
 					data-type="canv-gauge" data-title="ORP" data-min-value="0"
 					data-max-value="1000"
 					data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
@@ -128,72 +143,66 @@ myNewChart.Line(data);
 					data-animation-duration="200" data-animation-fn="bounce"
 					data-colors-needle="#f00 #00f"
 					data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas>
-        </li>
-        <li data-row="4" data-col="1" data-sizex="3" data-sizey="1">
-        <H3 class="controls">Wave makers</H3>
-        <div id="column1-wrap">
-    <div id="column1">
-    <canvas id="wave1"  width="100" height="100"
-					data-type="canv-gauge" data-title="ORP" data-min-value="0"
-					data-max-value="1000"
-					data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
-					data-minor-ticks="50" data-stroke-ticks="true" data-units="mV"
-					data-value-format="3.2" data-glow="true" data-animation-delay="10"
-					data-animation-duration="200" data-animation-fn="bounce"
-					data-colors-needle="#f00 #00f"
-					data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas></div>
-</div>
-<div id="column2"><canvas id="wave2"  width="100" height="100"
-					data-type="canv-gauge" data-title="ORP" data-min-value="0"
-					data-max-value="1000"
-					data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
-					data-minor-ticks="50" data-stroke-ticks="true" data-units="mV"
-					data-value-format="3.2" data-glow="true" data-animation-delay="10"
-					data-animation-duration="200" data-animation-fn="bounce"
-					data-colors-needle="#f00 #00f"
-					data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas></div>
-<div id="clear"></div>
-        </li>
-        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
-        <H3 class="controls">Temperature history</H3>
-        <canvas id="tempHistory" width="400" height="130"></canvas>
-        <div class="toggle-container">
-        <div class="switch-toggle switch-3 switch-android">
-	<input id="day-tp" name="temperatureHistorySelection" type="radio" checked>
-	<label for="day-tp" onclick="">Day</label>
+			</li>
+			<li data-row="4" data-col="1" data-sizex="3" data-sizey="1">
+				<H3 class="controls">Wave makers</H3>
+				<div id="column1-wrap">
+					<div id="column1">
+						<canvas id="wave1" width="100" height="100" data-type="canv-gauge"
+							data-title="ORP" data-min-value="0" data-max-value="1000"
+							data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
+							data-minor-ticks="50" data-stroke-ticks="true" data-units="mV"
+							data-value-format="3.2" data-glow="true"
+							data-animation-delay="10" data-animation-duration="200"
+							data-animation-fn="bounce" data-colors-needle="#f00 #00f"
+							data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas>
+					</div>
+				</div>
+				<div id="column2">
+					<canvas id="wave2" width="100" height="100" data-type="canv-gauge"
+						data-title="ORP" data-min-value="0" data-max-value="1000"
+						data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
+						data-minor-ticks="50" data-stroke-ticks="true" data-units="mV"
+						data-value-format="3.2" data-glow="true" data-animation-delay="10"
+						data-animation-duration="200" data-animation-fn="bounce"
+						data-colors-needle="#f00 #00f"
+						data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas>
+				</div>
+				<div id="clear"></div>
+			</li>
+			<li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
+				<H3 class="controls">Temperature history</H3>
+				<canvas id="tempHistory" width="400" height="130"></canvas>
+				<div class="toggle-container">
+					<div class="switch-toggle switch-3 switch-android">
+						<input id="day-tp" name="temperatureHistorySelection" type="radio"
+							checked> <label for="day-tp" onclick="">Day</label> <input
+							id="week-tp" name="temperatureHistorySelection" type="radio">
+						<label for="week-tp" onclick="">Week</label> <input id="month-tp"
+							name="temperatureHistorySelection" type="radio"> <label
+							for="month-tp" onclick="">Month</label> <a></a>
+					</div>
+				</div>
+			</li>
+			<li data-row="2" data-col="2" data-sizex="2" data-sizey="1">
+				<H3 class="controls">Ph level history</H3>
+				<canvas id="phHistory" width="400" height="130"></canvas>
+				<div class="toggle-container">
+					<div class="switch-toggle switch-3 switch-android">
+						<input id="day-ph" name="phHistorySelection" type="radio" checked>
+						<label for="day-ph" onclick="">Day</label> <input id="week-ph"
+							name="phHistorSelectiony" type="radio"> <label
+							for="week-ph" onclick="">Week</label> <input id="month-ph"
+							name="phHistorySelection" type="radio"> <label
+							for="month-ph" onclick="">Month</label> <a></a>
+					</div>
+				</div>
+			</li>
+			<li data-row="3" data-col="2" data-sizex="2" data-sizey="1"></li>
 
-	<input id="week-tp" name="temperatureHistorySelection" type="radio">
-	<label for="week-tp" onclick="">Week</label>
-	
-	<input id="month-tp" name="temperatureHistorySelection" type="radio">
-	<label for="month-tp" onclick="">Month</label>
-
-	<a></a>
-</div>
-</div>
-        </li>
-        <li data-row="2" data-col="2" data-sizex="2" data-sizey="1">
-        <H3 class="controls">Ph level history</H3>
-        <canvas id="phHistory" width="400" height="130"></canvas>
-                <div class="toggle-container">
-        <div class="switch-toggle switch-3 switch-android">
-	<input id="day-ph" name="phHistorySelection" type="radio" checked>
-	<label for="day-ph" onclick="">Day</label>
-
-	<input id="week-ph" name="phHistorSelectiony" type="radio">
-	<label for="week-ph" onclick="">Week</label>
-	
-	<input id="month-ph" name="phHistorySelection" type="radio">
-	<label for="month-ph" onclick="">Month</label>
-	<a></a>
-</div>
-</div>
-        </li>
-        <li data-row="3" data-col="2" data-sizex="2" data-sizey="1"></li>
-        
-        <li data-row="1" data-col="3" data-sizex="1" data-sizey="3">
-        <H4 class="controls">Pump</H4>
-        <div class="onoffswitch">
+			<li data-row="1" data-col="3" data-sizex="1" data-sizey="3">
+				<H4 class="controls">Pump</H4>
+				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch"
 						class="onoffswitch-checkbox" id="myonoffswitch" checked> <label
 						class="onoffswitch-label" for="myonoffswitch">
@@ -201,7 +210,7 @@ myNewChart.Line(data);
 						<div class="onoffswitch-switch"></div>
 					</label>
 				</div>
-        </li>
-    </ul>
+			</li>
+		</ul>
 </body>
 </html>

@@ -6,40 +6,38 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
-	
-	<bean id="lighting" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Lighting" />
+
+	<bean id="lighting-white" class="net.phyokyaw.jaquapi.dao.model.Device">
+		<constructor-arg value="Lighting 2" />
 	</bean>
-	
+
+	<bean id="lighting-blue" class="net.phyokyaw.jaquapi.dao.model.Device">
+		<constructor-arg value="Lighting 1" />
+	</bean>
+
 	<bean id="pump" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Return Pump" />
 	</bean>
-	
 	<bean id="skimmer" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Skimmer" />
 	</bean>
-	
 	<bean id="refulight" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Refugium Light" />
 	</bean>
-	
 	<bean id="heater" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Heater" />
 	</bean>
 
 	<bean id="i2cDevices" class="java.util.ArrayList">
-	    <constructor-arg>
-	        <list>
-	            <ref bean="lighting" />
-	            <ref bean="pump" />
-	            <ref bean="skimmer" />
-	            <ref bean="refulight" />
-	            <ref bean="heater" />
-	        </list>
-	    </constructor-arg>
-	</bean>
-	
-	<bean id="deviceScheduleLoader" class="net.phyokyaw.jaquapi.dao.model.DeviceScheduleLoader">
-		<property name="lighting"></property>
+		<constructor-arg>
+			<list>
+				<ref bean="lighting-white" />
+				<ref bean="lighting-blue" />
+				<ref bean="pump" />
+				<ref bean="skimmer" />
+				<ref bean="refulight" />
+				<ref bean="heater" />
+			</list>
+		</constructor-arg>
 	</bean>
 </beans>

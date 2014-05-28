@@ -51,4 +51,12 @@ public class Device {
 	public String getName() {
 		return name;
 	}
+
+	public I2CDevice getI2cDevice() {
+		return i2cDevice;
+	}
+
+	public void setI2cDevice(I2CDevice i2cDevice) {
+		this.i2cDevice = i2cDevice;
+	}
 }
