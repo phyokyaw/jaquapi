@@ -1,6 +1,6 @@
 package net.phyokyaw.jaquapi.dao.model;
 
-import java.util.Map;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class Programme {
 	private static final Logger logger = LoggerFactory.getLogger(Programme.class);
-	
+
 	private String name;
 	private long timeout;
 
 	@Autowired
-	private Map<Device, Boolean> devices;
-	
+	private List<ProgrammeDevice> devices;
+
 	public String getName() {
 		return name;
 	}
@@ -27,18 +27,43 @@ public class Programme {
 	public void setTimeout(long timeout) {
 		this.timeout = timeout;
 	}
-	
+
 	public void activate() {
 		logger.debug(name + " programme activated");
-		for (Map.Entry<Device, Boolean> entry : devices.entrySet()) {
-			entry.getKey().setOverridingMode(new OnOffMode(entry.getValue()), timeout);
+		for (ProgrammeDevice entry : devices) {
+			entry.getDevice().setOverridingMode(new OnOffMode(entry.isShouldbeOff()), entry.getTimeout());
 		}
 	}
-	
+
 	public void deactivate() {
 		logger.debug(name + " programme deactivated");
-		for (Device entry : devices.keySet()) {
-			entry.cancelOverridingMode();
+		for (ProgrammeDevice entry : devices) {
+			entry.getDevice().cancelOverridingMode();
+		}
+	}
+
+	public static class ProgrammeDevice {
+		private Device device;
+		private long timeout;
+		private boolean shouldbeOff;
+
+		public Device getDevice() {
+			return device;
+		}
+		public void setDevice(Device device) {
+			this.device = device;
+		}
+		public long getTimeout() {
+			return timeout;
+		}
+		public void setTimeout(long timeout) {
+			this.timeout = timeout;
+		}
+		public boolean isShouldbeOff() {
+			return shouldbeOff;
+		}
+		public void setShouldbeOff(boolean shouldbeOff) {
+			this.shouldbeOff = shouldbeOff;
 		}
 	}
 }

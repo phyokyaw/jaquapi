@@ -25,10 +25,10 @@ public class PowerControlDeviceService {
 	private ScheduledService scheduledService;
 
 	private ScheduledFuture<?> deviceUpdate;
-	
-	@Autowired
+
+	//@Autowired
 	private List<Programme> programmes;
-	
+
 	private Programme activedProgramme;
 
 	@PostConstruct
@@ -48,7 +48,7 @@ public class PowerControlDeviceService {
 	public void shutdown() {
 		deviceUpdate.cancel(true);
 	}
-	
+
 	public void activateProgramme(Programme programme) {
 		if (activedProgramme != null) {
 			activedProgramme.deactivate();

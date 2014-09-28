@@ -96,7 +96,8 @@ public class DateTimeMode extends Mode {
 		@JsonIgnore
 		public boolean isInTime() {
 			LocalTime now = LocalTime.now();
-			return (now.isAfter(startTime) && now.isBefore(endTime));
+			LocalTime another = now.plusHours(12);
+			return (now.isAfter(startTime) && now.isBefore(another));
 		}
 	}
 
