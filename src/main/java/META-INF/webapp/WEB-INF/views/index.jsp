@@ -16,6 +16,7 @@
 <script type="text/javascript"
 	src="<c:url value='/s/jquery.gridster.min.js' />"></script>
 <script>
+
 	$(function() { //DOM Ready
 		$(".gridster > ul").gridster({
 			widget_margins : [ 5, 5 ],
@@ -26,55 +27,54 @@
 		//This will get the first returned node in the jQuery collection.
 		var tempHistoryChart = new Chart(ctx);
 		var tempData = [];
-		
+
 		var data = {
-			labels : ["8:00","9:00","10:00","11:00","12:00","13:00","14:00"],
+			labels : [ "8:00", "9:00", "10:00", "11:00", "12:00", "13:00",
+					"14:00" ],
 			datasets : [
-		
-				{
-					fillColor : "rgba(151,187,205,0.5)",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "rgba(151,187,205,1)",
-					pointStrokeColor : "#fff",
-					data : [24.5,25.0,25.4,24.8,25.6,25.7,25.5]
-				}
-			]
+
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [ 24.5, 25.0, 25.4, 24.8, 25.6, 25.7, 25.5 ]
+			} ]
 		};
 		tempHistoryChart.Line(data);
 
-  ctx = $("#phHistory").get(0).getContext("2d");
+		ctx = $("#phHistory").get(0).getContext("2d");
 		//This will get the first returned node in the jQuery collection.
 		myNewChart = new Chart(ctx);
 		data = {
-				labels : ["8:00","9:00","10:00","11:00","12:00","13:00","14:00"],
-	datasets : [
-		{
+			labels : [ "8:00", "9:00", "10:00", "11:00", "12:00", "13:00",
+					"14:00" ],
+			datasets : [ {
 				fillColor : "rgba(151,187,205,0.5)",
-			strokeColor : "rgba(151,187,205,1)",
-			pointColor : "rgba(151,187,205,1)",
-			pointStrokeColor : "#fff",
-			data : [7.9,7.8,7.8,7.9,8.1,8.0,8.1]
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [ 7.9, 7.8, 7.8, 7.9, 8.1, 8.0, 8.1 ]
+			} ]
 		}
-	]
-}
-		myNewChart.Line(data); 		
-		  ctx = $("#orpHistory").get(0).getContext("2d");
+		myNewChart.Line(data);
+		ctx = $("#orpHistory").get(0).getContext("2d");
 		//This will get the first returned node in the jQuery collection.
 		myNewChart1 = new Chart(ctx);
 		data = {
-				labels : ["8:00","9:00","10:00","11:00","12:00","13:00","14:00"],
-	datasets : [
-		{
+			labels : [ "8:00", "9:00", "10:00", "11:00", "12:00", "13:00",
+					"14:00" ],
+			datasets : [ {
 				fillColor : "rgba(151,187,205,0.5)",
-			strokeColor : "rgba(151,187,205,1)",
-			pointColor : "rgba(151,187,205,1)",
-			pointStrokeColor : "#fff",
-			data : [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
+			} ]
 		}
-	]
-}
-		myNewChart1.Line(data); 
+		myNewChart1.Line(data);
 	});
+	/*
 	(function poll() {
 		setTimeout(function() {
 			$.ajax({
@@ -119,7 +119,7 @@
 				timeout : 2000
 			})
 		}, 2000);
-	})();
+	})();*/
 </script>
 </head>
 
@@ -232,7 +232,9 @@
 			</li>
 
 			<li data-row="1" data-col="3" data-sizex="1" data-sizey="3">
-				<H3 class="controls">Mode: <font color="#006400">normal</font></h3>
+				<H3 class="controls">
+					Mode: <font color="#006400">normal</font>
+				</h3>
 				<H4 class="controls">Pump</H4>
 				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch"
@@ -241,50 +243,46 @@
 						<div class="onoffswitch-inner"></div>
 						<div class="onoffswitch-switch"></div>
 					</label>
-				</div>
-				<a href="link" style="font-size: x-small;">Setup</a>
+				</div> <a href="link" style="font-size: x-small;">Setup</a>
 				<H4 class="controls">Sump light</H4>
 				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch1" checked> <label
-						class="onoffswitch-label" for="myonoffswitch1">
+						class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+					<label class="onoffswitch-label" for="myonoffswitch1">
 						<div class="onoffswitch-inner"></div>
 						<div class="onoffswitch-switch"></div>
 					</label>
-				</div>
-				<a href="link" style="font-size: x-small;">Setup</a>
+				</div> <a href="link" style="font-size: x-small;">Setup</a>
 				<H4 class="controls">Media reactor</H4>
 				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch2" checked> <label
-						class="onoffswitch-label" for="myonoffswitch2">
+						class="onoffswitch-checkbox" id="myonoffswitch2" checked>
+					<label class="onoffswitch-label" for="myonoffswitch2">
 						<div class="onoffswitch-inner"></div>
 						<div class="onoffswitch-switch"></div>
 					</label>
-				</div>
-				<a href="link" style="font-size: x-small;">Setup</a>
+				</div> <a href="link" style="font-size: x-small;">Setup</a>
 				<H4 class="controls">Lights</H4>
 				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch3" checked> <label
-						class="onoffswitch-label" for="myonoffswitch3">
+						class="onoffswitch-checkbox" id="myonoffswitch3" checked>
+					<label class="onoffswitch-label" for="myonoffswitch3">
 						<div class="onoffswitch-inner"></div>
 						<div class="onoffswitch-switch"></div>
 					</label>
-				</div>
-				<a href="link" style="font-size: x-small;">Setup</a>
+				</div> <a href="link" style="font-size: x-small;">Setup</a>
 				<H4 class="controls">ATO</H4>
 				<div class="onoffswitch">
 					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch4" checked> <label
-						class="onoffswitch-label" for="myonoffswitch4">
+						class="onoffswitch-checkbox" id="myonoffswitch4" checked>
+					<label class="onoffswitch-label" for="myonoffswitch4">
 						<div class="onoffswitch-inner"></div>
 						<div class="onoffswitch-switch"></div>
 					</label>
-					
-				</div>
-				<a href="link" style="font-size: x-small;">Setup</a>
+
+				</div> <a href="link" style="font-size: x-small;">Setup</a>
 			</li>
 		</ul>
+	</div>
 </body>
 </html>

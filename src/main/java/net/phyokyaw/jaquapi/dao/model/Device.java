@@ -46,6 +46,9 @@ public class Device {
 
 	private void setOn(boolean on) {
 		logger.info(name + " mode is " + on);
+		if (this.i2cDevice != null) {
+			this.i2cDevice.setOn(on);
+		}
 	}
 
 	public String getName() {

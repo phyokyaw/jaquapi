@@ -7,6 +7,8 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
 
+	<import resource="devices-schedule.xml" />
+
 	<bean id="lighting-white" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Lighting 2" />
 	</bean>
@@ -40,4 +42,5 @@
 			</list>
 		</constructor-arg>
 	</bean>
+
 </beans>

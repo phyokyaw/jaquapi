@@ -43,7 +43,7 @@ public class I2CDeviceChip {
 			outputPins.put(MCP23017Pin.GPIO_B7.getName(), gpio.provisionDigitalOutputPin(gpioProvider, MCP23017Pin.GPIO_B7, PinState.HIGH));
 			logger.info("Outpins provisioned");
 		} catch (IOException e) {
-			logger.debug("Unable to create GPIO provider");
+			logger.error("Unable to create GPIO provider", e);
 		}
 	}
 
