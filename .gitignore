@@ -21,7 +21,7 @@ test-output
 build.log
 var/*.*
 var/*/
-
+db/
 
 # other scm
 .svn
@@ -44,4 +44,4 @@ derby.log
 *.ear
 
 dependency*
-db/*
+
