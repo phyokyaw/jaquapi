@@ -18,4 +18,7 @@ public class PhWebControl {
 	@RequestMapping("/ph")
 	public @ResponseBody PhRecord getPh() {
 		return phService.getPhRecord();
-	}}
+	}
+
+
+}
