@@ -36,6 +36,7 @@ public class Programme {
 	public List<ProgrammeDevice> getDevices() {
 		return devices;
 	}
+
 	public void setDevices(List<ProgrammeDevice> devices) {
 		this.devices = devices;
 	}

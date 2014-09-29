@@ -2,11 +2,17 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<title>Gtest</title>
+<title>Jqua-pi aquarium controller</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/jquery.gridster.min.css' />">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/style.css' />" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/c/jquery-ui.min.css' />" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/c/jquery-ui.structure.min.css' />" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/c/jquery-ui.theme.min.css' />" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/toggle-switch.css' />" />
 <script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
@@ -14,9 +20,10 @@
 <script type="text/javascript"
 	src="<c:url value='/s/jquery-1.11.0.min.js' />"></script>
 <script type="text/javascript"
+	src="<c:url value='/s/jquery-ui.min.js' />"></script>
+<script type="text/javascript"
 	src="<c:url value='/s/jquery.gridster.min.js' />"></script>
 <script>
-
 	$(function() { //DOM Ready
 		$(".gridster > ul").gridster({
 			widget_margins : [ 5, 5 ],
@@ -73,6 +80,11 @@
 			} ]
 		}
 		myNewChart1.Line(data);
+	});
+	$(function() {
+		$("input[type=submit], a, button").button().click(function(event) {
+			event.preventDefault();
+		});
 	});
 	/*
 	(function poll() {
@@ -162,31 +174,17 @@
 					data-colors-needle="#f00 #00f"
 					data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas>
 			</li>
-			<li data-row="4" data-col="1" data-sizex="3" data-sizey="1">
-				<H3 class="controls">Wave makers</H3>
-				<div id="column1-wrap">
-					<div id="column1">
-						<canvas id="wave1" width="100" height="100" data-type="canv-gauge"
-							data-title="ORP" data-min-value="0" data-max-value="1000"
-							data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
-							data-minor-ticks="50" data-stroke-ticks="true" data-units="mV"
-							data-value-format="3.2" data-glow="true"
-							data-animation-delay="10" data-animation-duration="200"
-							data-animation-fn="bounce" data-colors-needle="#f00 #00f"
-							data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas>
-					</div>
-				</div>
-				<div id="column2">
-					<canvas id="wave2" width="100" height="100" data-type="canv-gauge"
-						data-title="ORP" data-min-value="0" data-max-value="1000"
-						data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
-						data-minor-ticks="50" data-stroke-ticks="true" data-units="mV"
-						data-value-format="3.2" data-glow="true" data-animation-delay="10"
-						data-animation-duration="200" data-animation-fn="bounce"
-						data-colors-needle="#f00 #00f"
-						data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas>
-				</div>
-				<div id="clear"></div>
+			<li data-row="4" data-col="1" data-sizex="1" data-sizey="1">
+				<H3 class="controls">Salinity</H3>
+				<canvas id="salinityGuage" width="150" height="150"
+					data-type="canv-gauge" data-title="ORP" data-min-value="0"
+					data-max-value="1000"
+					data-major-ticks="0 100 200 300 400 500 600 700 800 900 1000"
+					data-minor-ticks="50" data-stroke-ticks="true" data-units="mV"
+					data-value-format="3.2" data-glow="true" data-animation-delay="10"
+					data-animation-duration="200" data-animation-fn="bounce"
+					data-colors-needle="#f00 #00f"
+					data-highlights="0 250 #000, 250 400 #00cc00, 400 1000 #eaa"></canvas>
 			</li>
 			<li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
 				<H3 class="controls">Temperature history</H3>
@@ -206,14 +204,18 @@
 				<H3 class="controls">Ph level history</H3>
 				<canvas id="phHistory" width="400" height="130"></canvas>
 				<div class="toggle-container">
-					<div class="switch-toggle switch-3 switch-android">
-						<input id="day-ph" name="phHistorySelection" type="radio" checked>
-						<label for="day-ph" onclick="">Day</label> <input id="week-ph"
-							name="phHistorSelectiony" type="radio"> <label
-							for="week-ph" onclick="">Week</label> <input id="month-ph"
-							name="phHistorySelection" type="radio"> <label
-							for="month-ph" onclick="">Month</label> <a></a>
-					</div>
+					 <div class="switch-toggle switch-3 switch-ios">
+                <input id="week-d1" name="view-d" type="radio" checked>
+                <label for="week-d1" onclick="">Week</label>
+
+                <input id="month-d2" name="view-d" type="radio">
+                <label for="month-d2" onclick="">Month</label>
+
+                <input id="month-d3" name="view-d" type="radio">
+                <label for="month-d3" onclick="">Year</label>
+
+                <a></a>
+              </div>
 				</div>
 			</li>
 			<li data-row="3" data-col="2" data-sizex="2" data-sizey="1">
@@ -221,66 +223,50 @@
 				<canvas id="orpHistory" width="400" height="130"></canvas>
 				<div class="toggle-container">
 					<div class="switch-toggle switch-3 switch-android">
-						<input id="day-orp" name="phHistorySelection" type="radio" checked>
-						<label for="day-orp" onclick="">Day</label> <input id="week-orp"
-							name="orpHistorSelectiony" type="radio"> <label
-							for="week-orp" onclick="">Week</label> <input id="month-orp"
-							name="orpHistorySelection" type="radio"> <label
-							for="month-orp" onclick="">Month</label> <a></a>
+						<input id="day-orp" name="orpHistorySelection" type="radio"
+							checked> <label for="day-orp" onclick="">Day</label> <input
+							id="week-orp" name="orpHistorySelectionWeek" type="radio">
+						<label for="week-orp" onclick="">Week</label> <input
+							id="month-orp" name="orpHistorySelectionMonth" type="radio">
+						<label for="month-orp" onclick="">Month</label> <a></a>
 					</div>
 				</div>
 			</li>
-
+			<li data-row="4" data-col="2" data-sizex="2" data-sizey="1">
+				<H3 class="controls">Salinity history</H3>
+				<canvas id="salinityHistory" width="400" height="130"></canvas>
+				<div class="toggle-container">
+					<div class="switch-toggle switch-3 switch-android">
+						<input id="day-orp" name="salinityHistorySelection" type="radio"
+							checked> <label for="day-orp" onclick="">Day</label> <input
+							id="week-orp" name="salinityHistorySelectionWeek" type="radio">
+						<label for="week-orp" onclick="">Week</label> <input
+							id="month-orp" name="salinityHistorySelectionMonth" type="radio">
+						<label for="month-orp" onclick="">Month</label> <a></a>
+					</div>
+				</div>
+			</li>
 			<li data-row="1" data-col="3" data-sizex="1" data-sizey="3">
-				<H3 class="controls">
-					Mode: <font color="#006400">normal</font>
-				</h3>
-				<H4 class="controls">Pump</H4>
-				<div class="onoffswitch">
-					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch" checked> <label
-						class="onoffswitch-label" for="myonoffswitch">
-						<div class="onoffswitch-inner"></div>
-						<div class="onoffswitch-switch"></div>
-					</label>
-				</div> <a href="link" style="font-size: x-small;">Setup</a>
-				<H4 class="controls">Sump light</H4>
-				<div class="onoffswitch">
-					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch1" checked>
-					<label class="onoffswitch-label" for="myonoffswitch1">
-						<div class="onoffswitch-inner"></div>
-						<div class="onoffswitch-switch"></div>
-					</label>
-				</div> <a href="link" style="font-size: x-small;">Setup</a>
-				<H4 class="controls">Media reactor</H4>
-				<div class="onoffswitch">
-					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch2" checked>
-					<label class="onoffswitch-label" for="myonoffswitch2">
-						<div class="onoffswitch-inner"></div>
-						<div class="onoffswitch-switch"></div>
-					</label>
-				</div> <a href="link" style="font-size: x-small;">Setup</a>
-				<H4 class="controls">Lights</H4>
-				<div class="onoffswitch">
-					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch3" checked>
-					<label class="onoffswitch-label" for="myonoffswitch3">
-						<div class="onoffswitch-inner"></div>
-						<div class="onoffswitch-switch"></div>
-					</label>
-				</div> <a href="link" style="font-size: x-small;">Setup</a>
-				<H4 class="controls">ATO</H4>
-				<div class="onoffswitch">
-					<input type="checkbox" name="onoffswitch"
-						class="onoffswitch-checkbox" id="myonoffswitch4" checked>
-					<label class="onoffswitch-label" for="myonoffswitch4">
-						<div class="onoffswitch-inner"></div>
-						<div class="onoffswitch-switch"></div>
-					</label>
-
-				</div> <a href="link" style="font-size: x-small;">Setup</a>
+				<H3 class="controls">Power controls</h3> <c:forEach
+					items="${devices}" var="element">
+					<H4 class="controls">${element.name}</H4>
+					<div class="onoffswitch">
+						<input type="checkbox" name="onoffswitch"
+							class="onoffswitch-checkbox" id="myonoffswitch-${element.name}"
+							<c:if test="${element.mode.shouldBeOn()}">checked</c:if>>
+						<label class="onoffswitch-label"
+							for="myonoffswitch-${element.name}">
+							<div class="onoffswitch-inner"></div>
+							<div class="onoffswitch-switch"></div>
+						</label>
+					</div>
+				</c:forEach>
+			</li>
+			<li data-row="1" data-col="4" data-sizex="1" data-sizey="3">
+				<H3 class="controls">Programmes</h3> <c:forEach
+					items="${programmes}" var="element">
+					<button class="controls">${element.name}</button>
+				</c:forEach>
 			</li>
 		</ul>
 	</div>

@@ -22,12 +22,13 @@ public class PowerControlDeviceService {
 	private List<Device> devices;
 
 	@Autowired
+	private List<Programme> programmes;
+
+
+	@Autowired
 	private ScheduledService scheduledService;
 
 	private ScheduledFuture<?> deviceUpdate;
-
-	//@Autowired
-	private List<Programme> programmes;
 
 	private Programme activedProgramme;
 
@@ -49,11 +50,19 @@ public class PowerControlDeviceService {
 		deviceUpdate.cancel(true);
 	}
 
+	public List<Programme> getProgrammes() {
+		return programmes;
+	}
+
 	public void activateProgramme(Programme programme) {
 		if (activedProgramme != null) {
 			activedProgramme.deactivate();
 		}
 		activedProgramme = programme;
 		activedProgramme.activate();
+	}
+
+	public Object getDevices() {
+		return devices;
 	}
 }

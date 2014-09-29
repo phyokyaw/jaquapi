@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Device {
 	private I2CDevice i2cDevice;
 	private static final Logger logger = LoggerFactory.getLogger(Device.class);
-	private Mode mode = new OnOffMode(false);
+	private Mode mode = new OnOffMode(true);
+	public Mode getMode() {
+		return mode;
+	}
+
 	private Mode overridingMode;
 	private final String name;
 

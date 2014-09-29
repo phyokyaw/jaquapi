@@ -43,7 +43,7 @@
 	</bean>
 
 	<bean id="lighting-white" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Lighting 2" />
+		<constructor-arg value="Lighting White" />
 		<property name="mode">
 			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeMode">
 				<constructor-arg>
@@ -90,7 +90,7 @@
 	</bean>
 
 	<bean id="lighting-blue" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Lighting 1" />
+		<constructor-arg value="Lighting Blue" />
 		<property name="mode">
 			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeMode">
 				<constructor-arg>
@@ -119,13 +119,13 @@
 
 	<!-- ATO -->
 	<bean id="ato" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Auto topup" />
+		<constructor-arg value="ATO" />
 	</bean>
 
 	<bean id="pump" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Return Pump" />
 	</bean>
-	
+
 	<bean id="skimmer" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Skimmer" />
 	</bean>
@@ -146,8 +146,67 @@
 			</list>
 		</constructor-arg>
 	</bean>
-	
+
+	<bean id="waterchange-devices" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="net.phyokyaw.jaquapi.dao.model.Programme.ProgrammeDevice">
+					<property name="device" ref="pump" />
+					<property name="timeout" value="30" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+				<bean class="net.phyokyaw.jaquapi.dao.model.Programme.ProgrammeDevice">
+					<property name="device" ref="skimmer" />
+					<property name="timeout" value="30" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+				<bean class="net.phyokyaw.jaquapi.dao.model.Programme.ProgrammeDevice">
+					<property name="device" ref="heater" />
+					<property name="timeout" value="30" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+				<bean class="net.phyokyaw.jaquapi.dao.model.Programme.ProgrammeDevice">
+					<property name="device" ref="ato" />
+					<property name="timeout" value="35" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
 	<bean id="waterchange" class="net.phyokyaw.jaquapi.dao.model.Programme">
-		<property name="devices" ref="" />
+		<property name="devices" ref="waterchange-devices" />
+		<property name="name" value="Water Change" />
+	</bean>
+
+	<bean id="feeding-devices" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="net.phyokyaw.jaquapi.dao.model.Programme.ProgrammeDevice">
+					<property name="device" ref="pump" />
+					<property name="timeout" value="10" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+				<bean class="net.phyokyaw.jaquapi.dao.model.Programme.ProgrammeDevice">
+					<property name="device" ref="ato" />
+					<property name="timeout" value="15" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="feeding" class="net.phyokyaw.jaquapi.dao.model.Programme">
+		<property name="devices" ref="feeding-devices" />
+		<property name="name" value="Feeding" />
+	</bean>
+
+	<bean id="programmes" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="waterchange"/>
+				<ref bean="feeding" />
+			</list>
+		</constructor-arg>
 	</bean>
 </beans>
