@@ -4,15 +4,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class Programme {
 	private static final Logger logger = LoggerFactory.getLogger(Programme.class);
 
 	private String name;
-	private long timeout;
 
-	@Autowired
 	private List<ProgrammeDevice> devices;
 
 	public String getName() {
@@ -20,12 +17,6 @@ public class Programme {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public double getTimeout() {
-		return timeout;
-	}
-	public void setTimeout(long timeout) {
-		this.timeout = timeout;
 	}
 
 	public void activate() {
@@ -41,6 +32,14 @@ public class Programme {
 			entry.getDevice().cancelOverridingMode();
 		}
 	}
+
+	public List<ProgrammeDevice> getDevices() {
+		return devices;
+	}
+	public void setDevices(List<ProgrammeDevice> devices) {
+		this.devices = devices;
+	}
+
 
 	public static class ProgrammeDevice {
 		private Device device;

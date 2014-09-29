@@ -109,9 +109,9 @@
 		<constructor-arg value="Refugium Light" />
 		<property name="mode">
 			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeMode">
-				<constructor-arg value="19" />
-				<constructor-arg value="0" />
-				<constructor-arg value="09" />
+				<constructor-arg value="20" />
+				<constructor-arg value="00" />
+				<constructor-arg value="08" />
 				<constructor-arg value="00" />
 			</bean>
 		</property>
@@ -125,6 +125,7 @@
 	<bean id="pump" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Return Pump" />
 	</bean>
+	
 	<bean id="skimmer" class="net.phyokyaw.jaquapi.dao.model.Device">
 		<constructor-arg value="Skimmer" />
 	</bean>
@@ -145,5 +146,8 @@
 			</list>
 		</constructor-arg>
 	</bean>
-
+	
+	<bean id="waterchange" class="net.phyokyaw.jaquapi.dao.model.Programme">
+		<property name="devices" ref="" />
+	</bean>
 </beans>
