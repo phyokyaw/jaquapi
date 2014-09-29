@@ -16,22 +16,17 @@ public class PowerWebControl {
 	private PowerControlDeviceService powerControlDeviceService;
 
 	@RequestMapping("/powerStatus")
-	public @ResponseBody PowerStatus[] getPowerStatus() {
-		return null;
+	public @ResponseBody PowerControlDeviceService.PowerStatus[] getPowerStatus() {
+		return powerControlDeviceService.getPowerStatus();
 	}
 
 	@RequestMapping("/activateProgramme")
 	public void activateProgramme(String programmeName) {
-		//
+
 	}
 
 	@RequestMapping("/setPower")
 	public void setDeviceStatus(String deviceId, boolean isOn) {
 		//
-	}
-
-	public static class PowerStatus {
-		public String name;
-		public boolean isOn;
 	}
 }

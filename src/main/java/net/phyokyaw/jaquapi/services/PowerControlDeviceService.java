@@ -1,6 +1,7 @@
 package net.phyokyaw.jaquapi.services;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import javax.annotation.PostConstruct;
@@ -19,10 +20,10 @@ public class PowerControlDeviceService {
 	private static Logger logger = LoggerFactory.getLogger(PowerControlDeviceService.class);
 
 	@Autowired
-	private List<Device> devices;
+	private Map<String, Device> devices;
 
 	@Autowired
-	private List<Programme> programmes;
+	private Map<String, Programme> programmes;
 
 
 	@Autowired
@@ -38,7 +39,7 @@ public class PowerControlDeviceService {
 		deviceUpdate = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
-				for (Device device : devices) {
+				for (Device device : devices.values()) {
 					device.update();
 				}
 			}
@@ -50,19 +51,29 @@ public class PowerControlDeviceService {
 		deviceUpdate.cancel(true);
 	}
 
-	public List<Programme> getProgrammes() {
-		return programmes;
+	public Collection<Programme> getProgrammes() {
+		return programmes.values();
 	}
 
-	public void activateProgramme(Programme programme) {
+	public void activateProgramme(String programmeName) {
 		if (activedProgramme != null) {
 			activedProgramme.deactivate();
 		}
-		activedProgramme = programme;
+		activedProgramme = programmes.get(programmeName);
 		activedProgramme.activate();
 	}
 
 	public Object getDevices() {
 		return devices;
+	}
+
+	public static class PowerStatus {
+		public String name;
+		public boolean isOn;
+	}
+
+	public PowerStatus[] getPowerStatus() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
