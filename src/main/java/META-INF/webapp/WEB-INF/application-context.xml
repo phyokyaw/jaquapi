@@ -7,12 +7,12 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
 	
+	<context:annotation-config />
+	
 	<context:component-scan base-package="net.phyokyaw.jaquapi" />
 	<context:component-scan base-package="net.phyokyaw.jaquapi.dao.model" />
 	<context:component-scan base-package="net.phyokyaw.jaquapi.services" />
 	<context:component-scan base-package="net.phyokyaw.jaquapi.controls" />
-
-	<context:annotation-config />
 
 	<import resource="devices.xml"/>
 	

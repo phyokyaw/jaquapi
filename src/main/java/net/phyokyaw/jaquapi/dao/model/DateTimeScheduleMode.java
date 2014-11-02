@@ -9,21 +9,25 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
 
-public class DateTimeMode extends Mode {
+public class DateTimeScheduleMode extends Mode {
 
 	private final DaySchedule[] schedule;
 	private static ObjectMapper mapper = new ObjectMapper();
 
-	public DateTimeMode(int startHour, int startMin, int endHour, int endMin) {
+	public DateTimeScheduleMode(int startHour, int startMin, int endHour, int endMin) {
 		schedule = new DaySchedule[]{new DaySchedule(new OnOfftime[]{new OnOfftime(startHour, startMin, endHour, endMin)})};
 	}
 
-	public DateTimeMode(OnOfftime... daySchedules) {
+	public DateTimeScheduleMode(OnOfftime... daySchedules) {
 		schedule = new DaySchedule[] {new DaySchedule(daySchedules)};
 	}
 
-	public DateTimeMode(DaySchedule... daysOfWeekSchedules) {
+	public DateTimeScheduleMode(DaySchedule... daysOfWeekSchedules) {
 		schedule = daysOfWeekSchedules;
+	}
+
+	public DateTimeScheduleMode() {
+		schedule = new DaySchedule[]{};
 	}
 
 	@Override
@@ -105,8 +109,8 @@ public class DateTimeMode extends Mode {
 		}
 	}
 
-	public static DateTimeMode ceateDateTimeMode(String jsonString) throws Exception {
-		return mapper.readValue(jsonString, DateTimeMode.class);
+	public static DateTimeScheduleMode ceateDateTimeMode(String jsonString) throws Exception {
+		return mapper.readValue(jsonString, DateTimeScheduleMode.class);
 	}
 
 	public String toJson() throws Exception {

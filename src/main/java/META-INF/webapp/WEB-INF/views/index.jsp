@@ -86,6 +86,7 @@
 			event.preventDefault();
 		});
 	});
+	
 	/*
 	(function poll() {
 		setTimeout(function() {
@@ -247,15 +248,16 @@
 				</div>
 			</li>
 			<li data-row="1" data-col="3" data-sizex="1" data-sizey="3">
-				<H3 class="controls">Power controls</h3> <c:forEach
+				<H3 class="controls">Power controls</h3>
+				<c:forEach
 					items="${devices}" var="element">
 					<H4 class="controls">${element.name}</H4>
 					<div class="onoffswitch">
 						<input type="checkbox" name="onoffswitch"
-							class="onoffswitch-checkbox" id="myonoffswitch-${element.name}"
+							class="onoffswitch-checkbox" id="myonoffswitch-${element.id}"
 							<c:if test="${element.mode.shouldBeOn()}">checked</c:if>>
 						<label class="onoffswitch-label"
-							for="myonoffswitch-${element.name}">
+							for="myonoffswitch-${element.id}">
 							<div class="onoffswitch-inner"></div>
 							<div class="onoffswitch-switch"></div>
 						</label>

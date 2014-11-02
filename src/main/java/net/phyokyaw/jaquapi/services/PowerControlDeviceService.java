@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledFuture;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 
 import net.phyokyaw.jaquapi.dao.model.Device;
 import net.phyokyaw.jaquapi.dao.model.Programme;
@@ -19,12 +20,11 @@ import org.springframework.stereotype.Service;
 public class PowerControlDeviceService {
 	private static Logger logger = LoggerFactory.getLogger(PowerControlDeviceService.class);
 
-	@Autowired
-	private Map<String, Device> devices;
+	@Resource(name="devices")
+	private Map<Long, Device> devices;
 
-	@Autowired
-	private Map<String, Programme> programmes;
-
+	@Resource(name="programmes")
+	private Map<Long, Programme> programmes;
 
 	@Autowired
 	private ScheduledService scheduledService;
@@ -63,8 +63,12 @@ public class PowerControlDeviceService {
 		activedProgramme.activate();
 	}
 
-	public Object getDevices() {
-		return devices;
+	public Device[] getDevices() {
+		return devices.values().toArray(new Device[]{});
+	}
+
+	public Device getDevice(long id) {
+		return devices.get(id);
 	}
 
 	public static class PowerStatus {

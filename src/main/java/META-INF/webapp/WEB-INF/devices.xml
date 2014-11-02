@@ -10,14 +10,14 @@
 	<import resource="devices-schedule.xml" />
 
 	<!-- white -->
-	<bean id="lighting-white-weekday-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.OnOfftime">
+	<bean id="lighting-white-weekday-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.OnOfftime">
 		<constructor-arg value="13" />
 		<constructor-arg value="0" />
 		<constructor-arg value="22" />
 		<constructor-arg value="0" />
 	</bean>
 
-	<bean id="lighting-white-week-day" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.DaySchedule">
+	<bean id="lighting-white-week-day" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.DaySchedule">
 		<constructor-arg>
 			<list>
 				<ref bean="lighting-white-weekday-time" />
@@ -26,14 +26,14 @@
 		<constructor-arg ref="week-day-list" />
 	</bean>
 
-	<bean id="lighting-white-weekend-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.OnOfftime">
+	<bean id="lighting-white-weekend-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.OnOfftime">
 		<constructor-arg value="11" />
 		<constructor-arg value="0" />
 		<constructor-arg value="21" />
 		<constructor-arg value="0" />
 	</bean>
 
-	<bean id="lighting-white-week-end" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.DaySchedule">
+	<bean id="lighting-white-week-end" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.DaySchedule">
 		<constructor-arg>
 			<list>
 				<ref bean="lighting-white-weekend-time" />
@@ -43,9 +43,10 @@
 	</bean>
 
 	<bean id="lighting-white" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Lighting White" />
+		<constructor-arg value="1" />
+		<property name="name" value="Lighting White" />
 		<property name="mode">
-			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeMode">
+			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode">
 				<constructor-arg>
 					<list>
 						<ref bean="lighting-white-week-day" />
@@ -57,14 +58,14 @@
 	</bean>
 
 	<!-- blue -->
-	<bean id="lighting-blue-weekday-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.OnOfftime">
+	<bean id="lighting-blue-weekday-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.OnOfftime">
 		<constructor-arg value="12" />
 		<constructor-arg value="0" />
 		<constructor-arg value="22" />
 		<constructor-arg value="30" />
 	</bean>
 
-	<bean id="lighting-blue-week-day" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.DaySchedule">
+	<bean id="lighting-blue-week-day" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.DaySchedule">
 		<constructor-arg>
 			<list>
 				<ref bean="lighting-blue-weekday-time" />
@@ -73,14 +74,14 @@
 		<constructor-arg ref="week-day-list" />
 	</bean>
 
-	<bean id="lighting-blue-weekend-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.OnOfftime">
+	<bean id="lighting-blue-weekend-time" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.OnOfftime">
 		<constructor-arg value="11" />
 		<constructor-arg value="0" />
 		<constructor-arg value="21" />
 		<constructor-arg value="30" />
 	</bean>
 
-	<bean id="lighting-blue-week-end" class="net.phyokyaw.jaquapi.dao.model.DateTimeMode.DaySchedule">
+	<bean id="lighting-blue-week-end" class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.DaySchedule">
 		<constructor-arg>
 			<list>
 				<ref bean="lighting-blue-weekend-time" />
@@ -90,9 +91,10 @@
 	</bean>
 
 	<bean id="lighting-blue" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Lighting Blue" />
+		<constructor-arg value="2" />
+		<property name="name" value="Lighting Blue" />
 		<property name="mode">
-			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeMode">
+			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode">
 				<constructor-arg>
 					<list>
 						<ref bean="lighting-blue-week-day" />
@@ -106,9 +108,10 @@
 	<!-- refulight -->
 
 	<bean id="refulight" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Refugium Light" />
+		<constructor-arg value="3" />
+		<property name="name" value="Refugium Light" />
 		<property name="mode">
-			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeMode">
+			<bean class="net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode">
 				<constructor-arg value="20" />
 				<constructor-arg value="00" />
 				<constructor-arg value="08" />
@@ -119,34 +122,34 @@
 
 	<!-- ATO -->
 	<bean id="ato" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="ATO" />
+		<constructor-arg value="4" />
+		<property name="name" value="ATO" />
 	</bean>
 
 	<bean id="pump" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Return Pump" />
+		<constructor-arg value="5" />
+		<property name="name" value="Return Pump" />
 	</bean>
 
 	<bean id="skimmer" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Skimmer" />
+		<constructor-arg value="6" />
+		<property name="name" value="Skimmer" />
 	</bean>
 
 	<bean id="heater" class="net.phyokyaw.jaquapi.dao.model.Device">
-		<constructor-arg value="Heater" />
+		<constructor-arg value="7" />
+		<property name="name" value="Heater" />
 	</bean>
 
-	<bean id="i2cDevices" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref bean="lighting-white" />
-				<ref bean="lighting-blue" />
-				<ref bean="pump" />
-				<ref bean="skimmer" />
-				<ref bean="refulight" />
-				<ref bean="heater" />
-			</list>
-		</constructor-arg>
-	</bean>
-
+<util:map id="devices" key-type="java.lang.Long">
+				<entry key="1" value-ref="lighting-white" />
+				<entry key="2" value-ref="lighting-blue" />
+				<entry key="3" value-ref="pump" />
+				<entry key="4" value-ref="skimmer" />
+				<entry key="5" value-ref="refulight" />
+				<entry key="6" value-ref="heater" />
+</util:map>
+	<!-- Programmes -->
 	<bean id="waterchange-devices" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
@@ -201,12 +204,8 @@
 		<property name="name" value="Feeding" />
 	</bean>
 
-	<bean id="programmes" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref bean="waterchange"/>
-				<ref bean="feeding" />
-			</list>
-		</constructor-arg>
-	</bean>
+	<util:map id="programmes" key-type="java.lang.Long">
+		<entry key="1" value-ref="waterchange" />
+		<entry key="2" value-ref="feeding" />
+	</util:map>
 </beans>

@@ -1,16 +1,23 @@
 package net.phyokyaw.jaquapi.dao.model;
 
 import junit.framework.TestCase;
-import net.phyokyaw.jaquapi.dao.model.DateTimeMode.OnOfftime;
+import net.phyokyaw.jaquapi.dao.model.DateTimeScheduleMode.OnOfftime;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/META-INF/webapp/WEB-INF/application-context.xml"})
 public class DateTimeModeTest extends TestCase {
 
+	@Test
 	public void testToJson() throws Exception {
 		OnOfftime test = new OnOfftime(10,0,12,0);
 		OnOfftime test1 = new OnOfftime(13,0,23,0);
-		DateTimeMode t = new DateTimeMode(new OnOfftime[]{test, test1});
+		DateTimeScheduleMode t = new DateTimeScheduleMode(new OnOfftime[]{test, test1});
 		System.out.println(t.toJson());
-		//
 	}
 
 }

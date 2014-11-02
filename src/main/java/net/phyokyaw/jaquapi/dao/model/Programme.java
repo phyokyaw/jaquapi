@@ -2,15 +2,21 @@ package net.phyokyaw.jaquapi.dao.model;
 
 import java.util.List;
 
+import net.phyokyaw.jaquapi.services.ScheduledService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Programme {
 	private static final Logger logger = LoggerFactory.getLogger(Programme.class);
 
 	private String name;
 
-	private List<ProgrammeDevice> devices;
+	@Autowired
+	private ScheduledService scheduledService;
+
+	private List<ProgrammeDevice> programmeDevices;
 
 	public String getName() {
 		return name;
@@ -21,24 +27,24 @@ public class Programme {
 
 	public void activate() {
 		logger.debug(name + " programme activated");
-		for (ProgrammeDevice entry : devices) {
+		for (ProgrammeDevice entry : programmeDevices) {
 			entry.getDevice().setOverridingMode(new OnOffMode(entry.isShouldbeOff()), entry.getTimeout());
 		}
 	}
 
 	public void deactivate() {
 		logger.debug(name + " programme deactivated");
-		for (ProgrammeDevice entry : devices) {
+		for (ProgrammeDevice entry : programmeDevices) {
 			entry.getDevice().cancelOverridingMode();
 		}
 	}
 
 	public List<ProgrammeDevice> getDevices() {
-		return devices;
+		return programmeDevices;
 	}
 
-	public void setDevices(List<ProgrammeDevice> devices) {
-		this.devices = devices;
+	public void setDevices(List<ProgrammeDevice> programmeDevices) {
+		this.programmeDevices = programmeDevices;
 	}
 
 
