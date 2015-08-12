@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.services;
+package net.phyokyaw.jaquapi.core.services;
 
 import java.util.concurrent.ScheduledFuture;
 

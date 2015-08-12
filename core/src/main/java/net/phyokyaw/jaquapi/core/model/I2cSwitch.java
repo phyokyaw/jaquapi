@@ -1,16 +1,17 @@
-package net.phyokyaw.jaquapi.dao.model;
+package net.phyokyaw.jaquapi.core.model;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 
-public class I2CDevice {
+public class I2cSwitch implements Operatable {
 
 	private final GpioPinDigitalOutput pin;
 
-	public I2CDevice(GpioPinDigitalOutput pin) {
+	public I2cSwitch(GpioPinDigitalOutput pin) {
 		this.pin = pin;
 	}
 
+	@Override
 	public void setOn(boolean isOn) {
 		if (isOn) {
 			pin.setState(PinState.LOW);
@@ -19,6 +20,7 @@ public class I2CDevice {
 		}
 	}
 
+	@Override
 	public boolean isOn() {
 		return pin.getState() == PinState.LOW;
 	}

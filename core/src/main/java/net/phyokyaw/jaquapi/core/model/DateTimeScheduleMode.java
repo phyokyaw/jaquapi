@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.dao.model;
+package net.phyokyaw.jaquapi.core.model;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;

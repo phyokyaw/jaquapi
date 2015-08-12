@@ -1,8 +1,8 @@
-package net.phyokyaw.jaquapi.dao.model;
+package net.phyokyaw.jaquapi.core.model;
 
 import java.util.List;
 
-import net.phyokyaw.jaquapi.services.ScheduledService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi;
+package net.phyokyaw.jaquapi.core;
 
 import java.util.Calendar;
 

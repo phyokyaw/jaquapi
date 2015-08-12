@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.dao.model;
+package net.phyokyaw.jaquapi.core.model;
 
 
 public abstract class Mode {

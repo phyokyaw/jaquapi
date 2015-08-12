@@ -11,6 +11,20 @@
 	<packaging>pom</packaging>
 	<description></description>
 
+	 <pluginRepositories>
+	    <pluginRepository>
+	      <id>central</id>
+	      <name>Maven Plugin Repository</name>
+	      <url>http://repo1.maven.org/maven2</url>
+	      <layout>default</layout>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	      <releases>
+	        <updatePolicy>never</updatePolicy>
+	      </releases>
+	    </pluginRepository>
+	  </pluginRepositories>
 	<repositories>
 		<repository>
 			<id>springsource-repo</id>
@@ -18,20 +32,23 @@
 			<url>http://repo.springsource.org/release</url>
 		</repository>
 		<repository>
-			<id>oss-snapshots-repo</id>
-			<name>Sonatype OSS Maven Repository</name>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
+		 <id>central</id>
+	      <name>Maven Plugin Repository</name>
+	      <url>http://repo1.maven.org/maven2</url>
+	      <layout>default</layout>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	      <releases>
+	        <updatePolicy>never</updatePolicy>
+	      </releases>
 		</repository>
 	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.1.2.RELEASE</spring.version>
-		<org.slf4j.version>1.6.1</org.slf4j.version>
+		<org.slf4j.version>1.7.12</org.slf4j.version>
 	</properties>
 
 	<build>

@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.services;
+package net.phyokyaw.jaquapi.ph.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,14 +7,17 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import net.phyokyaw.jaquapi.dao.PhDao;
-import net.phyokyaw.jaquapi.dao.model.PhRecord;
+import net.phyokyaw.jaquapi.core.services.AquaService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.ph.dao.PhDao;
+import net.phyokyaw.jaquapi.ph.dao.model.PhRecord;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-//@Service("ph")
+@Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
 	private static String PH_READER_PROC = "/home/pi/phreader.py";
@@ -40,18 +43,18 @@ public class PhService implements AquaService {
 
 	@PostConstruct
 	private void setup() {
-		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-			@Override
-			public void run() {
-				update();
-			}
-		}, 1000 * 10); //5s
-		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-			@Override
-			public void run() {
-				record();
-			}
-		}, 1000 * 15); //5s
+//		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
+//			@Override
+//			public void run() {
+//				update();
+//			}
+//		}, 1000 * 10); //5s
+//		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
+//			@Override
+//			public void run() {
+//				record();
+//			}
+//		}, 1000 * 15); //5s
 	}
 
 	private void update() {

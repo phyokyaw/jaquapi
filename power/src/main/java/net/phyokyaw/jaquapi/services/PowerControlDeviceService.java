@@ -8,8 +8,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
-import net.phyokyaw.jaquapi.dao.model.Device;
-import net.phyokyaw.jaquapi.dao.model.Programme;
+import net.phyokyaw.jaquapi.core.model.Device;
+import net.phyokyaw.jaquapi.core.model.Programme;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

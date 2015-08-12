@@ -8,15 +8,8 @@
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
 	
 	<context:annotation-config />
-	
-	<context:component-scan base-package="net.phyokyaw.jaquapi" />
-	<context:component-scan base-package="net.phyokyaw.jaquapi.dao.model" />
-	<context:component-scan base-package="net.phyokyaw.jaquapi.dao" />
-	<context:component-scan base-package="net.phyokyaw.jaquapi.services" />
-	<context:component-scan base-package="net.phyokyaw.jaquapi.controls" />
+	<context:component-scan base-package="net.phyokyaw.jaquapi.core" />
 
-	<import resource="devices.xml"/>
-	
 	<!-- BoneCP configuration -->
 	<bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
