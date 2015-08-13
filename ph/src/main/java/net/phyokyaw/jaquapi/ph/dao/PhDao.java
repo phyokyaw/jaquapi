@@ -1,8 +1,8 @@
 package net.phyokyaw.jaquapi.ph.dao;
 
-import net.phyokyaw.jaquapi.ph.dao.model.PhRecord;
-
 import org.springframework.data.repository.CrudRepository;
+
+import net.phyokyaw.jaquapi.ph.model.PhRecord;
 
 public interface PhDao extends CrudRepository<PhRecord, Long> {
 }

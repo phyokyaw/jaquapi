@@ -2,7 +2,7 @@ package net.phyokyaw.jaquapi.web;
 
 import net.phyokyaw.jaquapi.core.model.DateTimeScheduleMode;
 import net.phyokyaw.jaquapi.core.model.Device;
-import net.phyokyaw.jaquapi.services.PowerControlDeviceService;
+import net.phyokyaw.jaquapi.power.services.PowerControlDeviceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.ph.dao.model;
+package net.phyokyaw.jaquapi.ph.model;
 
 import java.util.Date;
 

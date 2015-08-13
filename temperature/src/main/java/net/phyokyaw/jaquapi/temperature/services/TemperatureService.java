@@ -1,9 +1,8 @@
-package net.phyokyaw.jaquapi.services;
+package net.phyokyaw.jaquapi.temperature.services;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,22 +14,22 @@ import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import net.phyokyaw.jaquapi.core.services.AquaService;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.dao.TemperatureDao;
-import net.phyokyaw.jaquapi.dao.model.TemperatureRecord;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import net.phyokyaw.jaquapi.core.services.AquaService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
+import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 
 @Service("temperature")
 public class TemperatureService implements AquaService {
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 	private static final String TEMP_FILE_NAME = "/w1_slave";
 	//private static final String TEMP_FILE_PATH = "/sys/bus/w1/devices/28-0000054b468a";
-	private static final String TEMP_FILE_PATH = "src/test/resources";
+	//private static final String TEMP_FILE_PATH = "src/test/resources";
 
 	@Autowired
 	private ScheduledService scheduledService;
@@ -58,36 +57,45 @@ public class TemperatureService implements AquaService {
 			public void run() {
 				update();
 			}
-		}, 1000 * 5); //5s
+		}, 1000 * 20); //5s
 		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
 				record();
 			}
-		}, 1000 * 5); //5s
+		}, 1000 * 60); //5s
 	}
 
 	private void update() {
 		logger.debug("Updating temp value");
-		String file = getTempFilePath() + TEMP_FILE_NAME;
 		try {
-			byte[] encoded = Files.readAllBytes(Paths.get(file));
-			String fileData = Charset.defaultCharset().decode(ByteBuffer.wrap(encoded)).toString();
+			Runtime r = Runtime.getRuntime();
+			Process p;
+			String line;
+			p = r.exec(new String[]{"ssh", "pi@192.168.0.11", "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
+			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			StringBuilder builder = new StringBuilder();
+			while ((line = is.readLine()) != null) {
+				builder.append(line);
+			}
 			Pattern pattern = Pattern.compile(".*t=(\\d+)");
-			Matcher matcher = pattern.matcher(fileData);
+			Matcher matcher = pattern.matcher(builder.toString());
 			if (matcher.find()) {
 				value = Double.parseDouble(matcher.group(1)) / 1000;
 			} else {
-				throw new Exception("Unable to temp in file");
+				throw new Exception("Unable to get Temperature data");
 			}
+			System.out.flush();
+			p.waitFor(); // wait for process to complete
+			logger.info("Updating ph value with: " + value);
 		} catch (Exception e) {
-			logger.error("Unable to read temp", e);
+			logger.error("Error executing ph reader", e);
 		}
 	}
 
-	private String getTempFilePath() {
-		return TEMP_FILE_PATH;
-	}
+	//	private String getTempFilePath() {
+	//		return TEMP_FILE_PATH;
+	//	}
 
 	private void record() {
 		try {
@@ -100,16 +108,25 @@ public class TemperatureService implements AquaService {
 		}
 	}
 
+
 	public List<TemperatureRecord> getLastRecords(int days) {
 		Calendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		int test = calendar.get(Calendar.HOUR_OF_DAY);
+		if (days == 0 && test > 1) {
+			calendar.set(Calendar.HOUR_OF_DAY, test - 1);
+		} else {
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+		}
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		if (days > 1) {
 			calendar.add(Calendar.DAY_OF_MONTH, days * -1);
 		}
-		return dao.findByDate(calendar.getTime());
+		//FIXME Use SQL filter
+		List<TemperatureRecord> records = dao.findByDate(calendar.getTime());
+		List<TemperatureRecord> filteredRecords = new ArrayList<TemperatureRecord>();
+		return filteredRecords;
 	}
 
 	public TemperatureRecord getTemperature() {

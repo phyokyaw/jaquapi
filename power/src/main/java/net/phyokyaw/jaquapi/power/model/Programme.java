@@ -1,20 +1,17 @@
-package net.phyokyaw.jaquapi.core.model;
+package net.phyokyaw.jaquapi.power.model;
 
 import java.util.List;
 
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import net.phyokyaw.jaquapi.core.model.Device;
+import net.phyokyaw.jaquapi.core.model.OnOffMode;
 
 public class Programme {
 	private static final Logger logger = LoggerFactory.getLogger(Programme.class);
 
 	private String name;
-
-	@Autowired
-	private ScheduledService scheduledService;
 
 	private List<ProgrammeDevice> programmeDevices;
 

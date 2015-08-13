@@ -1,7 +1,9 @@
-package net.phyokyaw.jaquapi.core.model;
+package net.phyokyaw.jaquapi.power.model;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
+
+import net.phyokyaw.jaquapi.core.model.Operatable;
 
 public class I2cSwitch implements Operatable {
 

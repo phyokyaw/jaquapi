@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.services;
+package net.phyokyaw.jaquapi.power.services;
 
 import java.util.Collection;
 import java.util.Map;
@@ -9,8 +9,8 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
 import net.phyokyaw.jaquapi.core.model.Device;
-import net.phyokyaw.jaquapi.core.model.Programme;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.power.model.Programme;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -87,7 +87,7 @@
 		});
 	});
 	
-	/*
+	
 	(function poll() {
 		setTimeout(function() {
 			$.ajax({
@@ -95,7 +95,7 @@
 				url : "/temperature_history?days=1",
 				type : "GET",
 				success : function(data) {
-					myNewChart.Line(data);
+					tempHistoryChart.Line(data);
 				},
 				dataType : "json",
 				complete : poll,
@@ -132,7 +132,7 @@
 				timeout : 2000
 			})
 		}, 2000);
-	})();*/
+	})();
 </script>
 </head>
 
@@ -150,7 +150,7 @@
 					data-value-format="3.2" data-glow="true" data-animation-delay="10"
 					data-animation-duration="200" data-animation-fn="bounce"
 					data-colors-needle="#f00 #00f"
-					data-highlights="15 20 #ff0000, 20 23 #ffff00, 23 28 #00cc00, 28 30 #eaa"></canvas>
+					data-highlights="15 20 #ff33aa, 20 24 #ffff00, 24 26.5 #00cc00, 26.5 28 #eaa, 28 30 #ff0000"></canvas>
 			</li>
 			<li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
 				<H3 class="controls">Ph Meter</H3>
@@ -161,7 +161,7 @@
 					data-value-format="3.2" data-glow="true" data-animation-delay="10"
 					data-animation-duration="200" data-animation-fn="bounce"
 					data-colors-needle="#f00 #00f"
-					data-highlights="4 5 #ff0000, 5 7.7 #ffff00, 7.7 8.8 #00cc00, 8.8 15 #eaa"></canvas>
+					data-highlights="4 5 #ff0000, 5 7.7 #ffff00, 7.7 8.8 #00cc00, 8.8 15 #ff0000"></canvas>
 			</li>
 			<li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
 				<H3 class="controls">ORP Meter</H3>
@@ -191,7 +191,7 @@
 				<H3 class="controls">Temperature history</H3>
 				<canvas id="tempHistory" width="400" height="130"></canvas>
 				<div class="toggle-container">
-					<div class="switch-toggle switch-3 switch-android">
+					<div class="switch-toggle switch-3">
 						<input id="day-tp" name="temperatureHistorySelection" type="radio"
 							checked> <label for="day-tp" onclick="">Day</label> <input
 							id="week-tp" name="temperatureHistorySelection" type="radio">
@@ -205,7 +205,7 @@
 				<H3 class="controls">Ph level history</H3>
 				<canvas id="phHistory" width="400" height="130"></canvas>
 				<div class="toggle-container">
-					 <div class="switch-toggle switch-3 switch-ios">
+					 <div class="switch-toggle switch-3">
                 <input id="week-d1" name="view-d" type="radio" checked>
                 <label for="week-d1" onclick="">Week</label>
 
@@ -223,7 +223,7 @@
 				<H3 class="controls">ORP history</H3>
 				<canvas id="orpHistory" width="400" height="130"></canvas>
 				<div class="toggle-container">
-					<div class="switch-toggle switch-3 switch-android">
+					<div class="switch-toggle switch-3">
 						<input id="day-orp" name="orpHistorySelection" type="radio"
 							checked> <label for="day-orp" onclick="">Day</label> <input
 							id="week-orp" name="orpHistorySelectionWeek" type="radio">
@@ -237,7 +237,7 @@
 				<H3 class="controls">Salinity history</H3>
 				<canvas id="salinityHistory" width="400" height="130"></canvas>
 				<div class="toggle-container">
-					<div class="switch-toggle switch-3 switch-android">
+					<div class="switch-toggle switch-3">
 						<input id="day-orp" name="salinityHistorySelection" type="radio"
 							checked> <label for="day-orp" onclick="">Day</label> <input
 							id="week-orp" name="salinityHistorySelectionWeek" type="radio">
