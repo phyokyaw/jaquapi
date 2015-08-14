@@ -38,4 +38,5 @@ public class TemperatureRecord {
 	public void setValue(double value) {
 		this.value = value;
 	}
+	
 }

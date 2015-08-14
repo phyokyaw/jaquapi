@@ -29,31 +29,38 @@
 			widget_margins : [ 5, 5 ],
 			widget_base_dimensions : [ 200, 200 ]
 		}).data('gridster').disable();
+		
 		//Get context with jQuery - using jQuery's .get() method.
-		var ctx = $("#tempHistory").get(0).getContext("2d");
-		//This will get the first returned node in the jQuery collection.
-		var tempHistoryChart = new Chart(ctx);
-		var tempData = [];
-
-		var data = {
-			labels : [ "8:00", "9:00", "10:00", "11:00", "12:00", "13:00",
-					"14:00" ],
-			datasets : [
-
-			{
-				fillColor : "rgba(151,187,205,0.5)",
-				strokeColor : "rgba(151,187,205,1)",
-				pointColor : "rgba(151,187,205,1)",
-				pointStrokeColor : "#fff",
-				data : [ 24.5, 25.0, 25.4, 24.8, 25.6, 25.7, 25.5 ]
-			} ]
-		};
-		tempHistoryChart.Line(data);
-
+		$.ajax({
+			dataType : "json",
+			url : "/temperature_history?interval=HOUR",
+			type : "GET",
+			success : function(tempData) {
+				var ctx = $("#tempHistory").get(0).getContext("2d");
+				//This will get the first returned node in the jQuery collection.
+				var tempHistoryChart = new Chart(ctx);
+				var tdata = {
+					labels : tempData.labels,
+					datasets : [
+		
+					{
+						fillColor : "rgba(151,187,205,0.5)",
+						strokeColor : "rgba(151,187,205,1)",
+						pointColor : "rgba(151,187,205,1)",
+						pointStrokeColor : "#fff",
+						data : [],
+					} ]
+				};
+				for (var i in tempData.values) {
+					tdata.datasets[0].data.push(parseFloat(tempData.values[i]));
+				}
+				tempHistoryChart.Line(tdata);
+			}
+		});
 		ctx = $("#phHistory").get(0).getContext("2d");
 		//This will get the first returned node in the jQuery collection.
 		myNewChart = new Chart(ctx);
-		data = {
+		var pdata = {
 			labels : [ "8:00", "9:00", "10:00", "11:00", "12:00", "13:00",
 					"14:00" ],
 			datasets : [ {
@@ -64,11 +71,11 @@
 				data : [ 7.9, 7.8, 7.8, 7.9, 8.1, 8.0, 8.1 ]
 			} ]
 		}
-		myNewChart.Line(data);
+		myNewChart.Line(pdata);
 		ctx = $("#orpHistory").get(0).getContext("2d");
 		//This will get the first returned node in the jQuery collection.
 		myNewChart1 = new Chart(ctx);
-		data = {
+		var odata = {
 			labels : [ "8:00", "9:00", "10:00", "11:00", "12:00", "13:00",
 					"14:00" ],
 			datasets : [ {
@@ -79,30 +86,14 @@
 				data : [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
 			} ]
 		}
-		myNewChart1.Line(data);
+		myNewChart1.Line(odata);
 	});
 	$(function() {
 		$("input[type=submit], a, button").button().click(function(event) {
 			event.preventDefault();
 		});
 	});
-	
-	
-	(function poll() {
-		setTimeout(function() {
-			$.ajax({
-				dataType : "json",
-				url : "/temperature_history?days=1",
-				type : "GET",
-				success : function(data) {
-					tempHistoryChart.Line(data);
-				},
-				dataType : "json",
-				complete : poll,
-				timeout : 2000
-			})
-		}, 2000);
-	})();
+
 	(function poll() {
 		setTimeout(function() {
 			$.ajax({
@@ -192,12 +183,13 @@
 				<canvas id="tempHistory" width="400" height="130"></canvas>
 				<div class="toggle-container">
 					<div class="switch-toggle switch-3">
-						<input id="day-tp" name="temperatureHistorySelection" type="radio"
-							checked> <label for="day-tp" onclick="">Day</label> <input
-							id="week-tp" name="temperatureHistorySelection" type="radio">
-						<label for="week-tp" onclick="">Week</label> <input id="month-tp"
-							name="temperatureHistorySelection" type="radio"> <label
-							for="month-tp" onclick="">Month</label> <a></a>
+						<input id="day-tp" name="temperatureHistorySelection" type="radio" checked> 
+						<label for="day-tp" onclick="">Day</label>
+						<input id="week-tp" name="temperatureHistorySelection" type="radio">
+						<label for="week-tp" onclick="">Week</label>
+						<input id="month-tp" name="temperatureHistorySelection" type="radio">
+						<label for="month-tp" onclick="">Month</label>
+						<a></a>
 					</div>
 				</div>
 			</li>

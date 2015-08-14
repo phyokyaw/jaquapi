@@ -26,6 +26,7 @@ import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 
 @Service("temperature")
 public class TemperatureService implements AquaService {
+	public enum HistoryInterval{HOUR, DAY, WEEK, MONTH};
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 	private static final String TEMP_FILE_NAME = "/w1_slave";
 	//private static final String TEMP_FILE_PATH = "/sys/bus/w1/devices/28-0000054b468a";
@@ -68,29 +69,30 @@ public class TemperatureService implements AquaService {
 
 	private void update() {
 		logger.debug("Updating temp value");
-		try {
-			Runtime r = Runtime.getRuntime();
-			Process p;
-			String line;
-			p = r.exec(new String[]{"ssh", "pi@192.168.0.11", "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
-			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			StringBuilder builder = new StringBuilder();
-			while ((line = is.readLine()) != null) {
-				builder.append(line);
-			}
-			Pattern pattern = Pattern.compile(".*t=(\\d+)");
-			Matcher matcher = pattern.matcher(builder.toString());
-			if (matcher.find()) {
-				value = Double.parseDouble(matcher.group(1)) / 1000;
-			} else {
-				throw new Exception("Unable to get Temperature data");
-			}
-			System.out.flush();
-			p.waitFor(); // wait for process to complete
-			logger.info("Updating ph value with: " + value);
-		} catch (Exception e) {
-			logger.error("Error executing ph reader", e);
-		}
+//		try {
+//			Runtime r = Runtime.getRuntime();
+//			Process p;
+//			String line;
+//			p = r.exec(new String[]{"ssh", "pi@192.168.0.11", "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
+//			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//			StringBuilder builder = new StringBuilder();
+//			while ((line = is.readLine()) != null) {
+//				builder.append(line);
+//			}
+//			Pattern pattern = Pattern.compile(".*t=(\\d+)");
+//			Matcher matcher = pattern.matcher(builder.toString());
+//			if (matcher.find()) {
+//				value = Double.parseDouble(matcher.group(1)) / 1000;
+//			} else {
+//				throw new Exception("Unable to get Temperature data");
+//			}
+//			System.out.flush();
+//			p.waitFor(); // wait for process to complete
+//			logger.info("Updating ph value with: " + value);
+//		} catch (Exception e) {
+//			logger.error("Error executing ph reader", e);
+//		}
+		value = 25.0d;
 	}
 
 	//	private String getTempFilePath() {
@@ -109,23 +111,26 @@ public class TemperatureService implements AquaService {
 	}
 
 
-	public List<TemperatureRecord> getLastRecords(int days) {
+	public List<TemperatureRecord> getLastRecords(HistoryInterval days) {
 		Calendar calendar = new GregorianCalendar();
-		int test = calendar.get(Calendar.HOUR_OF_DAY);
-		if (days == 0 && test > 1) {
-			calendar.set(Calendar.HOUR_OF_DAY, test - 1);
-		} else {
-			calendar.set(Calendar.HOUR_OF_DAY, 0);
-		}
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		if (days > 1) {
-			calendar.add(Calendar.DAY_OF_MONTH, days * -1);
-		}
-		//FIXME Use SQL filter
-		List<TemperatureRecord> records = dao.findByDate(calendar.getTime());
 		List<TemperatureRecord> filteredRecords = new ArrayList<TemperatureRecord>();
+		if (days == HistoryInterval.HOUR) {
+			calendar.add(Calendar.HOUR_OF_DAY, -1);
+			List<TemperatureRecord> records = dao.findByDate(calendar.getTime());
+			for (int i = 0; i < records.size(); i += 5) {
+				filteredRecords.add(records.get(i));
+			}
+		} else if (days == HistoryInterval.DAY) {
+			calendar.add(Calendar.DAY_OF_MONTH, -1);
+			calendar.add(Calendar.HOUR_OF_DAY, 0);
+			List<TemperatureRecord> records = dao.findByDate(calendar.getTime());
+			for (int i = 0; i < records.size(); i += 24) {
+				filteredRecords.add(records.get(i));
+			}
+		}
 		return filteredRecords;
 	}
 
