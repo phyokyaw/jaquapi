@@ -11,4 +11,5 @@
 	<import resource="classpath*:**/ph-context.xml"/>
 	<import resource="classpath*:**/power-context.xml"/>
 	<import resource="classpath*:**/temperature-context.xml"/>
+	<import resource="classpath*:**/programme-context.xml"/>
 </beans>

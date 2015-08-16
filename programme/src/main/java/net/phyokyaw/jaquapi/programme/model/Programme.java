@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.power.model;
+package net.phyokyaw.jaquapi.programme.model;
 
 import java.util.List;
 

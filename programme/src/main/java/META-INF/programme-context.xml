@@ -8,7 +8,7 @@
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
 	
 	<import resource="classpath*:**/**core-context.xml"/>
-	
+	<import resource="devices.xml"/>
 	<context:annotation-config />
-	<context:component-scan base-package="net.phyokyaw.jaquapi.power" />
+	<context:component-scan base-package="net.phyokyaw.jaquapi.programme" />
 </beans>

@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.power.services;
+package net.phyokyaw.jaquapi.programme.services;
 
 import java.util.Collection;
 import java.util.Map;
@@ -10,19 +10,23 @@ import javax.annotation.Resource;
 
 import net.phyokyaw.jaquapi.core.model.Device;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.power.model.Programme;
+import net.phyokyaw.jaquapi.programme.model.Programme;
+import net.phyokyaw.jaquapi.power.services.PowerService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("power")
+@Service("programme")
 public class PowerControlDeviceService {
 	private static Logger logger = LoggerFactory.getLogger(PowerControlDeviceService.class);
 
 	@Resource(name="devices")
 	private Map<Long, Device> devices;
+	
+	@Autowired
+	private PowerService powerService;
 
 	@Resource(name="programmes")
 	private Map<Long, Programme> programmes;

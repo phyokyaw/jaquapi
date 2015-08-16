@@ -161,22 +161,22 @@
 	<bean id="waterchange-devices" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<bean class="net.phyokyaw.jaquapi.power.model.Programme.ProgrammeDevice">
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="pump" />
 					<property name="timeout" value="30" />
 					<property name="shouldbeOff" value="true" />
 				</bean>
-				<bean class="net.phyokyaw.jaquapi.power.model.Programme.ProgrammeDevice">
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="skimmer" />
 					<property name="timeout" value="30" />
 					<property name="shouldbeOff" value="true" />
 				</bean>
-				<bean class="net.phyokyaw.jaquapi.power.model.Programme.ProgrammeDevice">
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="heater" />
 					<property name="timeout" value="30" />
 					<property name="shouldbeOff" value="true" />
 				</bean>
-				<bean class="net.phyokyaw.jaquapi.power.model.Programme.ProgrammeDevice">
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="ato" />
 					<property name="timeout" value="35" />
 					<property name="shouldbeOff" value="true" />
@@ -185,7 +185,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="waterchange" class="net.phyokyaw.jaquapi.power.model.Programme">
+	<bean id="waterchange" class="net.phyokyaw.jaquapi.programme.model.Programme">
 		<property name="devices" ref="waterchange-devices" />
 		<property name="name" value="Water Change" />
 	</bean>
@@ -193,12 +193,12 @@
 	<bean id="feeding-devices" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<bean class="net.phyokyaw.jaquapi.power.model.Programme.ProgrammeDevice">
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="pump" />
 					<property name="timeout" value="10" />
 					<property name="shouldbeOff" value="true" />
 				</bean>
-				<bean class="net.phyokyaw.jaquapi.power.model.Programme.ProgrammeDevice">
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="ato" />
 					<property name="timeout" value="15" />
 					<property name="shouldbeOff" value="true" />
@@ -207,7 +207,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="feeding" class="net.phyokyaw.jaquapi.power.model.Programme">
+	<bean id="feeding" class="net.phyokyaw.jaquapi.programme.model.Programme">
 		<property name="devices" ref="feeding-devices" />
 		<property name="name" value="Feeding" />
 	</bean>

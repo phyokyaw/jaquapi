@@ -2,7 +2,7 @@ package net.phyokyaw.jaquapi.web;
 
 import net.phyokyaw.jaquapi.core.model.DateTimeScheduleMode;
 import net.phyokyaw.jaquapi.core.model.Device;
-import net.phyokyaw.jaquapi.power.services.PowerControlDeviceService;
+import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class PowerWebControl {
 
 	@Autowired
-	@Qualifier("power")
+	@Qualifier("programme")
 	private PowerControlDeviceService powerControlDeviceService;
 
 	@RequestMapping("/powerStatus")

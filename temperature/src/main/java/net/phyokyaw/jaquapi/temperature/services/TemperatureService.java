@@ -2,17 +2,20 @@ package net.phyokyaw.jaquapi.temperature.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +95,9 @@ public class TemperatureService implements AquaService {
 //		} catch (Exception e) {
 //			logger.error("Error executing ph reader", e);
 //		}
-		value = 25.0d;
+		value = Double.valueOf(new DecimalFormat("#.##").format(23 + (new Random().nextDouble() * 2)));
+		
+		
 	}
 
 	//	private String getTempFilePath() {
@@ -113,9 +118,7 @@ public class TemperatureService implements AquaService {
 
 	public List<TemperatureRecord> getLastRecords(HistoryInterval days) {
 		Calendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
+		
 		List<TemperatureRecord> filteredRecords = new ArrayList<TemperatureRecord>();
 		if (days == HistoryInterval.HOUR) {
 			calendar.add(Calendar.HOUR_OF_DAY, -1);
@@ -126,6 +129,9 @@ public class TemperatureService implements AquaService {
 		} else if (days == HistoryInterval.DAY) {
 			calendar.add(Calendar.DAY_OF_MONTH, -1);
 			calendar.add(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
 			List<TemperatureRecord> records = dao.findByDate(calendar.getTime());
 			for (int i = 0; i < records.size(); i += 24) {
 				filteredRecords.add(records.get(i));

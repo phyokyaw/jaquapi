@@ -6,13 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.phyokyaw.jaquapi.power.services.PowerControlDeviceService;
+import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
 
 @Controller
 public class Home {
 
 	@Autowired
-	@Qualifier("power")
+	@Qualifier("programme")
 	private PowerControlDeviceService powerControlDeviceService;
 
 	@RequestMapping("/")
