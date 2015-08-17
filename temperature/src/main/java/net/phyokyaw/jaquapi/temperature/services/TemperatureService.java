@@ -58,13 +58,13 @@ public class TemperatureService implements AquaService {
 			public void run() {
 				update();
 			}
-		}, 1000 * 20); //5s
+		}, 1000 * 20);
 		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
 				record();
 			}
-		}, 1000 * 60); //5s
+		}, 1000 * 60);
 	}
 
 	private void update() {
