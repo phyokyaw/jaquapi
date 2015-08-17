@@ -8,15 +8,14 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
-import net.phyokyaw.jaquapi.core.model.Device;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.programme.model.Programme;
-import net.phyokyaw.jaquapi.power.services.PowerService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import net.phyokyaw.jaquapi.core.model.Device;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.programme.model.Programme;
 
 @Service("programme")
 public class PowerControlDeviceService {
@@ -24,9 +23,6 @@ public class PowerControlDeviceService {
 
 	@Resource(name="devices")
 	private Map<Long, Device> devices;
-	
-	@Autowired
-	private PowerService powerService;
 
 	@Resource(name="programmes")
 	private Map<Long, Programme> programmes;

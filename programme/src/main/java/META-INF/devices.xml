@@ -148,6 +148,18 @@
 		<constructor-arg value="7" />
 		<property name="name" value="Heater" />
 	</bean>
+	
+	<bean id="fan" class="net.phyokyaw.jaquapi.core.model.Device">
+		<constructor-arg value="8" />
+		<property name="name" value="Fan" />
+		<property name="mode">
+			<bean class="net.phyokyaw.jaquapi.programme.model.TemperatureControlMode">
+				<property name="upperTemp" value="26"/>
+				<property name="lowerTemp" value="25.5"/>
+				<property name="onWhenLower" value="false"/>
+			</bean>
+		</property>
+	</bean>
 
 	<util:map id="devices" key-type="java.lang.Long">
 		<entry key="1" value-ref="lighting-white" />
@@ -156,7 +168,9 @@
 		<entry key="4" value-ref="skimmer" />
 		<entry key="5" value-ref="refulight" />
 		<entry key="6" value-ref="heater" />
+		<entry key="7" value-ref="fan" />
 	</util:map>
+	
 	<!-- Programmes -->
 	<bean id="waterchange-devices" class="java.util.ArrayList">
 		<constructor-arg>
