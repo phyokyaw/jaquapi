@@ -32,7 +32,7 @@ public class TemperatureControlMode extends Mode {
 			if (!changing) {
 				setValue = newValue;
 				changing = true;
-				System.out.println("start run");
+				System.out.println("should be on to" + setValue +  " with current temp " + currentTemp + " onWhenLower is " + onWhenLower);
 				schedule = scheduledExcutionService.addScheduleAtFixrate(1000 * 1, new Runnable() {
 					@Override
 					public void run() {
@@ -42,6 +42,7 @@ public class TemperatureControlMode extends Mode {
 							schedule.cancel(true);
 							setValue = false;
 							changing = false;
+							System.out.println("should be on to" + setValue + " with current temp " + newTemp + " onWhenLower is " + onWhenLower);
 						}
 					}
 				}, 1000 * 5);

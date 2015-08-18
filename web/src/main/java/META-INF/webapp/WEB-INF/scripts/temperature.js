@@ -3,7 +3,7 @@ $(function() { //DOM Ready
 	(function tempHistoryPoll() {		
 		$.ajax({
 			dataType : "json",
-			url : "/temperature_history?interval=HOUR",
+			url : "/temperature_history?interval=DAY",
 			type : "GET",
 			success : function(tempData) {	
 				var tdata = {

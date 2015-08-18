@@ -33,22 +33,26 @@
 					<canvas id="tempGuage"></canvas>
 				</li>
 				<li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
-					<H4 class="controls">Time line</H4>
+					<H4 class="controls">Temperature Time line</H4>
 					<canvas id="tempHistory" width="400" height="150"></canvas>
 				</li>
-				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
-				<H4 class="controls">Programmes</H4>
-					<div>
-						<img src="/i/Icon-72.png" alt="fan" align="middle" />
+				<li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
+					<H4 class="controls">Devices</H4>
+					<hr/>
+					<c:forEach items="${devices}" var="element">
+						<div>
+							<img src="/i/device_${element.id}.png" alt="${element.name}" align="middle" />
 						</div>
 						<div class="onoffswitch">
-							<input type="checkbox" name="onoffswitch"
-								class="onoffswitch-checkbox" id="myonoffswitch" checked>
-							<label class="onoffswitch-label" for="myonoffswitch"> <span
+							<input type="checkbox" name="onoffswitch_${element.id}"
+								class="onoffswitch-checkbox" id="onoffswitch_${element.id}" <c:if test="${element.mode.shouldBeOn()}">checked</c:if>>
+							<label class="onoffswitch-label" for="onoffswitch_${element.id}"> <span
 								class="onoffswitch-inner"></span> <span
 								class="onoffswitch-switch"></span>
 							</label>
 						</div>
+						<hr/>
+					</c:forEach>
 				</li>
 			</ul>
 		</div>

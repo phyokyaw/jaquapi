@@ -62,7 +62,7 @@ public class PhService implements AquaService {
 			Runtime r = Runtime.getRuntime();
 			Process p;
 			String line;
-			p = r.exec(new String[]{"ssh", "pi@192.168.0.11", "'jaquapi/scripts/phreader.py'"});
+			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "'jaquapi/scripts/phreader.py'"});
 			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			while ((line = is.readLine()) != null) {
 				value = Double.parseDouble(line);

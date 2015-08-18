@@ -6,12 +6,11 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
-	<bean class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
+	<bean id="switch_0" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="0" />
 	</bean>
-	<bean class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
+	<bean id="switch_1" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="1" />
-		<property name="on" value="true" />
 	</bean>
 	<bean class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="2" />

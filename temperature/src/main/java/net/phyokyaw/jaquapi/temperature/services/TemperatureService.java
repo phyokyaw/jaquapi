@@ -1,11 +1,15 @@
 package net.phyokyaw.jaquapi.temperature.services;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -24,9 +28,6 @@ import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 public class TemperatureService implements AquaService {
 	public enum HistoryInterval{HOUR, DAY, WEEK, MONTH};
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
-	private static final String TEMP_FILE_NAME = "/w1_slave";
-	//private static final String TEMP_FILE_PATH = "/sys/bus/w1/devices/28-0000054b468a";
-	//private static final String TEMP_FILE_PATH = "src/test/resources";
 
 	@Autowired
 	private ScheduledService scheduledService;
@@ -64,38 +65,33 @@ public class TemperatureService implements AquaService {
 	}
 
 	private void update() {
-		//		logger.debug("Updating temp value");
-		//		try {
-		//			Runtime r = Runtime.getRuntime();
-		//			Process p;
-		//			String line;
-		//			p = r.exec(new String[]{"ssh", "pi@192.168.0.11", "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
-		//			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		//			StringBuilder builder = new StringBuilder();
-		//			while ((line = is.readLine()) != null) {
-		//				builder.append(line);
-		//			}
-		//			Pattern pattern = Pattern.compile(".*t=(\\d+)");
-		//			Matcher matcher = pattern.matcher(builder.toString());
-		//			if (matcher.find()) {
-		//				value = Double.parseDouble(matcher.group(1)) / 1000;
-		//			} else {
-		//				throw new Exception("Unable to get Temperature data");
-		//			}
-		//			System.out.flush();
-		//			p.waitFor(); // wait for process to complete
-		//			logger.info("Updating ph value with: " + value);
-		//		} catch (Exception e) {
-		//			logger.error("Error executing ph reader", e);
-		//		}
-		//		value = Double.valueOf(new DecimalFormat("#.##").format(23 + (new Random().nextDouble() * 2)));
-		//
-		value = 25.5;
-	}
+		logger.debug("Updating temp value");
+		try {
+			Runtime r = Runtime.getRuntime();
+			Process p;
+			String line;
+			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
+			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			StringBuilder builder = new StringBuilder();
+			while ((line = is.readLine()) != null) {
+				builder.append(line);
+			}
+			Pattern pattern = Pattern.compile(".*t=(\\d+)");
+			Matcher matcher = pattern.matcher(builder.toString());
+			if (matcher.find()) {
+				value = Double.parseDouble(matcher.group(1)) / 1000;
+			} else {
+				throw new Exception("Unable to get Temperature data");
+			}
+			System.out.flush();
+			p.waitFor(); // wait for process to complete
+			logger.info("Updating temp value with: " + value);
+		} catch (Exception e) {
+			logger.error("Error executing temp reader", e);
+		}
+		// value = Double.valueOf(new DecimalFormat("#.##").format(23 + (new Random().nextDouble() * 2)));
 
-	//	private String getTempFilePath() {
-	//		return TEMP_FILE_PATH;
-	//	}
+	}
 
 	private void record() {
 		try {
