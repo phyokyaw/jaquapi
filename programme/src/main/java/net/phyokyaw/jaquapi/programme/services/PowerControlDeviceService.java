@@ -83,8 +83,4 @@ public class PowerControlDeviceService {
 		public boolean isOn;
 	}
 
-	public PowerStatus[] getPowerStatus() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

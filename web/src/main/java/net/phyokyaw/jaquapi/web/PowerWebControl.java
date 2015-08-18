@@ -15,42 +15,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class PowerWebControl {
-
 	@Autowired
 	@Qualifier("programme")
 	private PowerControlDeviceService powerControlDeviceService;
 
-	@RequestMapping("/powerStatus")
-	public @ResponseBody PowerControlDeviceService.PowerStatus[] getPowerStatus() {
-		return powerControlDeviceService.getPowerStatus();
+	@RequestMapping("/devicestatus/{id}")
+	public @ResponseBody DeviceStatus getDeviceStatus(@PathVariable long deviceId) {
+		Device device = powerControlDeviceService.getDevice(deviceId);
+		return new DeviceStatus(device);
 	}
 
-	@RequestMapping("/activateProgramme")
-	public void activateProgramme(String programmeName) {
-
-	}
-
-	@RequestMapping("/setPower")
-	public void setDeviceStatus(String deviceId, boolean isOn) {
-		//
-	}
-
-	@RequestMapping("/createDateTimeSchedulePage/device/{id}")
-	public ModelAndView createDateTimeSchedulePage(@PathVariable long deviceId) {
-		ModelAndView mav = new ModelAndView("createsdatetimechedule");
-		mav.addObject("deviceId", deviceId);
-		return mav;
-	}
-
-	@RequestMapping("/createDateTimeSchedule/device/{id}")
-	public Device createDateTimeSchedulePage(@PathVariable long id, @RequestBody DateTimeScheduleMode dateTimeScheduleMode) {
-		Device device = powerControlDeviceService.getDevice(id);
-		device.setMode(dateTimeScheduleMode);
-		return device;
-	}
-
-	@RequestMapping("/devices")
-	public @ResponseBody Device[] getDevices() {
-		return powerControlDeviceService.getDevices();
+	public static class DeviceStatus {
+		private boolean isOn;
+		public DeviceStatus(Device device) {
+			this.isOn = device.getMode().shouldBeOn();
+		}
+		public boolean isOn() {
+			return isOn;
+		}
 	}
 }

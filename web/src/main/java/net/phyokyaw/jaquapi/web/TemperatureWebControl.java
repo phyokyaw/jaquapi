@@ -27,16 +27,16 @@ public class TemperatureWebControl {
 	}
 
 	@RequestMapping("/temperature_history")
-	public @ResponseBody TemperatureFormat getTempRecordHistory(@RequestParam("interval") String interval) {
+	public @ResponseBody TemperatureHistoryData getTempRecordHistory(@RequestParam("interval") String interval) {
 		HistoryInterval setInterval = HistoryInterval.valueOf(interval);
-		return new TemperatureFormat(temperatureService.getLastRecords(setInterval), setInterval);
+		return new TemperatureHistoryData(temperatureService.getLastRecords(setInterval), setInterval);
 	}
 	
-	public static class TemperatureFormat {
+	public static class TemperatureHistoryData {
 		private final String[] labels;
 		private final double[] values;
 		
-		public TemperatureFormat(List<TemperatureRecord> records, HistoryInterval interval) {
+		public TemperatureHistoryData(List<TemperatureRecord> records, HistoryInterval interval) {
 			labels = new String[records.size()];
 			values = new double[records.size()];
 			for (int i = 0; i < labels.length; i++) {

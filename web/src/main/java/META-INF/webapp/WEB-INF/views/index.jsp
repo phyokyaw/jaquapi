@@ -40,7 +40,7 @@
 					<H4 class="controls">Temperature Time line</H4>
 					<canvas id="tempHistory" width="400" height="120"></canvas>
 					<div class="toggle-container">
-						<div class="switch-toggle switch-3">
+						<div class="switch-toggle switch-3 switch-candy">
 							<input id="hour-tp" name="temperatureHistorySelection"
 								type="radio" value="HOUR" checked> <label for="hour-tp"
 								onclick="">Hour</label> <input id="day-tp"
@@ -60,7 +60,7 @@
 					<H4 class="controls">Ph Time line</H4>
 					<canvas id="phHistory" width="400" height="120"></canvas>
 					<div class="toggle-container">
-						<div class="switch-toggle switch-3">
+						<div class="switch-toggle switch-3  switch-candy">
 							<input id="ph_hour-tp" name="phHistorySelection" type="radio"
 								value="HOUR" checked /> <label for="ph_hour-tp" onclick="">Hour</label>
 							<input id="ph_day-tp" name="phHistorySelection" type="radio"

@@ -11,6 +11,11 @@ gridster * {
 
 }
 
+.toggle-container {
+	padding-left:15;
+	padding-right:15;
+}
+
 ul {
   list-style-type: none;
 }
