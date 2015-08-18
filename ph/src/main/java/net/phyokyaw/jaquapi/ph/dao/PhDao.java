@@ -11,6 +11,6 @@ import net.phyokyaw.jaquapi.ph.model.PhRecord;
 
 
 public interface PhDao extends CrudRepository<PhRecord, Long> {
-	@Query("Select tr FROM PhRecord ph WHERE ph.storedTime > :storedTime Order by ph.storedTime desc")
+	@Query("Select ph FROM PhRecord ph WHERE ph.storedTime > :storedTime Order by ph.storedTime desc")
 	List<PhRecord> findByDate(@Param("storedTime") Date storedTime);
 }
