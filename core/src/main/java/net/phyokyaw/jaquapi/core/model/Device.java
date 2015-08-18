@@ -3,14 +3,14 @@ package net.phyokyaw.jaquapi.core.model;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+
 public class Device extends AbstractModel {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Device.class);
 
 	public static final String OVERRIDING_MODE_TIMEOUT = "overridingModeTimeOut";
@@ -20,14 +20,14 @@ public class Device extends AbstractModel {
 	private Mode overridingMode;
 	private final int id;
 	private String name;
-	
+
 	@Autowired
 	private ScheduledService scheduledService;
 
 	public Device(int id) {
 		this.id = id;
 	}
-	
+
 	public Mode getMode() {
 		return mode;
 	}
@@ -100,9 +100,13 @@ public class Device extends AbstractModel {
 
 	private void setOn(boolean on) {
 		if (operableDevice != null) {
-			operableDevice.setOn(on);
+			try {
+				operableDevice.setOn(on);
+			} catch (Exception e) {
+				logger.error("Unable to set on off", e);
+			}
 		}
-		logger.info(name + " mode is " + on);
+		logger.debug(name + " mode is " + on);
 	}
 
 	public Operatable getOperatable() {
