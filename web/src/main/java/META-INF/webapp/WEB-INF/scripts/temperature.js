@@ -1,10 +1,11 @@
 var tempHistoryChart;
-
+var temp_interval = 'HOUR';
 $(function() { //DOM Ready
-	(function tempHistoryPoll(recall, interval) {		
+	
+	function tempHistoryPoll(recall) {		
 		$.ajax({
 			dataType : "json",
-			url : "/temperature_history?interval=" + interval,
+			url : "/temperature_history?interval=" + temp_interval,
 			type : "GET",
 			success : function(tempData) {	
 				var tdata = {
@@ -34,7 +35,8 @@ $(function() { //DOM Ready
 			},
 			timeout : 1000
 		});
-	})(true, $('input[name=temperatureHistorySelection]:checked').val());
+	}
+	tempHistoryPoll(true);
 
 	var gauge = new Gauge({
 		renderTo    : 'tempGuage',
@@ -76,8 +78,9 @@ $(function() { //DOM Ready
 	})();
 	
 	
-	$('#temperatureHistorySelection').change(function() {
-		tempHistoryPoll(false, $(this).val());
-	}
+	$("[name=temperatureHistorySelection]").change(function() {
+		temp_interval = $(this).val();
+		tempHistoryPoll(false);
+	});
 	
 });

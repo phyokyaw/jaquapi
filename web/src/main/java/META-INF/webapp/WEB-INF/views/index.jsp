@@ -9,7 +9,7 @@
 	href="<c:url value='/c/jquery.gridster.min.css' />" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/toggle-switch.css' />" />
-	
+
 <script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 <script type="text/javascript"
@@ -38,26 +38,38 @@
 				</li>
 				<li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
 					<H4 class="controls">Temperature Time line</H4>
-					<canvas id="tempHistory" width="400" height="150"></canvas>
+					<canvas id="tempHistory" width="400" height="120"></canvas>
 					<div class="toggle-container">
 						<div class="switch-toggle switch-3">
 							<input id="hour-tp" name="temperatureHistorySelection"
-								type="radio" value="HOUR" checked> <label for="hour-tp" onclick="">Hour</label>
-							<input id="day-tp" name="temperatureHistorySelection"
-								type="radio" value="DAY"> <label for="day-tp" onclick="">Day</label>
-							<input id="week-tp" name="temperatureHistorySelection"
-								type="radio" value="WEEK"> <label for="week-tp" onclick="">Week</label>
-							<a></a>
+								type="radio" value="HOUR" checked> <label for="hour-tp"
+								onclick="">Hour</label> <input id="day-tp"
+								name="temperatureHistorySelection" type="radio" value="DAY">
+							<label for="day-tp" onclick="">Day</label> <input id="week-tp"
+								name="temperatureHistorySelection" type="radio" value="WEEK">
+							<label for="week-tp" onclick="">Week</label> <a></a>
 						</div>
 					</div>
 				</li>
+
 				<li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
 					<H4 class="controls">Ph</H4>
 					<canvas id="phGuage"></canvas>
 				</li>
 				<li data-row="2" data-col="2" data-sizex="2" data-sizey="1">
 					<H4 class="controls">Ph Time line</H4>
-					<canvas id="phHistory" width="400" height="150"></canvas>
+					<canvas id="phHistory" width="400" height="120"></canvas>
+					<div class="toggle-container">
+						<div class="switch-toggle switch-3">
+							<input id="ph_hour-tp" name="phHistorySelection" type="radio"
+								value="HOUR" checked /> <label for="ph_hour-tp" onclick="">Hour</label>
+							<input id="ph_day-tp" name="phHistorySelection" type="radio"
+								value="DAY" /> <label for="ph_day-tp" onclick="">Day</label> 
+							<input id="ph_week-tp" name="phHistorySelection" type="radio"
+								value="WEEK" /> <label for="ph_week-tp" onclick="">Week</label>
+							<a></a>
+						</div>
+					</div>
 				</li>
 				<li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
 					<H4 class="controls">Devices</H4>

@@ -61,22 +61,22 @@ public class PhService implements AquaService {
 	}
 
 	private void update() {
-		try {
-			Runtime r = Runtime.getRuntime();
-			Process p;
-			String line;
-			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "'jaquapi/scripts/phreader.py'"});
-			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((line = is.readLine()) != null) {
-				value = Double.parseDouble(line);
-			}
-			System.out.flush();
-			p.waitFor(); // wait for process to complete
-			logger.info("Updating ph value with: " + value);
-		} catch (Exception e) {
-			logger.error("Error executing ph reader", e);
-		}
-		//		value =8.0d;
+//		try {
+//			Runtime r = Runtime.getRuntime();
+//			Process p;
+//			String line;
+//			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "'jaquapi/scripts/phreader.py'"});
+//			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//			while ((line = is.readLine()) != null) {
+//				value = Double.parseDouble(line);
+//			}
+//			System.out.flush();
+//			p.waitFor(); // wait for process to complete
+//			logger.info("Updating ph value with: " + value);
+//		} catch (Exception e) {
+//			logger.error("Error executing ph reader", e);
+//		}
+		value =8.0d;
 	}
 
 	private void record() {
