@@ -2,6 +2,10 @@ package net.phyokyaw.jaquapi.ph.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +24,6 @@ import net.phyokyaw.jaquapi.ph.model.PhRecord;
 @Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
-	private static String PH_READER_PROC = "/scripts/phreader.py";
 	private double value = 0.0d;
 
 	@Autowired
@@ -81,6 +84,30 @@ public class PhService implements AquaService {
 		record.setValue(value);
 		dao.save(record);
 		logger.info("Saving ph value: " + record.getValue());
+	}
+	
+	public List<PhRecord> getLastRecords(HistoryInterval days) {
+		Calendar calendar = new GregorianCalendar();
+
+		List<PhRecord> filteredRecords = new ArrayList<PhRecord>();
+		if (days == HistoryInterval.HOUR) {
+			calendar.add(Calendar.HOUR_OF_DAY, -1);
+			List<PhRecord> records = dao.findByDate(calendar.getTime());
+			for (int i = 0; i < records.size(); i += 5) {
+				filteredRecords.add(records.get(i));
+			}
+		} else if (days == HistoryInterval.DAY) {
+			calendar.add(Calendar.DAY_OF_MONTH, -1);
+			calendar.add(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			List<PhRecord> records = dao.findByDate(calendar.getTime());
+			for (int i = 0; i < records.size(); i += 24) {
+				filteredRecords.add(records.get(i));
+			}
+		}
+		return filteredRecords;
 	}
 
 	public PhRecord getPhRecord() {

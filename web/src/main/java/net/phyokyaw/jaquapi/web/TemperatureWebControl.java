@@ -3,9 +3,9 @@ package net.phyokyaw.jaquapi.web;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import net.phyokyaw.jaquapi.core.services.AquaService.HistoryInterval;
 import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 import net.phyokyaw.jaquapi.temperature.services.TemperatureService;
-import net.phyokyaw.jaquapi.temperature.services.TemperatureService.HistoryInterval;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

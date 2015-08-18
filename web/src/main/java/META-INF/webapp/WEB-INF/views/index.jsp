@@ -7,6 +7,9 @@
 	href="<c:url value='/c/app.css' />" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/c/jquery.gridster.min.css' />" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/c/toggle-switch.css' />" />
+	
 <script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 <script type="text/javascript"
@@ -22,6 +25,7 @@
 	});
 </script>
 <script type="text/javascript" src="<c:url value='/s/temperature.js' />"></script>
+<script type="text/javascript" src="<c:url value='/s/ph.js' />"></script>
 </head>
 <body>
 	<div class="container">
@@ -35,23 +39,43 @@
 				<li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
 					<H4 class="controls">Temperature Time line</H4>
 					<canvas id="tempHistory" width="400" height="150"></canvas>
+					<div class="toggle-container">
+						<div class="switch-toggle switch-3">
+							<input id="hour-tp" name="temperatureHistorySelection"
+								type="radio" value="HOUR" checked> <label for="hour-tp" onclick="">Hour</label>
+							<input id="day-tp" name="temperatureHistorySelection"
+								type="radio" value="DAY"> <label for="day-tp" onclick="">Day</label>
+							<input id="week-tp" name="temperatureHistorySelection"
+								type="radio" value="WEEK"> <label for="week-tp" onclick="">Week</label>
+							<a></a>
+						</div>
+					</div>
+				</li>
+				<li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+					<H4 class="controls">Ph</H4>
+					<canvas id="phGuage"></canvas>
+				</li>
+				<li data-row="2" data-col="2" data-sizex="2" data-sizey="1">
+					<H4 class="controls">Ph Time line</H4>
+					<canvas id="phHistory" width="400" height="150"></canvas>
 				</li>
 				<li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
 					<H4 class="controls">Devices</H4>
-					<hr/>
-					<c:forEach items="${devices}" var="element">
+					<hr /> <c:forEach items="${devices}" var="element">
 						<div>
-							<img src="/i/device_${element.id}.png" alt="${element.name}" align="middle" />
+							<img src="/i/device_${element.id}.png" alt="${element.name}"
+								align="middle" />
 						</div>
 						<div class="onoffswitch">
 							<input type="checkbox" name="onoffswitch_${element.id}"
-								class="onoffswitch-checkbox" id="onoffswitch_${element.id}" <c:if test="${element.mode.shouldBeOn()}">checked</c:if>>
-							<label class="onoffswitch-label" for="onoffswitch_${element.id}"> <span
-								class="onoffswitch-inner"></span> <span
+								class="onoffswitch-checkbox" id="onoffswitch_${element.id}"
+								<c:if test="${element.mode.shouldBeOn()}">checked</c:if>>
+							<label class="onoffswitch-label" for="onoffswitch_${element.id}">
+								<span class="onoffswitch-inner"></span> <span
 								class="onoffswitch-switch"></span>
 							</label>
 						</div>
-						<hr/>
+						<hr />
 					</c:forEach>
 				</li>
 			</ul>

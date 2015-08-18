@@ -26,7 +26,6 @@ import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 
 @Service("temperature")
 public class TemperatureService implements AquaService {
-	public enum HistoryInterval{HOUR, DAY, WEEK, MONTH};
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 
 	@Autowired

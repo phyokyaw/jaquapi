@@ -23,7 +23,14 @@ public class PhRecord {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date storedTime;
 
+	public Date getStoredTime() {
+		return storedTime;
+	}
 
+	public void setStoredTime(Date storedTime) {
+		this.storedTime = storedTime;
+	}
+	
 	public double getValue() {
 		return value;
 	}
