@@ -2,14 +2,14 @@ $(function() { //DOM Ready
 	(function deviceStatusPoll() {		
 		$.ajax({
 			dataType : "json",
-			url : "/",
+			url : "/devicestatus",
 			type : "GET",
 			success : function(data) {
-				gauge.onready = function() {
-					gauge.setValue(data.value);	
+				for(var k in data) {
+					$("#onoffswitch_" + data[k].id).prop("checked", data[k].on);
 				}
 			},
-			complete : setTimeout(function() {tempPoll()}, 5000),
+			complete : setTimeout(function() {deviceStatusPoll()}, 5000),
 			timeout : 1000
 		})
 	})();

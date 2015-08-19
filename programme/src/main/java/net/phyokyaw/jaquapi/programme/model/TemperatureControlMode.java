@@ -74,4 +74,9 @@ public class TemperatureControlMode extends Mode {
 	public void setOnWhenLower(boolean onWhenLower) {
 		this.onWhenLower = onWhenLower;
 	}
+
+	@Override
+	public String getInfo() {
+		return "Temperature Control";
+	}
 }

@@ -117,4 +117,10 @@ public class DateTimeScheduleMode extends Mode {
 		mapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
 	}
+
+	@Override
+	public String getInfo() {
+		// FIXME
+		return "";
+	}
 }

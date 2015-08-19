@@ -38,10 +38,10 @@ $(function() { //DOM Ready
 	}
 	tempHistoryPoll(true);
 
-	var gauge = new Gauge({
+	var temp_gauge = new Gauge({
 		renderTo    : 'tempGuage',
-		width       : 150,
-		height      : 150,
+		width       : 135,
+		height      : 135,
 		glow        : true,
 		units       : "C&deg;",
 		title       : "Temp",
@@ -56,27 +56,30 @@ $(function() { //DOM Ready
 			{ from : 27, to : 30, color : '#ff0000' }
 		],
 		colors      : {
-			
 			needle     : { start : '#f00', end : '#00f' }
+		},
+		animation : {
+			delay : 25,
+			duration: 500,
+			fn : 'bounce'
 		}
 	});
-	gauge.draw();
+	temp_gauge.onready = function() {
+		(function tempPoll() {		
+			$.ajax({
+				dataType : "json",
+				url : "/temperature",
+				type : "GET",
+				success : function(data) {
+					temp_gauge.setValue(data.value);
+				},
+				complete : setTimeout(function() {tempPoll()}, 5000),
+				timeout : 1000
+			});
+		})();
+	};
 	
-	(function tempPoll() {		
-		$.ajax({
-			dataType : "json",
-			url : "/temperature",
-			type : "GET",
-			success : function(data) {
-				gauge.onready = function() {
-					gauge.setValue(data.value);	
-				}
-			},
-			complete : setTimeout(function() {tempPoll()}, 5000),
-			timeout : 1000
-		})
-	})();
-	
+	temp_gauge.draw();
 	
 	$("[name=temperatureHistorySelection]").change(function() {
 		temp_interval = $(this).val();

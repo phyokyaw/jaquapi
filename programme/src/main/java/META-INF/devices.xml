@@ -173,13 +173,13 @@
 	<bean id="devices" class="java.util.ArrayList">
 	    <constructor-arg>
 	        <list>
-	            <ref bean="lighting-white" />
+	           <!-- <ref bean="lighting-white" />
 	            <ref bean="lighting-blue" /> 
 	            <ref bean="pump" /> 
 	            <ref bean="skimmer" /> 
-	            <ref bean="refulight" /> 
-	           <!-- <ref bean="heater" /> 
-	            <ref bean="fan" />  -->      
+	            <ref bean="refulight" /> -->
+	            <ref bean="heater" /> 
+	            <ref bean="fan" />       
 	        </list>
 	    </constructor-arg>
 	</bean>

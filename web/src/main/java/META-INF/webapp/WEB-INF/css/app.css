@@ -58,6 +58,12 @@ ul {
     margin: auto;
 }
 
+.desc {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+}
+
 .onoffswitch {
     position: relative; width: 65px;
     display: inline-block;

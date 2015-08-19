@@ -83,4 +83,30 @@ public class PowerControlDeviceService {
 		public boolean isOn;
 	}
 
+
+	public static class DeviceStatus {
+		private final boolean isOn;
+		private final long id;
+		private final String modeInfo;
+		private final String name;
+		public DeviceStatus(Device device) {
+			isOn = device.getMode().shouldBeOn();
+			id = device.getId();
+			modeInfo = device.getMode().getInfo();
+			name = device.getName();
+		}
+		public boolean isOn() {
+			return isOn;
+		}
+		public long getId() {
+			return id;
+		}
+		public String getModeInfo() {
+			return modeInfo;
+		}
+		public String getName() {
+			return name;
+		}
+	}
+
 }

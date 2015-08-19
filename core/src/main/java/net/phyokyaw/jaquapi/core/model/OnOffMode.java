@@ -14,4 +14,9 @@ public class OnOffMode extends Mode {
 		return shouldBeOn;
 	}
 
+	@Override
+	public String getInfo() {
+		return "";
+	}
+
 }

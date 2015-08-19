@@ -37,13 +37,13 @@ $(function() { //DOM Ready
 	}
 	phHistoryPoll(true);
 
-	var gauge = new Gauge({
+	var phGauge = new Gauge({
 		renderTo    : 'phGuage',
-		width       : 150,
-		height      : 150,
+		width       : 135,
+		height      : 135,
 		glow        : true,
 		units       : "",
-		title       : "Ph",
+		title       : "pH",
 		minValue    : 6,
 		maxValue    : 10,
 		majorTicks  : ['6','7','8','9','10'],
@@ -58,22 +58,21 @@ $(function() { //DOM Ready
 			needle     : { start : '#f00', end : '#00f' }
 		}
 	});
-	gauge.draw();
-	
-	(function phPoll() {		
-		$.ajax({
-			dataType : "json",
-			url : "/ph",
-			type : "GET",
-			success : function(data) {
-				gauge.onready = function() {
-					gauge.setValue(data.value);	
-				}
-			},
-			complete : setTimeout(function() {phPoll()}, 5000),
-			timeout : 1000
-		})
-	})();
+	phGauge.onready = function() {
+		(function phPoll() {		
+			$.ajax({
+				dataType : "json",
+				url : "/ph",
+				type : "GET",
+				success : function(data) {
+					phGauge.setValue(data.value);
+				},
+				complete : setTimeout(function() {phPoll()}, 5000),
+				timeout : 1000
+			})
+		})();
+	}
+	phGauge.draw();
 	
 	$("[name=phHistorySelection]").change(function() {
 		ph_interval = $(this).val();

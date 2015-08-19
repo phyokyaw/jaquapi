@@ -51,32 +51,32 @@ public class PhService implements AquaService {
 			public void run() {
 				update();
 			}
-		}, 1000 * 20); //5s
+		}, 1000 * 20); //20s
 		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
 				record();
 			}
-		}, 1000 * 30); //5s
+		}, 1000 * 60); //60s
 	}
 
 	private void update() {
-//		try {
-//			Runtime r = Runtime.getRuntime();
-//			Process p;
-//			String line;
-//			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "'jaquapi/scripts/phreader.py'"});
-//			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//			while ((line = is.readLine()) != null) {
-//				value = Double.parseDouble(line);
-//			}
-//			System.out.flush();
-//			p.waitFor(); // wait for process to complete
-//			logger.info("Updating ph value with: " + value);
-//		} catch (Exception e) {
-//			logger.error("Error executing ph reader", e);
-//		}
-		value =8.0d;
+		try {
+			Runtime r = Runtime.getRuntime();
+			Process p;
+			String line;
+			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "'jaquapi/scripts/phreader.py'", "+0.3"});
+			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			while ((line = is.readLine()) != null) {
+				value = Double.parseDouble(line);
+			}
+			System.out.flush();
+			p.waitFor(); // wait for process to complete
+			logger.info("Updating ph value with: " + value);
+		} catch (Exception e) {
+			logger.error("Error executing ph reader", e);
+		}
+		// value =8.0d;
 	}
 
 	private void record() {
@@ -85,7 +85,7 @@ public class PhService implements AquaService {
 		dao.save(record);
 		logger.info("Saving ph value: " + record.getValue());
 	}
-	
+
 	public List<PhRecord> getLastRecords(HistoryInterval days) {
 		Calendar calendar = new GregorianCalendar();
 
@@ -93,8 +93,10 @@ public class PhService implements AquaService {
 		if (days == HistoryInterval.HOUR) {
 			calendar.add(Calendar.HOUR_OF_DAY, -1);
 			List<PhRecord> records = dao.findByDate(calendar.getTime());
-			for (int i = 0; i < records.size(); i += 5) {
-				filteredRecords.add(records.get(i));
+			for (int i = 0; i < records.size(); i += 10) {
+				if (i < records.size()) {
+					filteredRecords.add(records.get(i));
+				}
 			}
 		} else if (days == HistoryInterval.DAY) {
 			calendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -103,8 +105,10 @@ public class PhService implements AquaService {
 			calendar.set(Calendar.SECOND, 0);
 			calendar.set(Calendar.MILLISECOND, 0);
 			List<PhRecord> records = dao.findByDate(calendar.getTime());
-			for (int i = 0; i < records.size(); i += 24) {
-				filteredRecords.add(records.get(i));
+			for (int i = 0; i < records.size(); i += 60) {
+				if (i < records.size()) {
+					filteredRecords.add(records.get(i));
+				}
 			}
 		}
 		return filteredRecords;
