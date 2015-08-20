@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import net.phyokyaw.jaquapi.core.model.Device;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
 import net.phyokyaw.jaquapi.programme.model.Programme;
+import net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice;
 
 @Service("programme")
 public class PowerControlDeviceService {
@@ -57,12 +58,16 @@ public class PowerControlDeviceService {
 		return programmes.values();
 	}
 
-	public void activateProgramme(String programmeName) {
+	public void activateProgramme(String programmeName) throws Exception {
+		Programme newActivedProgramme = programmes.get(programmeName);
+		if (newActivedProgramme == null) {
+			throw new Exception("Unable to find programme");
+		}
 		if (activedProgramme != null) {
 			activedProgramme.deactivate();
 		}
-		activedProgramme = programmes.get(programmeName);
-		activedProgramme.activate();
+		newActivedProgramme.activate();
+		activedProgramme = newActivedProgramme;
 	}
 
 	public Device[] getDevices() {
@@ -108,5 +113,4 @@ public class PowerControlDeviceService {
 			return name;
 		}
 	}
-
 }
