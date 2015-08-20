@@ -119,17 +119,20 @@ public class PowerControlDeviceService {
 	}
 	
 	public static class ProgrammeStatus {
-		private  boolean on;
-		private  String name;
-		private DeviceStatus[] deviceStatus;
+		private final boolean on = false;
+		private final String name;
+		private final DeviceStatus[] deviceStatus = null;
 		public ProgrammeStatus(Programme programme) {
-			
+			this.name = programme.getName();
 		}
 		public boolean isOn() {
 			return on;
 		}
 		public String getName() {
 			return name;
+		}
+		public DeviceStatus[] getDeviceStatus() {
+			return deviceStatus;
 		}
 		
 	}
