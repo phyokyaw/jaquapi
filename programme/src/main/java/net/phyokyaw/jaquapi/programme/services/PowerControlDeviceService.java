@@ -9,19 +9,19 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
+import net.phyokyaw.jaquapi.core.model.Device;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.programme.model.Programme;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.phyokyaw.jaquapi.core.model.Device;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.programme.model.Programme;
-
 @Service("programme")
 public class PowerControlDeviceService {
 	private static Logger logger = LoggerFactory.getLogger(PowerControlDeviceService.class);
-
+	public static final String PROGRAM_NAME_FEEDING = "Feeding";
 	@Resource(name="devices")
 	private List<Device> devices;
 
@@ -57,12 +57,16 @@ public class PowerControlDeviceService {
 		return programmes.values();
 	}
 
-	public void activateProgramme(String programmeName) {
+	public void activateProgramme(String programmeName) throws Exception {
+		Programme newActivedProgramme = programmes.get(programmeName);
+		if (newActivedProgramme == null) {
+			throw new Exception("Unable to find programme");
+		}
 		if (activedProgramme != null) {
 			activedProgramme.deactivate();
 		}
-		activedProgramme = programmes.get(programmeName);
-		activedProgramme.activate();
+		newActivedProgramme.activate();
+		activedProgramme = newActivedProgramme;
 	}
 
 	public Device[] getDevices() {
@@ -85,18 +89,20 @@ public class PowerControlDeviceService {
 
 
 	public static class DeviceStatus {
-		private final boolean isOn;
+		private final boolean on;
 		private final long id;
 		private final String modeInfo;
+		private final long overridingModeTimeout;
 		private final String name;
 		public DeviceStatus(Device device) {
-			isOn = device.getMode().shouldBeOn();
+			on = device.getMode().shouldBeOn();
 			id = device.getId();
 			modeInfo = device.getMode().getInfo();
+			overridingModeTimeout = device.isOverridingModeScheduleActive() ? device.getOverridingModeTimeOut() : 0;
 			name = device.getName();
 		}
 		public boolean isOn() {
-			return isOn;
+			return on;
 		}
 		public long getId() {
 			return id;
@@ -107,6 +113,37 @@ public class PowerControlDeviceService {
 		public String getName() {
 			return name;
 		}
+		public long getOverridingModeTimeout() {
+			return overridingModeTimeout;
+		}
+	}
+	
+	public static class ProgrammeStatus {
+		private final boolean on = false;
+		private final String name;
+		private final DeviceStatus[] deviceStatus = null;
+		public ProgrammeStatus(Programme programme) {
+			this.name = programme.getName();
+		}
+		public boolean isOn() {
+			return on;
+		}
+		public String getName() {
+			return name;
+		}
+		public DeviceStatus[] getDeviceStatus() {
+			return deviceStatus;
+		}
+		
 	}
 
+	public Programme getProgramme(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void deactivateProgramme(String name) {
+		// TODO Auto-generated method stub
+		
+	}
 }
