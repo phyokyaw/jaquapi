@@ -64,7 +64,7 @@ public class Device extends AbstractModel {
 		});
 	}
 
-	private boolean isOverridingModeScheduleActive() {
+	public boolean isOverridingModeScheduleActive() {
 		return (overridingModeSchedule != null && !overridingModeSchedule.isCancelled() && !overridingModeSchedule.isDone());
 	}
 
