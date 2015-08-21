@@ -39,7 +39,7 @@ public class PowerWebControl {
 	@RequestMapping("/device/{id}")
 	public @ResponseBody ModelAndView getDeviceDetail(@PathVariable("id") long id) {
 		ModelAndView mav = new ModelAndView("device_detail");
-		mav.addObject(powerControlDeviceService.getDevice(id));
+		mav.addObject("device", powerControlDeviceService.getDevice(id));
 		return mav;
 	}
 	
@@ -60,31 +60,26 @@ public class PowerWebControl {
 		return mav;
 	}
 	
-	@RequestMapping("/activate_programme/{name}")
-	public @ResponseBody boolean ActivateProgramme(@PathVariable("name") String name) {
-		try {
-			powerControlDeviceService.activateProgramme(name);
-		} catch (Exception e) {
-			logger.error("Unable to activate programme" + name, e);
-			return false;
-		}
-		return true;
+	@RequestMapping("/programmes")
+	public @ResponseBody ModelAndView getProgrammes() {
+		ModelAndView mav = new ModelAndView("maintenance");
+		mav.addObject("programmes", powerControlDeviceService.getProgrammes());
+		return mav;
 	}
 	
-	@RequestMapping("/deactivate_programme/{name}")
-	public @ResponseBody boolean deactivateProgramme(@PathVariable("name") String name) {
-		try {
-			powerControlDeviceService.deactivateProgramme(name);
-		} catch (Exception e) {
-			logger.error("Unable to deactivate programme" + name, e);
-			return false;
-		}
-		return true;
+	@RequestMapping("/activate_programme/{id}")
+	public void activateProgramme(@PathVariable("id") long id) {
+		powerControlDeviceService.activateProgramme(id);
 	}
 	
-	@RequestMapping("/programme_status/{name}")
-	public @ResponseBody ProgrammeStatus programmeStatus(@PathVariable("name") String name) {
-		Programme programme = powerControlDeviceService.getProgramme(name);
+	@RequestMapping("/deactivate_programme/{id}")
+	public void deactivateProgramme(@PathVariable("id") long id) {
+		powerControlDeviceService.deactivateProgramme(id);
+	}
+	
+	@RequestMapping("/programme_status/{id}")
+	public @ResponseBody ProgrammeStatus programmeStatus(@PathVariable("id") long id) {
+		Programme programme = powerControlDeviceService.getProgramme(id);
 		return new ProgrammeStatus(programme);
 	}
 }

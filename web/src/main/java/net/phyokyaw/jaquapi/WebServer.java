@@ -10,12 +10,6 @@ import org.eclipse.jetty.server.nio.*;
 import org.eclipse.jetty.util.thread.*;
 import org.eclipse.jetty.webapp.*;
 
-/**
- * Example WebServer class which sets up an embedded Jetty appropriately
- * whether running in an IDE or in "production" mode in a shaded jar.
- * 
- * @author steve liles
- */
 public class WebServer
 {
 	// TODO: You should configure this appropriately for your environment

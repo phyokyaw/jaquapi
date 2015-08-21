@@ -19,4 +19,9 @@ public class OnOffMode extends Mode {
 		return "";
 	}
 
+	@Override
+	public String getFormattedInfo() {
+		return "";
+	}
+
 }

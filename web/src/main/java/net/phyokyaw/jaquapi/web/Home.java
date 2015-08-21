@@ -24,13 +24,8 @@ public class Home {
 	@RequestMapping("/")
 	public ModelAndView home(HttpServletRequest request)
 	{
-		Device device = DeviceUtils.getCurrentDevice(request);
-		String page;
-		if (device.isMobile() || device.isTablet()) {
-			page = "index-mobile";
-		} else {
-			page = "feed";
-		}
+		Device browserDevice = DeviceUtils.getCurrentDevice(request);
+		String page = "index-mobile";
 		ModelAndView mav = new ModelAndView(page);
 		net.phyokyaw.jaquapi.core.model.Device devices[] = powerControlDeviceService.getDevices();
 		DeviceStatus[] deviceStatus = new DeviceStatus[devices.length];
@@ -38,6 +33,7 @@ public class Home {
 			deviceStatus[i] = new DeviceStatus(devices[i]);
 		}
 		mav.addObject("deviceStatus", deviceStatus);
+		mav.addObject("browserDevice", browserDevice);
 		return mav;
 
 	}

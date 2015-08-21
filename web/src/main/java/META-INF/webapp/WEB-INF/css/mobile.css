@@ -5,3 +5,13 @@
 .center-wrapper * {
   margin: 0 auto;
 }
+
+.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+    display: block !important;
+    padding: 0.0em 0px 0.0em 0px !important;
+}
+div.ui-slider-switch {
+    position: absolute !important;
+    right: 40 !important;
+    width: 30% !important;
+}

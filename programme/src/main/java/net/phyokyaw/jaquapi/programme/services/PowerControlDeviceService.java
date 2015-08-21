@@ -2,7 +2,6 @@ package net.phyokyaw.jaquapi.programme.services;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +11,7 @@ import javax.annotation.Resource;
 import net.phyokyaw.jaquapi.core.model.Device;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
 import net.phyokyaw.jaquapi.programme.model.Programme;
+import net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +20,13 @@ import org.springframework.stereotype.Service;
 
 @Service("programme")
 public class PowerControlDeviceService {
-	private static Logger logger = LoggerFactory.getLogger(PowerControlDeviceService.class);
+	private static final Logger logger = LoggerFactory.getLogger(PowerControlDeviceService.class);
 	public static final String PROGRAM_NAME_FEEDING = "Feeding";
 	@Resource(name="devices")
 	private List<Device> devices;
 
 	@Resource(name="programmes")
-	private Map<Long, Programme> programmes;
+	private List<Programme> programmes;
 
 	@Autowired
 	private ScheduledService scheduledService;
@@ -54,19 +54,19 @@ public class PowerControlDeviceService {
 	}
 
 	public Collection<Programme> getProgrammes() {
-		return programmes.values();
+		return programmes;
 	}
 
-	public void activateProgramme(String programmeName) throws Exception {
-		Programme newActivedProgramme = programmes.get(programmeName);
-		if (newActivedProgramme == null) {
-			throw new Exception("Unable to find programme");
+	public void activateProgramme(long id) {
+		for (Programme programme : programmes) {
+			if (programme.getId() == id) {
+				if (activedProgramme != null) {
+					activedProgramme.deactivate();
+				}
+				programme.activate();
+				activedProgramme = programme;
+			}
 		}
-		if (activedProgramme != null) {
-			activedProgramme.deactivate();
-		}
-		newActivedProgramme.activate();
-		activedProgramme = newActivedProgramme;
 	}
 
 	public Device[] getDevices() {
@@ -81,12 +81,6 @@ public class PowerControlDeviceService {
 		}
 		return null;
 	}
-
-	public static class PowerStatus {
-		public String name;
-		public boolean isOn;
-	}
-
 
 	public static class DeviceStatus {
 		private final boolean on;
@@ -119,11 +113,26 @@ public class PowerControlDeviceService {
 	}
 	
 	public static class ProgrammeStatus {
-		private final boolean on = false;
+		private final boolean on;
+		private final long id;
 		private final String name;
-		private final DeviceStatus[] deviceStatus = null;
+		private final DeviceStatus[] deviceStatus;
 		public ProgrammeStatus(Programme programme) {
 			this.name = programme.getName();
+			this.id = programme.getId();
+			deviceStatus = new DeviceStatus[programme.getDevices().size()];
+			boolean deviceOverride = false;
+			for (int i = 0; i < programme.getDevices().size(); i++) {
+				Device device = programme.getDevices().get(i).getDevice();
+				deviceStatus[i] = new DeviceStatus(device);
+				if (!deviceOverride && device.isOverridingModeScheduleActive()) {
+					deviceOverride = true;
+				}
+			}
+			on = deviceOverride;
+		}
+		public long getId() {
+			return id;
 		}
 		public boolean isOn() {
 			return on;
@@ -137,13 +146,24 @@ public class PowerControlDeviceService {
 		
 	}
 
-	public Programme getProgramme(String name) {
-		// TODO Auto-generated method stub
+	public Programme getProgramme(long id) {
+		for (Programme programme : programmes) {
+			if (programme.getId() == id) {
+				return programme;
+			}
+		}
 		return null;
 	}
 
-	public void deactivateProgramme(String name) {
-		// TODO Auto-generated method stub
-		
+	public void deactivateProgramme(long id) {
+		for (Programme programme : programmes) {
+			if (programme.getId() == id) {
+				for (ProgrammeDevice device : programme.getDevices()) {
+					if (device.getDevice().isOverridingModeScheduleActive()) {
+						device.getDevice().cancelOverridingMode();
+					}
+				}
+			}
+		}
 	}
 }

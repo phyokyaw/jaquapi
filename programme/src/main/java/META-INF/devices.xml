@@ -151,7 +151,7 @@
 			<bean class="net.phyokyaw.jaquapi.programme.model.TemperatureControlMode">
 				<property name="upperTemp" value="25.3"/>
 				<property name="lowerTemp" value="24.8"/>
-				<property name="onWhenLower" value="false"/>
+				<property name="onWhenLower" value="true"/>
 			</bean>
 		</property>
 		<property name="operatable" ref="switch_1" />
@@ -213,6 +213,7 @@
 	</bean>
 
 	<bean id="waterchange" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="0" />
 		<property name="devices" ref="waterchange-devices" />
 		<property name="name" value="Water Change" />
 	</bean>
@@ -235,12 +236,17 @@
 	</bean>
 
 	<bean id="feeding" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="1" />
 		<property name="devices" ref="feeding-devices" />
 		<property name="name" value="Feeding" />
 	</bean>
 
-	<util:map id="programmes" key-type="java.lang.Long">
-		<entry key="1" value-ref="waterchange" />
-		<entry key="2" value-ref="feeding" />
-	</util:map>
+	<bean id="programmes" class="java.util.ArrayList">
+	    <constructor-arg>
+	        <list>
+	        	<ref bean="waterchange" />
+	        	<ref bean="feeding" />
+			</list>
+		</constructor-arg>
+	</bean>
 </beans>

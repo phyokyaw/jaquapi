@@ -38,18 +38,18 @@ public class Device extends AbstractModel {
 
 	private ScheduledFuture<?> overridingModeSchedule;
 	private ScheduledFuture<?> timeoutPublishSchedule;
-	private final long interval = 100L;
+	private static final long INTERVAL = 100L;
 
 	public void setOverridingMode(Mode mode, long timeOutInMilliSec) {
 		overridingMode = mode;
-		timeoutPublishSchedule = scheduledService.addScheduleAtFixrate(interval, new Runnable() {
+		timeoutPublishSchedule = scheduledService.addScheduleAtFixrate(INTERVAL, new Runnable() {
 			@Override
 			public void run() {
 				if (isOverridingModeScheduleActive()) {
 					Device.this.firePropertyChange(OVERRIDING_MODE_TIMEOUT, null, overridingModeSchedule.getDelay(TimeUnit.MILLISECONDS));
 				}
 			}
-		}, interval);
+		}, INTERVAL);
 		createNewSchedule(timeOutInMilliSec);
 	}
 

@@ -123,4 +123,10 @@ public class DateTimeScheduleMode extends Mode {
 		// FIXME
 		return "";
 	}
+
+	@Override
+	public String getFormattedInfo() {
+		// FIXME
+				return "";
+	}
 }

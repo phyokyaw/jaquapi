@@ -11,9 +11,14 @@ import net.phyokyaw.jaquapi.core.model.OnOffMode;
 public class Programme {
 	private static final Logger logger = LoggerFactory.getLogger(Programme.class);
 
+	private final int id;
 	private String name;
-
+	
 	private List<ProgrammeDevice> programmeDevices;
+	
+	public Programme(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -25,7 +30,7 @@ public class Programme {
 	public void activate() {
 		logger.debug(name + " programme activated");
 		for (ProgrammeDevice entry : programmeDevices) {
-			entry.getDevice().setOverridingMode(new OnOffMode(entry.isShouldbeOff()), entry.getTimeout());
+			entry.getDevice().setOverridingMode(new OnOffMode(entry.isShouldbeOff()), entry.getTimeout() * 1000 * 60);
 		}
 	}
 
@@ -44,6 +49,9 @@ public class Programme {
 		this.programmeDevices = programmeDevices;
 	}
 
+	public int getId() {
+		return id;
+	}
 
 	public static class ProgrammeDevice {
 		private Device device;
@@ -69,4 +77,6 @@ public class Programme {
 			this.shouldbeOff = shouldbeOff;
 		}
 	}
+
+
 }
