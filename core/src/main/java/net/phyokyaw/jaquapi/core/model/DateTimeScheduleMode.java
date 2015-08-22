@@ -120,13 +120,12 @@ public class DateTimeScheduleMode extends Mode {
 
 	@Override
 	public String getInfo() {
-		// FIXME
-		return "";
+		return "Date timer control";
 	}
 
 	@Override
 	public String getFormattedInfo() {
 		// FIXME
-				return "";
+		return getInfo();
 	}
 }

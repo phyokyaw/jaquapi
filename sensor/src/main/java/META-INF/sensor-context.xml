@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd">
+
+	<import resource="classpath*:**/**core-context.xml" />
+
+	<bean id="ato_water_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
+		<constructor-arg value="0" />
+		<property name="name" value="ATO container level" />
+		<property name="description" value="ATO container level float switch" />
+		<property name="errorWhenOn" value="true" />
+		<property name="onErrorMessage" value="Water level too low" />
+	</bean>
+	
+	<bean id="sump_water_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
+		<constructor-arg value="1" />
+		<property name="name" value="Sump water level" />
+		<property name="description" value="Sump water level!" />
+		<property name="errorWhenOn" value="true" />
+		<property name="onErrorMessage" value="Water level too low!" />
+	</bean>
+
+	<bean id="sensorDevices" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="ato_water_sensor" />
+				<ref bean="sump_water_sensor" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<context:annotation-config />
+	<context:component-scan base-package="net.phyokyaw.jaquapi.sensor" />
+</beans>

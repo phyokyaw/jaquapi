@@ -141,7 +141,7 @@
 
 	<bean id="skimmer" class="net.phyokyaw.jaquapi.core.model.Device">
 		<constructor-arg value="6" />
-		<property name="name" value="Skimmer" />
+		<property name="name" value="Protein Skimmer" />
 	</bean>
 
 	<bean id="heater" class="net.phyokyaw.jaquapi.core.model.Device">
@@ -159,7 +159,7 @@
 	
 	<bean id="fan" class="net.phyokyaw.jaquapi.core.model.Device">
 		<constructor-arg value="8" />
-		<property name="name" value="Fan" />
+		<property name="name" value="Cooling Fan" />
 		<property name="mode">
 			<bean class="net.phyokyaw.jaquapi.programme.model.TemperatureControlMode">
 				<property name="upperTemp" value="25.8"/>
@@ -175,11 +175,11 @@
 	        <list>
 	           <!-- <ref bean="lighting-white" />
 	            <ref bean="lighting-blue" /> 
-	            <ref bean="pump" /> 
-	            <ref bean="skimmer" /> 
 	            <ref bean="refulight" /> -->
 	            <ref bean="heater" /> 
-	            <ref bean="fan" />       
+	            <ref bean="fan" />
+	            <ref bean="pump" />
+	            <ref bean="skimmer" />
 	        </list>
 	    </constructor-arg>
 	</bean>

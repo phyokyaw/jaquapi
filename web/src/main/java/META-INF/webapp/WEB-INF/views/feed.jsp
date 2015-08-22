@@ -22,7 +22,8 @@
 			<div data-role="navbar">
 				<ul>
 					<li><a href="/" data-icon="home">Dushboard</a></li>
-					<li><a href="#" data-icon="star" class="ui-btn-active ui-state-persist">Feed</a></li>
+					<li><a href="#" data-icon="star"
+						class="ui-btn-active ui-state-persist">Feed</a></li>
 					<li><a href="/programmes" data-icon="action">Maintenance</a></li>
 				</ul>
 			</div>
@@ -30,19 +31,40 @@
 		</div>
 		<!-- /header -->
 		<div role="main" class="ui-content">
-		<ul data-role="listview" data-inset="true">
-				<li data-role="list-divider">Stop equiments for</li>
-				
-				<li>
-					<form class="ui-field-contain">
-						<label for="slider-12">Fan</label> <input type="range"
-							name="slider-12" id="slider-12" data-highlight="true" min="0"
-							step="5" max="30" value="5" />
-					</form>
+			<ul data-role="listview" data-inset="true">
+				<li data-role="list-divider">
+					<div class="ui-bar ui-grid-a">
+						<div class="ui-block-a" style="margin-top: 10px;">Equipments</div>
+						<div class="ui-block-b" style="text-align: right;">
+							<select id="test-slider" data-role="slider" name="testslider"
+								data-mini="true">
+								<option value="off">Start</option>
+								<option value="on">Running</option>
+							</select>
+						</div>
+					</div>
 				</li>
-				<li>Test</li>
+				<c:forEach items="${programme.devices}" var="programmeDevice">
+					<li>
+						<form class="ui-field-contain">
+							<label for="programmeDevice_timeout_${programmeDevice.device.id}">${programmeDevice.device.name}
+								<c:choose>
+									<c:when test="${programmeDevice.shouldbeOff}">
+										<b>OFF</b>
+									</c:when>
+									<c:otherwise>
+										<b>ON</b>
+									</c:otherwise>
+								</c:choose> for
+							</label><input type="range"
+								name="programmeDevice_timeout_${programmeDevice.device.id}"
+								id="programmeDevice_timeout_${programmeDevice.device.id}"
+								data-highlight="true" min="0" step="5" max="30"
+								value="${programmeDevice.timeout}" />
+						</form>
+					</li>
+				</c:forEach>
 			</ul>
-			<button class="ui-btn ui-btn-b">Stop to Feed</button>
 		</div>
 		<!-- /content -->
 	</div>

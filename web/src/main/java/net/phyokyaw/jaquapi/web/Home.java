@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService.DeviceStatus;
+import net.phyokyaw.jaquapi.sensor.services.SensorService;
 
 @Controller
 public class Home {
@@ -20,6 +21,10 @@ public class Home {
 	@Autowired
 	@Qualifier("programme")
 	private PowerControlDeviceService powerControlDeviceService;
+
+	@Autowired
+	@Qualifier("sensor")
+	private SensorService sensorService;
 
 	@RequestMapping("/")
 	public ModelAndView home(HttpServletRequest request)
@@ -34,6 +39,7 @@ public class Home {
 		}
 		mav.addObject("deviceStatus", deviceStatus);
 		mav.addObject("browserDevice", browserDevice);
+		mav.addObject("sensorDevices", sensorService.getSensorDevices());
 		return mav;
 
 	}

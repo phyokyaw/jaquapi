@@ -191,6 +191,7 @@
 		<module>ph</module>
 		<module>web</module>
 		<module>programme</module>
+		<module>sensor</module>
 	</modules>
 </project>
 	

@@ -14,6 +14,7 @@
 	<import resource="classpath*:**/power-context.xml" />
 	<import resource="classpath*:**/temperature-context.xml" />
 	<import resource="classpath*:**/programme-context.xml" />
+	<import resource="classpath*:**/sensor-context.xml" />
 	<mvc:annotation-driven />
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>

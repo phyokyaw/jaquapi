@@ -26,7 +26,8 @@
 				class="ui-btn-right ui-shadow ui-corner-all ui-btn-icon-notext">Setup</a>
 			<div data-role="navbar">
 				<ul>
-					<li><a href="#" data-icon="home" class="ui-btn-active ui-state-persist">Dushboard</a></li>
+					<li><a href="#" data-icon="home"
+						class="ui-btn-active ui-state-persist">Dushboard</a></li>
 					<li><a href="/feed_info" data-icon="star">Feed</a></li>
 					<li><a href="/programmes" data-icon="action">Maintenance</a></li>
 				</ul>
@@ -53,27 +54,53 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- Sensors -->
 			<div data-role="collapsible" data-collapsed="false">
-				<h4>Devices</h4>
+				<h4>Sensors</h4>
 				<ul data-role="listview">
-					<c:forEach items="${deviceStatus}" var="element">
-						<li><a href="/device/${element.id}"> <img src="/i/device_${element.id}.png" />
+					<c:forEach items="${sensorDevices}" var="element">
+						<li><a href="/sensor_status/${element.id}"> <img
+								src="/i/sensor_${element.id}.png" />
 								<h2>${element.name}</h2>
-								<p>${element.modeInfo}</p>
-								<c:choose>
-									<c:when test="${element.on}">
+								<p>${element.description}</p> <c:choose>
+									<c:when test="${element.onError}">
 										<span class="ui-li-count"
-											style="color: white; background-color: red">ON</span>
+											style="color: white; background-color: red">${element.onErrorMessage}</span>
 									</c:when>
 									<c:otherwise>
 										<span class="ui-li-count"
-											style="color: white; background-color: blue">OFF</span>
+											style="color: white; background-color: green">OK</span>
 									</c:otherwise>
 								</c:choose>
 						</a></li>
 					</c:forEach>
 				</ul>
 			</div>
+
+			<!-- Devices -->
+			<div data-role="collapsible" data-collapsed="false">
+				<h4>Devices</h4>
+				<ul data-role="listview">
+					<c:forEach items="${deviceStatus}" var="element">
+						<li><a href="/device/${element.id}"> <img
+								src="/i/device_${element.id}.png" />
+								<h2>${element.name}</h2>
+								<p>${element.modeInfo}</p> <c:choose>
+									<c:when test="${element.on}">
+										<span class="ui-li-count"
+											style="color: white; background-color: blue">ON</span>
+									</c:when>
+									<c:otherwise>
+										<span class="ui-li-count"
+											style="color: white; background-color: black">OFF</span>
+									</c:otherwise>
+								</c:choose>
+						</a></li>
+					</c:forEach>
+				</ul>
+			</div>
+
 		</div>
 		<!-- /content -->
 	</div>
