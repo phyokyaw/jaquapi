@@ -1,42 +1,4 @@
-var phHistoryChart;
-var ph_interval = 'HOUR';
 $(function() { //DOM Ready
-	function phHistoryPoll(recall) {		
-		$.ajax({
-			dataType : "json",
-			url : "/ph_history?interval=" + ph_interval,
-			type : "GET",
-			success : function(phData) {	
-				var pdata = {
-					labels : phData.labels,
-					datasets : [
-					{
-						fillColor : "rgba(151,187,205,0.5)",
-						strokeColor : "rgba(151,187,205,1)",
-						pointColor : "rgba(151,187,205,1)",
-						pointStrokeColor : "#fff",
-						data : phData.values,
-					}]
-				};
-				options = {
-					animation : false
-				}
-				if (phHistoryChart != null) {
-					phHistoryChart.destroy();
-				}
-				var ctx = $("#phHistory").get(0).getContext("2d");
-				phHistoryChart = new Chart(ctx).Line(pdata, options);
-			},
-			complete :  function() {
-				if (recall) {
-					setTimeout(function() {phHistoryPoll(true)}, 10000)
-				}
-			},
-			timeout : 1000
-		});
-	}
-	phHistoryPoll(true);
-
 	var phGauge = new Gauge({
 		renderTo    : 'phGuage',
 		width       : 135,
@@ -73,9 +35,4 @@ $(function() { //DOM Ready
 		})();
 	}
 	phGauge.draw();
-	
-	$("[name=phHistorySelection]").change(function() {
-		ph_interval = $(this).val();
-		phHistoryPoll(false);
-	});
 });

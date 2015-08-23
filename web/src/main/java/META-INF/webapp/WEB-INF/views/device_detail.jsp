@@ -18,8 +18,6 @@
 		<div data-role="header" data-add-back-btn="true"
 			style="overflow: hidden;">
 			<h4>${device.name}</h4>
-			<a href="#" data-icon="gear"
-				class="ui-btn-right ui-shadow ui-corner-all ui-btn-icon-notext">Setup</a>
 			<div data-role="navbar">
 				<ul>
 					<li><a href="#" data-icon="home"
@@ -44,7 +42,7 @@
 				</div>
 				<div class="ui-block-b" style="width:30%">
 					<form>
-						<input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" <c:if test="${device.mode.shouldBeOn()}">checked</c:if> />
+						<input type="checkbox" data-role="flipswitch" name="flip-checkbox-feed" id="flip-checkbox-feed" <c:if test="${device.mode.shouldBeOn()}">checked</c:if> />
 					</form>
 				</div>
 			</div>

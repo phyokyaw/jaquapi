@@ -1,43 +1,5 @@
-var tempHistoryChart;
-var temp_interval = 'HOUR';
-$(function() { //DOM Ready
-	
-	function tempHistoryPoll(recall) {		
-		$.ajax({
-			dataType : "json",
-			url : "/temperature_history?interval=" + temp_interval,
-			type : "GET",
-			success : function(tempData) {	
-				var tdata = {
-					labels : tempData.labels,
-					datasets : [
-					{
-						fillColor : "rgba(151,187,205,0.5)",
-						strokeColor : "rgba(151,187,205,1)",
-						pointColor : "rgba(151,187,205,1)",
-						pointStrokeColor : "#fff",
-						data : tempData.values,
-					}]
-				};
-				options = {
-					animation : false
-				}
-				if (tempHistoryChart != null) {
-					tempHistoryChart.destroy();
-				}
-				var ctx = $("#tempHistory").get(0).getContext("2d");
-				tempHistoryChart = new Chart(ctx).Line(tdata, options);
-			},
-			complete : function() {
-				if (recall) {
-					setTimeout(function() {tempHistoryPoll(true)}, 10000)
-				}
-			},
-			timeout : 1000
-		});
-	}
-	tempHistoryPoll(true);
 
+$(function() { //DOM Ready
 	var temp_gauge = new Gauge({
 		renderTo    : 'tempGuage',
 		width       : 135,
@@ -80,10 +42,4 @@ $(function() { //DOM Ready
 	};
 	
 	temp_gauge.draw();
-	
-	$("[name=temperatureHistorySelection]").change(function() {
-		temp_interval = $(this).val();
-		tempHistoryPoll(false);
-	});
-	
 });

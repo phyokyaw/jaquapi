@@ -40,14 +40,14 @@
 					<div class="ui-block-a">
 						<div class="ui-bar ui-bar-a">
 							<canvas id="tempGuage"></canvas>
-							<a href="#"
+							<a href="/temp_timeline"
 								class="ui-btn ui-mini ui-corner-all ui-btn-icon-right ui-icon-info ui-btn-inline">Timeline</a>
 						</div>
 					</div>
 					<div class="ui-block-b">
 						<div class="ui-bar ui-bar-a">
 							<canvas id="phGuage"></canvas>
-							<a href="#"
+							<a href="/ph_timeline"
 								class="ui-btn ui-mini ui-corner-all ui-btn-icon-right ui-icon-info ui-btn-inline">Timeline</a>
 						</div>
 					</div>
