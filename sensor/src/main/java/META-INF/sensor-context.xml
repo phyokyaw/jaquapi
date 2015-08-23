@@ -11,18 +11,26 @@
 
 	<bean id="ato_water_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
 		<constructor-arg value="0" />
-		<property name="name" value="ATO container level" />
+		<property name="name" value="ATO container" />
 		<property name="description" value="ATO container level float switch" />
 		<property name="errorWhenOn" value="true" />
-		<property name="onErrorMessage" value="Water level too low" />
+		<property name="onErrorMessage" value="Level low!" />
 	</bean>
 	
 	<bean id="sump_water_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
 		<constructor-arg value="1" />
-		<property name="name" value="Sump water level" />
-		<property name="description" value="Sump water level!" />
+		<property name="name" value="Sump return level" />
+		<property name="description" value="Sump return section water level!" />
 		<property name="errorWhenOn" value="true" />
-		<property name="onErrorMessage" value="Water level too low!" />
+		<property name="onErrorMessage" value="Level low!" />
+	</bean>
+	
+	<bean id="alk_container_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
+		<constructor-arg value="2" />
+		<property name="name" value="ALK dosing" />
+		<property name="description" value="ALK dosing container liquid level" />
+		<property name="errorWhenOn" value="true" />
+		<property name="onErrorMessage" value="Level low!" />
 	</bean>
 
 	<bean id="sensorDevices" class="java.util.ArrayList">
@@ -30,6 +38,7 @@
 			<list>
 				<ref bean="ato_water_sensor" />
 				<ref bean="sump_water_sensor" />
+				<ref bean="alk_container_sensor" />
 			</list>
 		</constructor-arg>
 	</bean>

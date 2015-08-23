@@ -39,8 +39,8 @@
 			<div class="ui-grid-a">
 				<div class="ui-block-a" style="width:70%">
 						<input type="range"
-							name="slider-12" id="slider-12" data-highlight="true" min="0"
-							step="10" max="60" value="50" />
+							name="device_timeout" id="device_timeout" data-highlight="true" min="0"
+							step="5" max="60" value="20" />
 				</div>
 				<div class="ui-block-b" style="width:30%">
 					<form>

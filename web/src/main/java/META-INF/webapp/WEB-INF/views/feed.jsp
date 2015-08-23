@@ -34,7 +34,7 @@
 			<ul data-role="listview" data-inset="true">
 				<li data-role="list-divider">
 					<div class="ui-bar ui-grid-a">
-						<div class="ui-block-a" style="margin-top: 10px;">Equipments</div>
+						<div class="ui-block-a" style="margin-top: 10px;">Controls</div>
 						<div class="ui-block-b" style="text-align: right;">
 							<select id="test-slider" data-role="slider" name="testslider"
 								data-mini="true">
