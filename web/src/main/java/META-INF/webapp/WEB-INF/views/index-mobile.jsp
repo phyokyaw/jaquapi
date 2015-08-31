@@ -15,7 +15,9 @@
 	<script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/temperature.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/sensors.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/ph.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
 </head>
 <body>
 	<div data-role="page">
@@ -61,13 +63,15 @@
 					<c:forEach items="${sensorDevices}" var="element">
 						<li><a href="/sensor_status/${element.id}"> <img
 								class="ui-li-icon ui-corner-none"
-								src="/i/sensor_${element.id}_small.png" /> ${element.name} <c:choose>
+								src="/i/sensor_${element.id}_small.png" />
+								${element.name}
+								<c:choose>
 									<c:when test="${element.onError}">
-										<span class="ui-li-count"
+										<span id="sensor_${element.id}_switch_status" class="ui-li-count"
 											style="color: white; background-color: red">${element.onErrorMessage}</span>
 									</c:when>
 									<c:otherwise>
-										<span class="ui-li-count"
+										<span id="sensor_${element.id}_switch_status" class="ui-li-count"
 											style="color: white; background-color: green">OK</span>
 									</c:otherwise>
 								</c:choose>
@@ -87,11 +91,11 @@
 								<h2>${element.name}</h2>
 								<p>${element.modeInfo}</p> <c:choose>
 									<c:when test="${element.on}">
-										<span class="ui-li-count"
+										<span id="device_${element.id}_switch_status" class="ui-li-count"
 											style="color: white; background-color: blue">ON</span>
 									</c:when>
 									<c:otherwise>
-										<span class="ui-li-count"
+										<span id="device_${element.id}_switch_status" class="ui-li-count"
 											style="color: white; background-color: black">OFF</span>
 									</c:otherwise>
 								</c:choose>
