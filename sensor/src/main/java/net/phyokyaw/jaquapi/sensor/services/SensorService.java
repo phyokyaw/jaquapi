@@ -1,5 +1,7 @@
 package net.phyokyaw.jaquapi.sensor.services;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.phyokyaw.jaquapi.core.services.AquaService;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
 import net.phyokyaw.jaquapi.sensor.model.SensorDevice;
 
@@ -45,36 +48,33 @@ public class SensorService {
 
 	private void update() {
 		logger.debug("Updating sensor value");
-		//		try {
-		//			Runtime r = Runtime.getRuntime();
-		//			Process p;
-		//			String line;
-		//			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, ""});
-		//			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		//			StringBuilder builder = new StringBuilder();
-		//			while ((line = is.readLine()) != null) {
-		//				builder.append(line);
-		//			}
-		//			Pattern pattern = Pattern.compile(".*t=(\\d+)");
-		//			Matcher matcher = pattern.matcher(builder.toString());
-		//			if (matcher.find()) {
-		//				value = Double.parseDouble(matcher.group(1)) / 1000;
-		//			} else {
-		//				throw new Exception("Unable to get Temperature data");
-		//			}
-		//			System.out.flush();
-		//			p.waitFor(); // wait for process to complete
-		//			logger.info("Updating temp value with: " + value);
-		//		} catch (Exception e) {
-		//			logger.error("Error executing temp reader", e);
-		//		}
-		for (SensorDevice sensorDevice : sensorDevices) {
-			sensorDevice.setOn(true);
+		try {
+			Runtime r = Runtime.getRuntime();
+			Process p;
+			for (SensorDevice sensorDevice : sensorDevices) {
+				p = r.exec(new String[] { "ssh", AquaService.DEVICE_SSH_ADDR, "gpio", "read",
+						Long.toString(sensorDevice.getId()) });
+				BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				String line;
+				if ((line = is.readLine()) != null) {
+					if (line.equals("1")) {
+						sensorDevice.setOn(true);
+					} else if (line.equals("0")) {
+						sensorDevice.setOn(false);
+					} else {
+						throw new Exception("Unable to get sensor data for " + sensorDevice.getName());
+					}
+				}
+				System.out.flush();
+				p.waitFor(); // wait for process to complete
+			}
+		} catch (Exception e) {
+			logger.error("Error executing sensor reader", e);
 		}
 	}
 
 	public SensorDevice[] getSensorDevices() {
-		return sensorDevices.toArray(new SensorDevice[]{});
+		return sensorDevices.toArray(new SensorDevice[] {});
 	}
 
 	public SensorDevice getSensorDevice(long id) {
