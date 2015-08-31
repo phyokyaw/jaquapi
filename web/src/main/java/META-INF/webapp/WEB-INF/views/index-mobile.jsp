@@ -89,14 +89,31 @@
 								class="ui-li-icon ui-corner-none"
 								src="/i/device_${element.id}.png" />
 								<h2>${element.name}</h2>
-								<p>${element.modeInfo}</p> <c:choose>
-									<c:when test="${element.on}">
-										<span id="device_${element.id}_switch_status" class="ui-li-count"
-											style="color: white; background-color: blue">ON</span>
+								<p>${element.modeInfo}</p>
+								<c:choose>
+									<c:when test="${element.overridden}">
+										<c:choose>
+											<c:when test="${element.on}">
+												<span id="device_${element.id}_switch_status" class="ui-li-count"
+													style="color: white; background-color: blue">ON (${element.overridingModeTimeout})</span>
+											</c:when>
+											<c:otherwise>
+													<span id="device_${element.id}_switch_status" class="ui-li-count"
+											style="color: white; background-color: black">OFF (${element.overridingModeTimeout}</span>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
 									<c:otherwise>
-										<span id="device_${element.id}_switch_status" class="ui-li-count"
-											style="color: white; background-color: black">OFF</span>
+										<c:choose>
+											<c:when test="${element.on}">
+												<span id="device_${element.id}_switch_status" class="ui-li-count"
+													style="color: white; background-color: blue">ON (AUTO)</span>
+											</c:when>
+											<c:otherwise>
+													<span id="device_${element.id}_switch_status" class="ui-li-count"
+											style="color: white; background-color: black">OFF (AUTO)</span>
+											</c:otherwise>
+										</c:choose>
 									</c:otherwise>
 								</c:choose>
 						</a></li>

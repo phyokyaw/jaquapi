@@ -46,3 +46,4 @@ derby.log
 dependency*
 
 /.pydevproject
+/var/

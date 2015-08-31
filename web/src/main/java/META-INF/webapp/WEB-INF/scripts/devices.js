@@ -6,13 +6,24 @@ $(function() { //DOM Ready
 			type : "GET",
 			success : function(data) {
 				for(var k in data) {
-					if (data[k].on == true) {
-						$("#device_" + data[k].id + "_switch_status").text("ON");
-						$("#device_" + data[k].id + "_switch_status").css('background-color',"blue");
+					if (data[k].overridden == true) {
+						if (data[k].on == true) {
+							$("#device_" + data[k].id + "_switch_status").text("ON (" + data[k].overridingModeTimeout + ")");
+							$("#device_" + data[k].id + "_switch_status").css('background-color',"blue");
+						} else {
+							$("#device_" + data[k].id + "_switch_status").text("OFF (" + data[k].overridingModeTimeout + ")");
+							$("#device_" + data[k].id + "_switch_status").css('background-color',"black");
+						}
 					} else {
-						$("#device_" + data[k].id + "_switch_status").text("OFF");
-						$("#device_" + data[k].id + "_switch_status").css('background-color',"black");
+						if (data[k].on == true) {
+							$("#device_" + data[k].id + "_switch_status").text("ON (AUTO)");
+							$("#device_" + data[k].id + "_switch_status").css('background-color',"blue");
+						} else {
+							$("#device_" + data[k].id + "_switch_status").text("OFF (AUTO)");
+							$("#device_" + data[k].id + "_switch_status").css('background-color',"black");
+						}
 					}
+					
 				}
 			},
 			complete : setTimeout(function() {deviceStatusPoll()}, 5000),

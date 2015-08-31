@@ -13,7 +13,7 @@
 				<ul>
 					<li><a href="/" data-icon="home"
 						class="ui-btn-active ui-state-persist">Dushboard</a></li>
-					<li><a href="#" data-icon="star">Feed</a></li>
+					<li><a href="/feed_info" data-icon="star">Feed</a></li>
 					<li><a href="/programmes" data-icon="action">Maintenance</a></li>
 				</ul>
 			</div>

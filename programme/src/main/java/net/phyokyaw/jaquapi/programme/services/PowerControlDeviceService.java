@@ -8,15 +8,15 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
-import net.phyokyaw.jaquapi.core.model.Device;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.programme.model.Programme;
-import net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import net.phyokyaw.jaquapi.core.model.Device;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.programme.model.Programme;
+import net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice;
 
 @Service("programme")
 public class PowerControlDeviceService {
@@ -110,16 +110,20 @@ public class PowerControlDeviceService {
 		public long getOverridingModeTimeout() {
 			return overridingModeTimeout;
 		}
+
+		public boolean isOverridden() {
+			return overridingModeTimeout > 0;
+		}
 	}
-	
+
 	public static class ProgrammeStatus {
 		private final boolean on;
 		private final long id;
 		private final String name;
 		private final DeviceStatus[] deviceStatus;
 		public ProgrammeStatus(Programme programme) {
-			this.name = programme.getName();
-			this.id = programme.getId();
+			name = programme.getName();
+			id = programme.getId();
 			deviceStatus = new DeviceStatus[programme.getDevices().size()];
 			boolean deviceOverride = false;
 			for (int i = 0; i < programme.getDevices().size(); i++) {
@@ -143,7 +147,6 @@ public class PowerControlDeviceService {
 		public DeviceStatus[] getDeviceStatus() {
 			return deviceStatus;
 		}
-		
 	}
 
 	public Programme getProgramme(long id) {
@@ -154,6 +157,8 @@ public class PowerControlDeviceService {
 		}
 		return null;
 	}
+
+
 
 	public void deactivateProgramme(long id) {
 		for (Programme programme : programmes) {

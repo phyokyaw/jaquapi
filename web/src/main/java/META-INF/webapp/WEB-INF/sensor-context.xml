@@ -20,7 +20,7 @@
 	<bean id="sump_water_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
 		<constructor-arg value="4" />
 		<property name="name" value="Sump return level" />
-		<property name="description" value="Sump return section water level!" />
+		<property name="description" value="Sump return section water level." />
 		<property name="errorWhenOn" value="false" />
 		<property name="onErrorMessage" value="Level low!" />
 	</bean>
