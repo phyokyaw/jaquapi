@@ -11,3 +11,10 @@
     padding: 0.0em 0px 0.0em 0px !important;
 }
 
+.ui-popup-container, .ui-popup {
+	height: 80%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+}

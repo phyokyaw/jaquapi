@@ -30,16 +30,29 @@
 					<p>${device.mode.formattedInfo}</p>
 				</div>
 			</div>
-			<div class="ui-grid-a">
+			<div class="ui-grid-b">
 				<div class="ui-block-a">
-					<a href="#popupLogin" data-rel="popup" data-position-to="window"
-						class="ui-shadow ui-btn ui-corner-all" data-transition="pop">Off</a>
+					<label for="grid-radio-1">OFF</label>
+					<input type="radio" id="grid-radio-1" name="grid-radio-1">
 				</div>
 				<div class="ui-block-b">
-					<a href="#popupLogin" data-rel="popup" data-position-to="window"
-						class="ui-shadow ui-btn ui-corner-all" data-transition="pop">ON</a>
+					<label for="grid-radio-2">Auto</label>
+					<input type="radio" id="grid-radio-2" name="grid-radio-1">
+				</div>
+				<div class="ui-block-c">
+					<label for="grid-radio-3">On</label>
+					<input type="radio" id="grid-radio-3" name="grid-radio-1">
+					<a id="radio-3" href="#popupLogin" data-rel="popup" data-transition="slidedown" style='display:none;'></a>
 				</div>
 			</div>
+			<script>
+				$("#grid-radio-3").click(function(event) {
+					$("#radio-3").click();
+				});
+				$("#grid-radio-1").click(function(event) {
+					$("#radio-3").click();
+				});
+			</script>
 			<div data-role="popup" id="popupLogin" data-theme="a"
 				class="ui-corner-all" style="max-width: 100%" data-tolerance="0">
 				<form>
