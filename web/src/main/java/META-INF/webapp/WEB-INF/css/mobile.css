@@ -10,8 +10,11 @@
     display: block !important;
     padding: 0.0em 0px 0.0em 0px !important;
 }
-div.ui-slider-switch {
-    position: absolute !important;
-    right: 40 !important;
-    width: 30% !important;
+
+.ui-popup-container, .ui-popup {
+    height: 50%;
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left:0;
 }
