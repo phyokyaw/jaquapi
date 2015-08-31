@@ -57,7 +57,7 @@ public class SensorDevice {
 	}
 
 	public boolean isOnError() {
-		return (on & errorWhenOn);
+		return (on == errorWhenOn);
 	}
 
 }
