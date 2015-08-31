@@ -6,15 +6,15 @@ $(function() { //DOM Ready
 		glow        : true,
 		units       : "",
 		title       : "pH",
-		minValue    : 6,
-		maxValue    : 10,
-		majorTicks  : ['6','7','8','9','10'],
+		minValue    : 7,
+		maxValue    : 9,
+		majorTicks  : ['7','7.5','8','8.5','9'],
 		minorTicks  : 0.25,
 		strokeTicks : false,
 		highlights  : [
-			{ from : 6, to : 7.5, color : '#ff33aa' },
-			{ from : 7.5, to : 8.5, color : '#00cc00' },
-			{ from : 8.5, to : 10, color : '#ff0000' }
+			{ from : 7, to : 7.7, color : '#ff33aa' },
+			{ from : 7.7, to : 8.4, color : '#00cc00' },
+			{ from : 8.4, to : 9, color : '#ff0000' }
 		],
 		colors      : {
 			needle     : { start : '#f00', end : '#00f' }
