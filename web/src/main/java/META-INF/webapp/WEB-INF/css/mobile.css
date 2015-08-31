@@ -12,8 +12,8 @@
 }
 
 .ui-popup-container, .ui-popup {
-    height: 50%;
-    width: 50%;
+	height: 98%;
+    width: 100%;
     position: absolute;
     top: 0;
     left:0;
