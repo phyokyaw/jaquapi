@@ -28,11 +28,11 @@
 			</div>
 			<div align="center">
 				<c:choose>
-					<c:when test="${element.onError}">
-						<h3 id="sensor_detail_${element.id}_switch_status" class="ui-bar ui-bar-a" style="color: red">${element.onErrorMessage}</h3>
+					<c:when test="${sensor.onError}">
+						<h3 id="sensor_detail_${sensor.id}_switch_status" class="ui-bar ui-bar-a" style="color: red">${sensor.onErrorMessage}</h3>
 					</c:when>
 					<c:otherwise>
-						<h3 id="sensor_detail_${element.id}_switch_status" class="ui-bar ui-bar-a" style="color: green">OK</h3>
+						<h3 id="sensor_detail_${sensor.id}_switch_status" class="ui-bar ui-bar-a" style="color: green">OK</h3>
 					</c:otherwise>
 				</c:choose>
 			</div>

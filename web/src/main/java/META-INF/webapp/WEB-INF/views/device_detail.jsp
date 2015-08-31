@@ -23,13 +23,12 @@
 		<!-- /header -->
 		<div role="main" class="ui-content">
 			<div class="ui-grid-b">
-				<div class="ui-block-a" style="width: 20%">
+				<div class="ui-block-a" style="width: 30%">
 					<img src="/i/device_${device.id}.png" />
 				</div>
 				<div class="ui-block-b" style="width: 70%">
 					<p>${device.mode.formattedInfo}</p>
 				</div>
-				<div class="ui-block-c" style="width: 10%">Test</div>
 			</div>
 			<div class="ui-grid-a">
 				<div class="ui-block-a">
@@ -46,12 +45,13 @@
 				<form>
 					<div style="padding: 10px 20px;">
 						<label for="slider-2">Delay in minutes:</label>
-						<input type="range" name="slider-2" id="slider-2" data-highlight="true" min="0" max="60" value="15">
+						<input type="range" name="slider-2" id="slider-2" data-highlight="true" min="0" max="60" value="15" step="5">
 						<label>
 							<input type="checkbox" name="checkbox-0">No time out
 						</label>
 						<button type="submit"
 							class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-clock">Override</button>
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-delete" data-rel="back">Cancel</a>
 					</div>
 				</form>
 			</div>

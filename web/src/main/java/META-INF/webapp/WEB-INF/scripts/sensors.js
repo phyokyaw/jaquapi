@@ -11,14 +11,14 @@ $(function() { //DOM Ready
 						$("#sensor_" + data[k].id + "_switch_status").css('background-color',"red");
 						if ($("#sensor_detail_" + data[k].id + "_switch_status").length) {
 							$("#sensor_detail_" + data[k].id + "_switch_status").text(data[k].onErrorMessage);
-							$("#sensor_detail_" + data[k].id + "_switch_status").css('background-color',"red");
+							$("#sensor_detail_" + data[k].id + "_switch_status").css('color',"red");
 						}
 					} else {
 						$("#sensor_" + data[k].id + "_switch_status").text("OK");
 						$("#sensor_" + data[k].id + "_switch_status").css('background-color',"green");
 						if ($("#sensor_detail_" + data[k].id + "_switch_status").length) {
 							$("#sensor_detail_" + data[k].id + "_switch_status").text("OK");
-							$("#sensor_detail_" + data[k].id + "_switch_status").css('background-color',"green");
+							$("#sensor_detail_" + data[k].id + "_switch_status").css('color',"green");
 						}
 					}
 				}
