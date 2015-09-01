@@ -154,7 +154,6 @@
 				<property name="onWhenLower" value="true"/>
 			</bean>
 		</property>
-		<property name="operatable" ref="switch_1" />
 	</bean>
 	
 	<bean id="fan" class="net.phyokyaw.jaquapi.core.model.Device">
@@ -167,7 +166,6 @@
 				<property name="onWhenLower" value="false"/>
 			</bean>
 		</property>
-		<property name="operatable" ref="switch_0" />
 	</bean>
 
 	<bean id="devices" class="java.util.ArrayList">

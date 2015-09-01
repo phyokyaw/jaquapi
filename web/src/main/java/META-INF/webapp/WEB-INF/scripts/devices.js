@@ -28,6 +28,6 @@ $(function() { //DOM Ready
 			},
 			complete : setTimeout(function() {deviceStatusPoll()}, 5000),
 			timeout : 1000
-		})
+		});
 	})();
 });

@@ -1,5 +1,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Jaqua-pi aquarium controller</title>
@@ -45,29 +46,49 @@
 					<a id="radio-3" href="#popupLogin" data-rel="popup" data-transition="slidedown" style='display:none;'></a>
 				</div>
 			</div>
+
+			<div data-role="popup" id="popupLogin" data-theme="a"
+				class="ui-corner-all" style="max-width: 100%" data-tolerance="0">
+				<div style="padding: 10px 20px;">
+					<h3>${device.name} control</h3>
+					<label for="device_timout_minute_slider">Timer (minutes):</label>
+					<input type="range" name="device_timout_minute_slider" id="device_timout_minute_slider" data-highlight="true" min="0" max="60" value="15" step="5">
+					<label>
+						<input type="checkbox" id="device_timeout_checkbox" name="device_timeout_checkbox">No timer
+					</label>
+					<a id="submit_device_change" href="#"
+						class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-clock" data-rel="back"></a>
+					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-delete" data-rel="back">Cancel</a>
+				</div>
+			</div>
 			<script>
 				$("#grid-radio-3").click(function(event) {
+					$("#submit_device_change").text("Turn On");
 					$("#radio-3").click();
 				});
 				$("#grid-radio-1").click(function(event) {
+					$("#submit_device_change").text("Turn Off");
 					$("#radio-3").click();
 				});
+				$("#device_timeout_checkbox").change(function() {
+					if($(this).is(':checked')) {
+						$("#device_timout_minute_slider").slider("disable");
+					} else {
+						$("#device_timout_minute_slider").slider("enable");
+					}
+				});
+				$("#submit_device_change").click(function() {
+					
+					$.ajax({
+						dataType : "json",
+						url : "/device_override/${device.id}/" +  + ,
+						type : "GET",
+						success : function(data) {
+						},
+						timeout : 1000
+					});
+				});
 			</script>
-			<div data-role="popup" id="popupLogin" data-theme="a"
-				class="ui-corner-all" style="max-width: 100%" data-tolerance="0">
-				<form>
-					<div style="padding: 10px 20px;">
-						<label for="slider-2">Delay in minutes:</label>
-						<input type="range" name="slider-2" id="slider-2" data-highlight="true" min="0" max="60" value="15" step="5">
-						<label>
-							<input type="checkbox" name="checkbox-0">No time out
-						</label>
-						<button type="submit"
-							class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-clock">Override</button>
-						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-delete" data-rel="back">Cancel</a>
-					</div>
-				</form>
-			</div>
 		</div>
 		<!-- /content -->
 	</div>
