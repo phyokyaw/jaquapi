@@ -44,8 +44,8 @@ public class PowerWebControl {
 	}
 
 	@RequestMapping("/device_override/{id}/{on}/{duration}")
-	public @ResponseBody boolean deviceOverride(@PathVariable("id") long id, @PathVariable("on") boolean on, @PathVariable("id") long duration) {
-		powerControlDeviceService.getDevice(id).setOverridingMode(new OnOffMode(on), duration * 1000);
+	public @ResponseBody boolean deviceOverride(@PathVariable("id") long id, @PathVariable("on") boolean on, @PathVariable("duration") long duration) {
+		powerControlDeviceService.getDevice(id).setOverridingMode(new OnOffMode(on), duration * 1000 * 60);
 		return true;
 	}
 

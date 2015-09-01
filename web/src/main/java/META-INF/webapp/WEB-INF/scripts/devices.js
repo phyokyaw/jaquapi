@@ -8,10 +8,10 @@ $(function() { //DOM Ready
 				for(var k in data) {
 					if (data[k].overridden == true) {
 						if (data[k].on == true) {
-							$("#device_" + data[k].id + "_switch_status").text("ON (" + data[k].overridingModeTimeout + ")");
+							$("#device_" + data[k].id + "_switch_status").text("MAUNAL ON (" + data[k].overridingModeTimeoutFormatted + ")");
 							$("#device_" + data[k].id + "_switch_status").css('background-color',"blue");
 						} else {
-							$("#device_" + data[k].id + "_switch_status").text("OFF (" + data[k].overridingModeTimeout + ")");
+							$("#device_" + data[k].id + "_switch_status").text("MAUNAL OFF (" + data[k].overridingModeTimeoutFormatted + ")");
 							$("#device_" + data[k].id + "_switch_status").css('background-color',"black");
 						}
 					} else {

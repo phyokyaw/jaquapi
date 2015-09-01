@@ -34,15 +34,15 @@
 			<div class="ui-grid-b">
 				<div class="ui-block-a">
 					<label for="grid-radio-1">OFF</label>
-					<input type="radio" id="grid-radio-1" name="grid-radio-1">
+					<input type="radio" id="grid-radio-1" name="grid-radio-1" value="OFF">
 				</div>
 				<div class="ui-block-b">
 					<label for="grid-radio-2">Auto</label>
-					<input type="radio" id="grid-radio-2" name="grid-radio-1">
+					<input type="radio" id="grid-radio-2" name="grid-radio-1" value="AUTO">
 				</div>
 				<div class="ui-block-c">
 					<label for="grid-radio-3">On</label>
-					<input type="radio" id="grid-radio-3" name="grid-radio-1">
+					<input type="radio" id="grid-radio-3" name="grid-radio-1" value="ON">
 					<a id="radio-3" href="#popupLogin" data-rel="popup" data-transition="slidedown" style='display:none;'></a>
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 				<div style="padding: 10px 20px;">
 					<h3>${device.name} control</h3>
 					<label for="device_timout_minute_slider">Timer (minutes):</label>
-					<input type="range" name="device_timout_minute_slider" id="device_timout_minute_slider" data-highlight="true" min="0" max="60" value="15" step="5">
+					<input type="range" name="device_timout_minute_slider" id="device_timout_minute_slider" data-highlight="true" min="0" max="60" value="15">
 					<label>
 						<input type="checkbox" id="device_timeout_checkbox" name="device_timeout_checkbox">No timer
 					</label>
@@ -78,10 +78,15 @@
 					}
 				});
 				$("#submit_device_change").click(function() {
-					
+					var onOff;
+					if ($('input[name=grid-radio-1]:checked').val() == "ON") {
+						onOff = "true";
+					} else {
+						onOff = "false";
+					}
 					$.ajax({
 						dataType : "json",
-						url : "/device_override/${device.id}/" +  + ,
+						url : "/device_override/${device.id}/" + onOff + "/" + $("#device_timout_minute_slider").val(),
 						type : "GET",
 						success : function(data) {
 						},

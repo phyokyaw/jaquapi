@@ -89,9 +89,9 @@ public class PowerControlDeviceService {
 		private final long overridingModeTimeout;
 		private final String name;
 		public DeviceStatus(Device device) {
-			on = device.getMode().shouldBeOn();
 			id = device.getId();
 			modeInfo = device.getMode().getInfo();
+			on = device.getActiveMode().shouldBeOn();
 			overridingModeTimeout = device.isOverridingModeScheduleActive() ? device.getOverridingModeTimeOut() : 0;
 			name = device.getName();
 		}
@@ -111,8 +111,20 @@ public class PowerControlDeviceService {
 			return overridingModeTimeout;
 		}
 
+		public String getOverridingModeTimeoutFormatted() {
+			return convertTime(overridingModeTimeout);
+		}
+
 		public boolean isOverridden() {
 			return overridingModeTimeout > 0;
+		}
+
+		private static String convertTime(long millis) {
+			long second = (millis / 1000) % 60;
+			long minute = (millis / (1000 * 60)) % 60;
+			long hour = (millis / (1000 * 60 * 60)) % 24;
+
+			return (hour > 0) ? String.format("%02dh:%02dm:%02ds", hour, minute, second) : String.format("%02dm:%02ds", minute, second);
 		}
 	}
 

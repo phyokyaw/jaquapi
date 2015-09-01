@@ -32,6 +32,10 @@ public class Device extends AbstractModel {
 		return mode;
 	}
 
+	public Mode getActiveMode() {
+		return isOverridingModeScheduleActive() ? overridingMode : mode;
+	}
+
 	public void setMode(Mode mode) {
 		this.mode = mode;
 	}
