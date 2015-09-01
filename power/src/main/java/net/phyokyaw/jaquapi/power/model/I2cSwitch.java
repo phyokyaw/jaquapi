@@ -32,7 +32,7 @@ public class I2cSwitch implements Operatable {
 			try {
 				Runtime r = Runtime.getRuntime();
 				Process p;
-				p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "/usr/sbin/i2cset", "-y", "1", "0x20", "0x01", newVal});
+				p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "/usr/sbin/i2cset", "-y", "1", "0x20", "0x00", newVal});
 				System.out.flush();
 				p.waitFor(); // wait for process to complete
 			} catch(Exception ex) {
