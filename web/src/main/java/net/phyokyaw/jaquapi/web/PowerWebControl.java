@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,6 @@ public class PowerWebControl {
 	@Qualifier("programme")
 	private PowerControlDeviceService powerControlDeviceService;
 
-	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping("/device_status")
 	public @ResponseBody DeviceStatus[] getDeviceStatus() {
 		Device devices[] = powerControlDeviceService.getDevices();
@@ -45,7 +43,7 @@ public class PowerWebControl {
 		return mav;
 	}
 
-	@RequestMapping("/device_override/{id}/{on}/{duration}")
+	@RequestMapping("/secure/device_override/{id}/{on}/{duration}")
 	public @ResponseBody boolean deviceOverride(@PathVariable("id") long id, @PathVariable("on") boolean on, @PathVariable("duration") long duration) {
 		powerControlDeviceService.getDevice(id).setOverridingMode(new OnOffMode(on), duration * 1000 * 60);
 		return true;
@@ -69,12 +67,12 @@ public class PowerWebControl {
 		return mav;
 	}
 
-	@RequestMapping("/activate_programme/{id}")
+	@RequestMapping("/secure/activate_programme/{id}")
 	public void activateProgramme(@PathVariable("id") long id) {
 		powerControlDeviceService.activateProgramme(id);
 	}
 
-	@RequestMapping("/deactivate_programme/{id}")
+	@RequestMapping("/secure/deactivate_programme/{id}")
 	public void deactivateProgramme(@PathVariable("id") long id) {
 		powerControlDeviceService.deactivateProgramme(id);
 	}

@@ -3,16 +3,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Jaqua-pi aquarium controller</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="<c:url value='/c/jquery.mobile-1.4.5.min.css' />" />
-<link rel="stylesheet" type="text/css"
-	href="<c:url value='/c/mobile.css' />" />
-<script type="text/javascript"
-	src="<c:url value='/s/jquery-1.11.0.min.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/s/jquery.mobile-1.4.5.min.js' />"></script>
+	<title>Jaqua-pi aquarium controller</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css"
+		href="<c:url value='/c/jquery.mobile-1.4.5.min.css' />" />
+	<link rel="stylesheet" type="text/css"
+		href="<c:url value='/c/mobile.css' />" />
+	<script type="text/javascript"
+		src="<c:url value='/s/jquery-1.11.0.min.js' />"></script>
+	<script type="text/javascript"
+		src="<c:url value='/s/jquery.mobile-1.4.5.min.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/temperature.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/sensors.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/ph.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
 </head>
 <body>
 	<div data-role="page">
