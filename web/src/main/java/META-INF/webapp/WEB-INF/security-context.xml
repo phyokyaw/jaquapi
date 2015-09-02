@@ -11,10 +11,10 @@
            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
     <sec:http auto-config='true'>
-		<sec:intercept-url pattern="/**" access="ROLE_USER" />
+		<sec:intercept-url pattern="/test*" access="ROLE_USER" />
 		<sec:http-basic />
 	</sec:http>
-
+	<sec:global-method-security pre-post-annotations="enabled"/>
 	<sec:authentication-manager>
 	   <sec:authentication-provider>
 	       <sec:user-service>
