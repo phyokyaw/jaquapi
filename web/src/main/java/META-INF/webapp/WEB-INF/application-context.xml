@@ -25,4 +25,5 @@
 		<bean
 			class="org.springframework.mobile.device.DeviceResolverHandlerInterceptor" />
 	</mvc:interceptors>
+	
 </beans>
