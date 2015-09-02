@@ -25,19 +25,6 @@
     <mvc:resources mapping="/fonts/**" location="WEB-INF/fonts/" />
     <mvc:resources mapping="/favicon.ico" location="WEB-INF/images/favicon.ico" />
     
-    <sec:http auto-config='true'>
-		<sec:intercept-url pattern="/**" access="ROLE_USER" />
-		<sec:http-basic />
-	</sec:http>
-
-	<sec:authentication-manager>
-	   <sec:authentication-provider>
-	       <sec:user-service>
-		   <sec:user name="jp" password="becool" authorities="ROLE_USER" />
-	       </sec:user-service>
-	   </sec:authentication-provider>
-	</sec:authentication-manager>
-
 	<!-- i18n message source -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="/WEB-INF/i18n/messages" />
