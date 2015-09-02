@@ -175,9 +175,9 @@
 	<bean id="devices" class="java.util.ArrayList">
 	    <constructor-arg>
 	        <list>
-	           <!-- <ref bean="lighting-white" />
+	            <ref bean="lighting-white" />
 	            <ref bean="lighting-blue" /> 
-	            <ref bean="refulight" /> -->
+	            <!-- <ref bean="refulight" /> -->
 	            <ref bean="heater" /> 
 	            <ref bean="fan" />
 	            <ref bean="pump" />
