@@ -12,10 +12,10 @@
 	<bean id="switch_1" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="1" />
 	</bean>
-	<bean class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
+	<bean id="switch_3" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="2" />
 	</bean>
-	<bean class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
+	<bean id="switch_4" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="3" />
 	</bean>
 	<bean class="net.phyokyaw.jaquapi.power.model.I2cSwitch">

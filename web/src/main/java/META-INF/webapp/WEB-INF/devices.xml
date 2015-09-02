@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
@@ -59,6 +59,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
+		<property name="operatable" ref="switch_4" />
 	</bean>
 
 	<!-- blue -->
@@ -111,6 +112,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
+		<property name="operatable" ref="switch_3" />
 	</bean>
 
 	<!-- refulight -->
@@ -154,6 +156,7 @@
 				<property name="onWhenLower" value="true"/>
 			</bean>
 		</property>
+		<property name="operatable" ref="switch_1" />
 	</bean>
 	
 	<bean id="fan" class="net.phyokyaw.jaquapi.core.model.Device">
@@ -166,6 +169,7 @@
 				<property name="onWhenLower" value="false"/>
 			</bean>
 		</property>
+		<property name="operatable" ref="switch_0" />
 	</bean>
 
 	<bean id="devices" class="java.util.ArrayList">
