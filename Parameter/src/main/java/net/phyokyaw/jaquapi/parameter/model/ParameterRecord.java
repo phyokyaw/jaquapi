@@ -22,7 +22,7 @@ public class ParameterRecord {
 	private String unit;
 
 	@Column
-	private double value;
+	private String value;
 
 	// columnDefinition could simply be = "TIMESTAMP", as the other settings are the MySQL default
 	@Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -37,11 +37,11 @@ public class ParameterRecord {
 		this.storedTime = storedTime;
 	}
 
-	public double getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 	
