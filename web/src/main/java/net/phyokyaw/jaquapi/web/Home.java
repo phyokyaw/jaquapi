@@ -8,6 +8,7 @@ import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
@@ -41,7 +42,10 @@ public class Home {
 		mav.addObject("browserDevice", browserDevice);
 		mav.addObject("sensorDevices", sensorService.getSensorDevices());
 		return mav;
-
 	}
 
+	
+	public @ResponseBody ControllerData getControllerData() {
+		return null;
+	}
 }

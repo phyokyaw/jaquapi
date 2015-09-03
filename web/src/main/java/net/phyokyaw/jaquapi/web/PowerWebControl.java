@@ -72,14 +72,14 @@ public class PowerWebControl {
 		powerControlDeviceService.activateProgramme(id);
 	}
 
-	@RequestMapping("/secure/deactivate_programme/{id}")
-	public void deactivateProgramme(@PathVariable("id") long id) {
-		powerControlDeviceService.deactivateProgramme(id);
-	}
-
-	@RequestMapping("/programme_status/{id}")
-	public @ResponseBody ProgrammeStatus programmeStatus(@PathVariable("id") long id) {
-		Programme programme = powerControlDeviceService.getProgramme(id);
-		return new ProgrammeStatus(programme);
-	}
+//	@RequestMapping("/secure/deactivate_programme/{id}")
+//	public void deactivateProgramme(@PathVariable("id") long id) {
+//		powerControlDeviceService.deactivateProgramme(id);
+//	}
+//
+//	@RequestMapping("/programme_status/{id}")
+//	public @ResponseBody ProgrammeStatus programmeStatus(@PathVariable("id") long id) {
+//		Programme programme = powerControlDeviceService.getProgramme(id);
+//		return new ProgrammeStatus(programme);
+//	}
 }

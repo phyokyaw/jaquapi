@@ -214,6 +214,7 @@
 		<module>web</module>
 		<module>programme</module>
 		<module>sensor</module>
+		<module>Parameter</module>
 	</modules>
 </project>
 	

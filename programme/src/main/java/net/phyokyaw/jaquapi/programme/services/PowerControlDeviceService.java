@@ -170,8 +170,6 @@ public class PowerControlDeviceService {
 		return null;
 	}
 
-
-
 	public void deactivateProgramme(long id) {
 		for (Programme programme : programmes) {
 			if (programme.getId() == id) {
