@@ -75,6 +75,22 @@ public class DateTimeScheduleMode extends Mode {
 			}
 			return false;
 		}
+
+		@JsonIgnore
+		public OnOfftime[] getOnOfTimes() {
+			return schedule;
+		}
+
+		@JsonIgnore
+		public boolean isTodayIncluded() {
+			DateTime now = DateTime.now();
+			for (int i : daysOfWeek) {
+				if (i == now.getDayOfWeek()) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	public static class OnOfftime {
@@ -107,6 +123,13 @@ public class DateTimeScheduleMode extends Mode {
 			}
 			return now.hourOfDay().equals(startTime.hourOfDay()) && now.minuteOfHour().equals(startTime.minuteOfHour());
 		}
+
+		@JsonIgnore
+		public String getFormatedString() {
+			StringBuilder result = new StringBuilder();
+			result.append(String.format("from <b style='color:SteelBlue'>%2dh:%02dm</b> to <b style='color:SteelBlue'>%2dh:%02dm</b>", startHour, startMin, endHour, endMin));
+			return result.toString();
+		}
 	}
 
 	public static DateTimeScheduleMode ceateDateTimeMode(String jsonString) throws Exception {
@@ -125,7 +148,18 @@ public class DateTimeScheduleMode extends Mode {
 
 	@Override
 	public String getFormattedInfo() {
-		// FIXME
-		return getInfo();
+		StringBuilder result = new StringBuilder();
+		result.append("<h3>Date timer control</h3>");
+		for (DaySchedule i : schedule) {
+			if (i.isTodayIncluded()) {
+				for(OnOfftime time : i.getOnOfTimes()) {
+					result.append("<p><b>ON </b>");
+					result.append(time.getFormatedString());
+					result.append(".</p>");
+				}
+
+			}
+		}
+		return result.toString();
 	}
 }

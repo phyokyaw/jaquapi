@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.web;
+package net.phyokyaw.jaquapi.model;
 
 import net.phyokyaw.jaquapi.ph.model.PhRecord;
 import net.phyokyaw.jaquapi.ph.services.PhService;

@@ -87,7 +87,7 @@
 				<ul data-role="listview">
 					<c:forEach items="${deviceStatus}" var="element">
 						<li><a href="/device/${element.id}"> <img
-								class="ui-li-icon ui-corner-none"
+								class="ui-li-icon"
 								src="/i/device_${element.id}.png" />
 								<h2>${element.name}</h2>
 								<p>${element.modeInfo}</p>

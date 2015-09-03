@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.phyokyaw.jaquapi.model.ControllerData;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService.DeviceStatus;
 import net.phyokyaw.jaquapi.sensor.services.SensorService;
@@ -44,7 +45,7 @@ public class Home {
 		return mav;
 	}
 
-	
+	@RequestMapping("/controller_data")
 	public @ResponseBody ControllerData getControllerData() {
 		return null;
 	}
