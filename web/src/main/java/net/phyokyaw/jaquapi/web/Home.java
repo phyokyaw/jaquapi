@@ -12,18 +12,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.phyokyaw.jaquapi.model.ControllerData;
+import net.phyokyaw.jaquapi.ph.services.PhService;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService.DeviceStatus;
 import net.phyokyaw.jaquapi.sensor.services.SensorService;
+import net.phyokyaw.jaquapi.temperature.services.TemperatureService;
 
 @Controller
 public class Home {
 
-
 	@Autowired
 	@Qualifier("programme")
 	private PowerControlDeviceService powerControlDeviceService;
-
+	
+	@Autowired
+	@Qualifier("temperature")
+	private TemperatureService temperatureService;
+	
+	@Autowired
+	@Qualifier("ph")
+	private PhService phService;
+	
 	@Autowired
 	@Qualifier("sensor")
 	private SensorService sensorService;
@@ -47,6 +56,16 @@ public class Home {
 
 	@RequestMapping("/controller_data")
 	public @ResponseBody ControllerData getControllerData() {
-		return null;
+		ControllerData controllerData = new ControllerData();
+		net.phyokyaw.jaquapi.core.model.Device devices[] = powerControlDeviceService.getDevices();
+		DeviceStatus[] deviceStatus = new DeviceStatus[devices.length];
+		for (int i=0; i < devices.length; i++) {
+			deviceStatus[i] = new DeviceStatus(devices[i]);
+		}
+		controllerData.setDeviceStatus(deviceStatus);
+		controllerData.setPhRecord(phService.getPhRecord());
+		controllerData.setTemperatureRecord(temperatureService.getTemperature());
+		controllerData.setSensors(sensorService.getSensorDevices());
+		return controllerData;
 	}
 }

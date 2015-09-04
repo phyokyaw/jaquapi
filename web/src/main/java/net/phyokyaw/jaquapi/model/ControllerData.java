@@ -1,40 +1,46 @@
 package net.phyokyaw.jaquapi.model;
 
 import net.phyokyaw.jaquapi.ph.model.PhRecord;
-import net.phyokyaw.jaquapi.ph.services.PhService;
-import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService.DeviceStatus;
-import net.phyokyaw.jaquapi.sensor.services.SensorService;
+import net.phyokyaw.jaquapi.sensor.model.SensorDevice;
 import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
-import net.phyokyaw.jaquapi.temperature.services.TemperatureService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 public class ControllerData {
 	private DeviceStatus[] deviceStatus;
 	private TemperatureRecord temperatureRecord;
 	private PhRecord phRecord;
+	private SensorDevice[] sensors;
 	
-	
-	@Autowired
-	@Qualifier("programme")
-	private PowerControlDeviceService powerControlDeviceService;
-	
-	@Autowired
-	@Qualifier("temperature")
-	private TemperatureService temperatureService;
-	
-	@Autowired
-	@Qualifier("ph")
-	private PhService phService;
-	
-	@Autowired
-	@Qualifier("sensor")
-	private SensorService sensorService;
-	
-	public static ControllerData create() {
-		return null;
+	public DeviceStatus[] getDeviceStatus() {
+		return deviceStatus;
+	}
+
+	public void setDeviceStatus(DeviceStatus[] deviceStatus) {
+		this.deviceStatus = deviceStatus;
+	}
+
+	public TemperatureRecord getTemperatureRecord() {
+		return temperatureRecord;
+	}
+
+	public void setTemperatureRecord(TemperatureRecord temperatureRecord) {
+		this.temperatureRecord = temperatureRecord;
+	}
+
+	public PhRecord getPhRecord() {
+		return phRecord;
+	}
+
+	public void setPhRecord(PhRecord phRecord) {
+		this.phRecord = phRecord;
+	}
+
+	public SensorDevice[] getSensors() {
+		return sensors;
+	}
+
+	public void setSensors(SensorDevice[] sensors) {
+		this.sensors = sensors;
 	}
 
 }
