@@ -24,15 +24,15 @@ public class Home {
 	@Autowired
 	@Qualifier("programme")
 	private PowerControlDeviceService powerControlDeviceService;
-	
+
 	@Autowired
 	@Qualifier("temperature")
 	private TemperatureService temperatureService;
-	
+
 	@Autowired
 	@Qualifier("ph")
 	private PhService phService;
-	
+
 	@Autowired
 	@Qualifier("sensor")
 	private SensorService sensorService;

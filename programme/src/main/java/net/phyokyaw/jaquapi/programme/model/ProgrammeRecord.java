@@ -1,4 +1,4 @@
-package net.phyokyaw.jaquapi.parameter.model;
+package net.phyokyaw.jaquapi.programme.model;
 
 import java.util.Date;
 
@@ -9,21 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.joda.time.DateTime;
-
-import net.phyokyaw.jaquapi.core.DateTimeUtil;
-
 @Entity
-public class ParameterRecord {
+public class ProgrammeRecord {
 	@Id
 	@GeneratedValue
 	private Long id;
 
 	@Column
-	private Long parameterId;
-
-	@Column
-	private String value;
+	private Long programmeId;
 
 	// columnDefinition could simply be = "TIMESTAMP", as the other settings are the MySQL default
 	@Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -38,23 +31,11 @@ public class ParameterRecord {
 		this.storedTime = storedTime;
 	}
 
-	public String getValue() {
-		return value;
+	public Long getProgrammeId() {
+		return programmeId;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public Long getParameterId() {
-		return parameterId;
-	}
-
-	public void setParameterId(Long parameterId) {
-		this.parameterId = parameterId;
-	}
-
-	public String timeFromNow() {
-		return DateTimeUtil.getTimeDifference(DateTime.now().toDate(), getStoredTime());
+	public void setProgrammeId(Long programmeId) {
+		this.programmeId = programmeId;
 	}
 }

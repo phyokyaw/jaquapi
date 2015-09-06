@@ -1,5 +1,6 @@
 package net.phyokyaw.jaquapi.programme.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
@@ -8,15 +9,19 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.phyokyaw.jaquapi.core.DateTimeUtil;
 import net.phyokyaw.jaquapi.core.model.Device;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.programme.dao.ProgrammeRecordDao;
 import net.phyokyaw.jaquapi.programme.model.Programme;
 import net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice;
+import net.phyokyaw.jaquapi.programme.model.ProgrammeRecord;
 
 @Service("programme")
 public class PowerControlDeviceService {
@@ -30,6 +35,9 @@ public class PowerControlDeviceService {
 
 	@Autowired
 	private ScheduledService scheduledService;
+
+	@Autowired
+	private ProgrammeRecordDao programmeRecordDao;
 
 	private ScheduledFuture<?> deviceUpdate;
 
@@ -65,6 +73,8 @@ public class PowerControlDeviceService {
 				}
 				programme.activate();
 				activedProgramme = programme;
+				storeProgrammeRecord(programme.getId());
+				break;
 			}
 		}
 	}
@@ -129,35 +139,33 @@ public class PowerControlDeviceService {
 	}
 
 	public static class ProgrammeStatus {
-		private final boolean on;
 		private final long id;
 		private final String name;
-		private final DeviceStatus[] deviceStatus;
-		public ProgrammeStatus(Programme programme) {
+		private final ProgrammeRecord lastRecord;
+		private final ProgrammeDevice[] programmeDevices;
+
+		public ProgrammeStatus(Programme programme, ProgrammeRecord lastRecord) {
 			name = programme.getName();
 			id = programme.getId();
-			deviceStatus = new DeviceStatus[programme.getDevices().size()];
-			boolean deviceOverride = false;
-			for (int i = 0; i < programme.getDevices().size(); i++) {
-				Device device = programme.getDevices().get(i).getDevice();
-				deviceStatus[i] = new DeviceStatus(device);
-				if (!deviceOverride && device.isOverridingModeScheduleActive()) {
-					deviceOverride = true;
-				}
-			}
-			on = deviceOverride;
+			programmeDevices = programme.getDevices().toArray(new ProgrammeDevice[]{});
+			this.lastRecord = lastRecord;
 		}
 		public long getId() {
 			return id;
 		}
-		public boolean isOn() {
-			return on;
-		}
+
 		public String getName() {
 			return name;
 		}
-		public DeviceStatus[] getDeviceStatus() {
-			return deviceStatus;
+
+		public String getProgrammeStatus() {
+			if (lastRecord != null) {
+				return "Done " + DateTimeUtil.getTimeDifference(DateTime.now().toDate(), lastRecord.getStoredTime()) + ".";
+			}
+			return "-";
+		}
+		public ProgrammeDevice[] getProgrammeDevices() {
+			return programmeDevices;
 		}
 	}
 
@@ -170,6 +178,12 @@ public class PowerControlDeviceService {
 		return null;
 	}
 
+	public void storeProgrammeRecord(long id) {
+		ProgrammeRecord programmeRecord = new ProgrammeRecord();
+		programmeRecord.setProgrammeId(id);
+		programmeRecordDao.save(programmeRecord);
+	}
+
 	public void deactivateProgramme(long id) {
 		for (Programme programme : programmes) {
 			if (programme.getId() == id) {
@@ -180,5 +194,24 @@ public class PowerControlDeviceService {
 				}
 			}
 		}
+	}
+
+	public ProgrammeStatus[] getProgrammesStatus() {
+		List<ProgrammeStatus> status = new ArrayList<ProgrammeStatus>();
+		for (Programme programme : programmes) {
+			ProgrammeRecord lastRecord = programmeRecordDao.findTopByProgrammeIdOrderByStoredTimeDesc(programme.getId());
+			status.add(new ProgrammeStatus(programme, lastRecord));
+		}
+		return status.toArray(new ProgrammeStatus[]{});
+	}
+
+
+	public ProgrammeStatus getProgrammeStatus(long id) {
+		for (ProgrammeStatus programmeStatus : getProgrammesStatus()) {
+			if (programmeStatus.getId() == id) {
+				return programmeStatus;
+			}
+		}
+		return null;
 	}
 }

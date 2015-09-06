@@ -12,24 +12,8 @@
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
-	<bean id="week-day-list" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<value>1</value>
-				<value>2</value>
-				<value>3</value>
-				<value>4</value>
-				<value>5</value>
-			</list>
-		</constructor-arg>
-	</bean>
-
-	<bean id="week-end-list" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<value>6</value>
-				<value>7</value>
-			</list>
-		</constructor-arg>
-	</bean>
+	<import resource="classpath*:**/**core-context.xml"/>
+	
+	<context:annotation-config />
+	<context:component-scan base-package="net.phyokyaw.jaquapi.ph" />
 </beans>

@@ -23,7 +23,7 @@ public class DateTimeUtil {
 		return c;
 	}
 
-	public String getTimeDifference(Date curdate, Date olddate) {
+	public static String getTimeDifference(Date curdate, Date olddate) {
 		int years;
 		int months;
 		int days;
@@ -45,8 +45,9 @@ public class DateTimeUtil {
 						.round((diff / 2592000000f) >= 1 ? (diff / 2592000000f)
 								: 0);
 				if (monthDiff > 0) {
-					if (monthDiff > 11)
+					if (monthDiff > 11) {
 						monthDiff = 11;
+					}
 
 					months = monthDiff;
 					differenceString = months
@@ -57,8 +58,9 @@ public class DateTimeUtil {
 									: 0);
 					if (dayDiff > 0) {
 						days = dayDiff;
-						if (days == 30)
+						if (days == 30) {
 							days = 29;
+						}
 						differenceString = days
 								+ (days == 1 ? " day" : " days") + " ago";
 					} else {
@@ -82,10 +84,11 @@ public class DateTimeUtil {
 								int secondDiff = Math
 										.round((diff / (1000f)) >= 1 ? (diff / (1000f))
 												: 0);
-								if (secondDiff > 0)
+								if (secondDiff > 0) {
 									seconds = secondDiff;
-								else
+								} else {
 									seconds = 1;
+								}
 								differenceString = seconds
 										+ (seconds == 1 ? " second"
 												: " seconds") + " ago";

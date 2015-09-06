@@ -1,9 +1,12 @@
 package net.phyokyaw.jaquapi.parameter.dao;
 
-import net.phyokyaw.jaquapi.parameter.model.ParameterRecord;
+import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface ParameterDao extends CrudRepository<ParameterRecord, Long> {
+import net.phyokyaw.jaquapi.parameter.model.ParameterRecord;
 
+public interface ParameterDao extends CrudRepository<ParameterRecord, Long> {
+	ParameterRecord findTopByParameterIdOrderByStoredTimeDesc(long parameterId);
+	List<ParameterRecord> findByParameterIdOrderByStoredTimeDesc(long parameterId);
 }

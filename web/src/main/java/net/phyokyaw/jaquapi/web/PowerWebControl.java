@@ -12,10 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.phyokyaw.jaquapi.core.model.Device;
 import net.phyokyaw.jaquapi.core.model.OnOffMode;
-import net.phyokyaw.jaquapi.programme.model.Programme;
+import net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService;
 import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService.DeviceStatus;
-import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService.ProgrammeStatus;
 
 @Controller
 public class PowerWebControl {
@@ -30,10 +29,21 @@ public class PowerWebControl {
 	public @ResponseBody DeviceStatus[] getDeviceStatus() {
 		Device devices[] = powerControlDeviceService.getDevices();
 		DeviceStatus[] deviceStatus = new DeviceStatus[devices.length];
-		for (int i=0; i < devices.length; i++) {
+		for (int i = 0; i < devices.length; i++) {
 			deviceStatus[i] = new DeviceStatus(devices[i]);
 		}
 		return deviceStatus;
+	}
+
+	@RequestMapping("/device_status/{id}")
+	public @ResponseBody DeviceStatus getDeviceStatus(@PathVariable("id") long id) {
+		Device devices[] = powerControlDeviceService.getDevices();
+		for (int i = 0; i < devices.length; i++) {
+			if (devices[i].getId() == id) {
+				return new DeviceStatus(devices[i]);
+			}
+		}
+		return null;
 	}
 
 	@RequestMapping("/device/{id}")
@@ -44,26 +54,29 @@ public class PowerWebControl {
 	}
 
 	@RequestMapping("/secure/device_override/{id}/{on}/{duration}")
-	public @ResponseBody boolean deviceOverride(@PathVariable("id") long id, @PathVariable("on") boolean on, @PathVariable("duration") long duration) {
+	public @ResponseBody boolean deviceOverride(@PathVariable("id") long id, @PathVariable("on") boolean on,
+			@PathVariable("duration") long duration) {
 		powerControlDeviceService.getDevice(id).setOverridingMode(new OnOffMode(on), duration * 1000 * 60);
 		return true;
 	}
 
-	@RequestMapping("/feed_info")
-	public @ResponseBody ModelAndView feedInfo() {
-		ModelAndView mav = new ModelAndView("feed");
-		for (Programme p : powerControlDeviceService.getProgrammes()) {
-			if (p.getName().equals(PowerControlDeviceService.PROGRAM_NAME_FEEDING)) {
-				mav.addObject("programme", p);
-			}
-		}
-		return mav;
+	@RequestMapping("/secure/cancel_device_override/{id}")
+	public @ResponseBody boolean cancelOverride(@PathVariable("id") long id) {
+		powerControlDeviceService.getDevice(id).cancelOverridingMode();
+		return true;
 	}
 
 	@RequestMapping("/programmes")
 	public @ResponseBody ModelAndView getProgrammes() {
 		ModelAndView mav = new ModelAndView("maintenance");
-		mav.addObject("programmes", powerControlDeviceService.getProgrammes());
+		mav.addObject("programmesStatus", powerControlDeviceService.getProgrammesStatus());
+		return mav;
+	}
+
+	@RequestMapping("/programme_detail/{id}")
+	public @ResponseBody ModelAndView getProgrammes(@PathVariable("id") long id) {
+		ModelAndView mav = new ModelAndView("programme_detail");
+		mav.addObject("programmeStatus", powerControlDeviceService.getProgrammeStatus(id));
 		return mav;
 	}
 
@@ -72,14 +85,25 @@ public class PowerWebControl {
 		powerControlDeviceService.activateProgramme(id);
 	}
 
-//	@RequestMapping("/secure/deactivate_programme/{id}")
-//	public void deactivateProgramme(@PathVariable("id") long id) {
-//		powerControlDeviceService.deactivateProgramme(id);
-//	}
-//
-//	@RequestMapping("/programme_status/{id}")
-//	public @ResponseBody ProgrammeStatus programmeStatus(@PathVariable("id") long id) {
-//		Programme programme = powerControlDeviceService.getProgramme(id);
-//		return new ProgrammeStatus(programme);
-//	}
+	@RequestMapping("/programme_devices_status/{id}")
+	public @ResponseBody DeviceStatus[] getProgrammeDeviceStatus(@PathVariable("id") long id) {
+		ProgrammeDevice[] devices = powerControlDeviceService.getProgrammeStatus(id).getProgrammeDevices();
+		DeviceStatus[] deviceStatus = new DeviceStatus[devices.length];
+		for (int i = 0; i < devices.length; i++) {
+			deviceStatus[i] = new DeviceStatus(devices[i].getDevice());
+		}
+		return deviceStatus;
+	}
+
+	// @RequestMapping("/secure/deactivate_programme/{id}")
+	// public void deactivateProgramme(@PathVariable("id") long id) {
+	// powerControlDeviceService.deactivateProgramme(id);
+	// }
+	//
+	// @RequestMapping("/programme_status/{id}")
+	// public @ResponseBody ProgrammeStatus programmeStatus(@PathVariable("id")
+	// long id) {
+	// Programme programme = powerControlDeviceService.getProgramme(id);
+	// return new ProgrammeStatus(programme);
+	// }
 }

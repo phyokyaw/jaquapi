@@ -17,15 +17,15 @@ public class SensorWebControl {
 	@Qualifier("sensor")
 	private SensorService sensorService;
 
-	@RequestMapping("/sensor_status/{id}")
-	public ModelAndView getSensorStatus(@PathVariable("id") long id) {
+	@RequestMapping("/sensor_detail/{id}")
+	public ModelAndView getSensorsDetail(@PathVariable("id") long id) {
 		ModelAndView mav = new ModelAndView("sensor_detail");
 		mav.addObject("sensor", sensorService.getSensorDevice(id));
 		return mav;
 	}
 
-	@RequestMapping("/sensors_status")
-	public @ResponseBody SensorDevice[] getSensorStatus() {
-		return sensorService.getSensorDevices();
+	@RequestMapping("/sensor_status/{id}")
+	public @ResponseBody SensorDevice getSensorStatus(@PathVariable("id") long id) {
+		return sensorService.getSensorDevice(id);
 	}
 }

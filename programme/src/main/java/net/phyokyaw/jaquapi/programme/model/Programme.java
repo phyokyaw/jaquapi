@@ -7,15 +7,16 @@ import org.slf4j.LoggerFactory;
 
 import net.phyokyaw.jaquapi.core.model.Device;
 import net.phyokyaw.jaquapi.core.model.OnOffMode;
+import net.phyokyaw.jaquapi.programme.services.PowerControlDeviceService.DeviceStatus;
 
 public class Programme {
 	private static final Logger logger = LoggerFactory.getLogger(Programme.class);
 
 	private final int id;
 	private String name;
-	
+
 	private List<ProgrammeDevice> programmeDevices;
-	
+
 	public Programme(int id) {
 		this.id = id;
 	}
@@ -75,6 +76,10 @@ public class Programme {
 		}
 		public void setShouldbeOff(boolean shouldbeOff) {
 			this.shouldbeOff = shouldbeOff;
+		}
+
+		public DeviceStatus getDeviceStatus() {
+			return new DeviceStatus(device);
 		}
 	}
 

@@ -1,13 +1,12 @@
 package net.phyokyaw.jaquapi.core.model;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonMethod;
-import org.codehaus.jackson.map.ObjectMapper;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DateTimeScheduleMode extends Mode {
 
@@ -136,10 +135,6 @@ public class DateTimeScheduleMode extends Mode {
 		return mapper.readValue(jsonString, DateTimeScheduleMode.class);
 	}
 
-	public String toJson() throws Exception {
-		mapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
-		return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
-	}
 
 	@Override
 	public String getInfo() {

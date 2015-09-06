@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd
+           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
+           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+	<import resource="classpath*:**/**core-context.xml" />
+
+	<bean id="KH" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
+		<constructor-arg value="0" />
+		<property name="name" value="Alkalinity" />
+		<property name="shortName" value="kh" />
+		<property name="unit" value="dKh" />
+	</bean>
+	<bean id="CA" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
+		<constructor-arg value="1" />
+		<property name="name" value="Calcium" />
+		<property name="shortName" value="Ca" />
+		<property name="unit" value="ppm" />
+	</bean>
+	<bean id="MG" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
+		<constructor-arg value="2" />
+		<property name="name" value="Magnesium" />
+		<property name="shortName" value="Mg" />
+		<property name="unit" value="ppm" />
+	</bean>
+	<bean id="PO4" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
+		<constructor-arg value="3" />
+		<property name="name" value="Phosphate" />
+		<property name="shortName" value="PO4" />
+		<property name="unit" value="ppm" />
+	</bean>
+	<bean id="NO3" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
+		<constructor-arg value="4" />
+		<property name="name" value="Nirate" />
+		<property name="shortName" value="NO3" />
+		<property name="unit" value="ppm" />
+	</bean>
+	<bean id="K" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
+		<constructor-arg value="5" />
+		<property name="name" value="Potassium" />
+		<property name="shortName" value="K" />
+		<property name="unit" value="ppm" />
+	</bean>
+	<bean id="parameters" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="KH" />
+				<ref bean="CA" />
+				<ref bean="MG" />
+				<ref bean="PO4" />
+				<ref bean="NO3" />
+				<ref bean="K" />
+			</list>
+		</constructor-arg>
+	</bean>
+	<context:annotation-config />
+	<context:component-scan base-package="net.phyokyaw.jaquapi.parameter" />
+</beans>

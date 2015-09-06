@@ -15,13 +15,10 @@
 		src="<c:url value='/s/jquery.mobile-1.4.5.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
-	<script type="text/javascript" src="<c:url value='/s/temperature.js' />"></script>
-	<script type="text/javascript" src="<c:url value='/s/sensors.js' />"></script>
-	<script type="text/javascript" src="<c:url value='/s/ph.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
 </head>
 <body>
-	<div data-role="page">
+	<div id="dashboard" data-role="page">
 		<div data-role="header" style="overflow: hidden;">
 			<h4>Aquarium control</h4>
 			<a href="#" data-icon="gear"
@@ -30,8 +27,8 @@
 				<ul>
 					<li><a href="#" data-icon="home"
 						class="ui-btn-active ui-state-persist">Dushboard</a></li>
-					<li><a href="/feed_info" data-icon="star">Feed</a></li>
 					<li><a href="/programmes" data-icon="action">Maintenance</a></li>
+					<li><a href="/parameters" data-icon="star">Params</a></li>
 				</ul>
 			</div>
 			<!-- /navbar -->
@@ -62,7 +59,7 @@
 				<h4>Sensors</h4>
 				<ul data-role="listview">
 					<c:forEach items="${sensorDevices}" var="element">
-						<li><a href="/sensor_status/${element.id}"> <img
+						<li><a href="/sensor_detail/${element.id}"> <img
 								class="ui-li-icon ui-corner-none"
 								src="/i/sensor_${element.id}_small.png" />
 								${element.name}

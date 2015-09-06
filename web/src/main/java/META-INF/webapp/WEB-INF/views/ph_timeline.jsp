@@ -15,21 +15,18 @@
 		src="<c:url value='/s/jquery.mobile-1.4.5.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
-	<script type="text/javascript" src="<c:url value='/s/temperature.js' />"></script>
-	<script type="text/javascript" src="<c:url value='/s/sensors.js' />"></script>
-	<script type="text/javascript" src="<c:url value='/s/ph.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
 </head>
 <body>
 	<div id="ph_timeline_page" data-role="page">
 		<div data-role="header" style="overflow: hidden;" data-add-back-btn="true">
-			<h4>pH</h4>
+			<h4>Aquarium control</h4>
 			<div data-role="navbar">
 				<ul>
 					<li><a href="/" data-icon="home"
 						class="ui-btn-active ui-state-persist">Dushboard</a></li>
-					<li><a href="/feed_info" data-icon="star">Feed</a></li>
 					<li><a href="/programmes" data-icon="action">Maintenance</a></li>
+					<li><a href="/parameters" data-icon="star">Params</a></li>
 				</ul>
 			</div>
 			<!-- /navbar -->
@@ -37,7 +34,7 @@
 		<!-- /header -->
 		<div role="main" class="ui-content">
 			<div class="center-wrapper">
-				<h4>Time line</h4>
+				<h4 class="ui-bar ui-bar-a">pH Time line</h4>
 				<canvas id="phHistory" height="150"></canvas>
 			</div>
 			<form>
@@ -52,52 +49,6 @@
 			</form>
 		</div>
 		<!-- /content -->
-		<script>
-			var phHistoryChart;
-			var ph_interval = 'HOUR';
-			function phHistoryPoll(recall) {		
-				$.ajax({
-					dataType : "json",
-					url : "/ph_history?interval=" + ph_interval,
-					type : "GET",
-					success : function(phData) {	
-						var pdata = {
-							labels : phData.labels,
-							datasets : [
-							{
-								fillColor : "rgba(151,187,205,0.5)",
-								strokeColor : "rgba(151,187,205,1)",
-								pointColor : "rgba(151,187,205,1)",
-								pointStrokeColor : "#fff",
-								data : phData.values,
-							}]
-						};
-						options = {
-							animation : false
-						}
-						if (phHistoryChart != null) {
-							phHistoryChart.destroy();
-						}
-						var ctx = $("#phHistory").get(0).getContext("2d");
-						$("#phHistory").attr('width', $("#phHistory").parent().parent().width());
-						phHistoryChart = new Chart(ctx).Line(pdata, options);
-					},
-					complete :  function() {
-						if (recall) {
-							setTimeout(function() {phHistoryPoll(true)}, 10000)
-						}
-					},
-					timeout : 1000
-				});
-			}
-			$(document).on("pageshow", "#ph_timeline_page", function(event) {
-				phHistoryPoll(true);
-				$("[name=phHistorySelection]").change(function() {
-					ph_interval = $(this).val();
-					phHistoryPoll(false);
-				});
-			});
-			</script>
 	</div>
 	<!-- /page -->
 </body>

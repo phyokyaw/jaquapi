@@ -45,6 +45,7 @@ public class Device extends AbstractModel {
 	private static final long INTERVAL = 100L;
 
 	public void setOverridingMode(Mode mode, long timeOutInMilliSec) {
+		cancelOverridingMode();
 		overridingMode = mode;
 		timeoutPublishSchedule = scheduledService.addScheduleAtFixrate(INTERVAL, new Runnable() {
 			@Override
@@ -63,7 +64,6 @@ public class Device extends AbstractModel {
 			public void run() {
 				logger.info("Canceling");
 				cancelOverridingMode();
-				timeoutPublishSchedule.cancel(false);
 			}
 		});
 	}
@@ -89,7 +89,11 @@ public class Device extends AbstractModel {
 
 	public void cancelOverridingMode() {
 		synchronized (this) {
-			overridingMode = null;
+			if (isOverridingModeScheduleActive()) {
+				overridingModeSchedule.cancel(true);
+				timeoutPublishSchedule.cancel(false);
+				overridingMode = null;
+			}
 		}
 	}
 
