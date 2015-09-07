@@ -1,24 +1,12 @@
-var updateListeners = new Map();
-
-function addUpdateListener(name, fn) {
-	if (!updateListeners.has(name)) {
-		updateListeners.set(name, []);
-	}
-	updateListeners[name].push(fn);
-}
-
-function removeUpdateListener(name, fn) {
-	if (updateListeners.has(name)) {
-		updateListeners[name].pop(fn);
-	}
-}
 
 var functions = [];
+
+var interval_time = 3000;
 
 var tempData;
 var phData;
 var temp_gauge;
-var phGauge;
+var ph_gauge;
 var dashboardControlsRefresh = function() {
 	$.ajax({
 		dataType : "json",
@@ -26,11 +14,11 @@ var dashboardControlsRefresh = function() {
 		type : "GET",
 		success : function(data) {
 			temp_gauge.setValue(data["temperatureRecord"].value);
-			phGauge.setValue(data["phRecord"].value);
+			ph_gauge.setValue(data["phRecord"].value);
 			dashboard_sensors(data["sensors"]);
 			dashboard_devices(data["deviceStatus"]);
 		},
-		timeout : 1000
+		timeout : interval_time
 	});
 }
 
@@ -96,7 +84,8 @@ $(document).on("pagecreate", "#dashboard", function( event ) {
 		}
 	});
 	temp_gauge.draw();
-	phGauge = new Gauge({
+	
+	ph_gauge = new Gauge({
 		renderTo    : 'phGuage',
 		width       : 135,
 		height      : 135,
@@ -117,7 +106,8 @@ $(document).on("pagecreate", "#dashboard", function( event ) {
 			needle     : { start : '#f00', end : '#00f' }
 		}
 	});
-	phGauge.draw();
+
+	ph_gauge.draw();
 });
 
 // Device
@@ -147,7 +137,7 @@ $(document).on("pagecreate", "#device_detail_page", function( event ) {
 			success : function(data) {
 				//
 			},
-			timeout : 1000
+			timeout : interval_time
 		});
 	});
 	$("#device_programme_auto").click(function(event) {
@@ -158,7 +148,7 @@ $(document).on("pagecreate", "#device_detail_page", function( event ) {
 			success : function(data) {
 				//
 			},
-			timeout : 1000
+			timeout : interval_time
 		});
 	});
 });
@@ -183,12 +173,11 @@ var device_status_refresh = function() {
 				}
 			}
 		},
-		timeout : 1000
+		timeout : interval_time
 	});
 }
 
 // Sensor
-
 var  sensor_status_refresh = function() {
 	$.ajax({
 		dataType : "json",
@@ -203,7 +192,7 @@ var  sensor_status_refresh = function() {
 				$("#sensor_detail_" + data.id + "_switch_status").css('color',"green");
 			}
 		},
-		timeout : 1000
+		timeout : interval_time
 	});
 }
 
@@ -238,7 +227,7 @@ var  ph_timeline_refresh = function() {
 			$("#phHistory").attr('width', $("#phHistory").parent().parent().width());
 			phHistoryChart = new Chart(ctx).Line(pdata, options);
 		},
-		timeout : 1000
+		timeout : interval_time
 	});
 }
 
@@ -283,7 +272,7 @@ var  temp_timeline_refresh = function() {
 				alert( "This chart was just enhanced by jQuery Mobile!" );
 			}
 		},
-		timeout : 1000
+		timeout : interval_time
 	});
 }
 
@@ -304,7 +293,7 @@ $(document).on("pagecreate", "#programme_detail_page", function( event ) {
 				success : function() {	
 					//
 				},
-				timeout : 1000
+				timeout : interval_time
 		});
 	});
 });
@@ -335,14 +324,14 @@ var programme_detail_refresh = function() {
 				}
 			}
 		},
-		timeout : 1000
+		timeout : interval_time
 	});
 }
 
 // Parameters
 
 
-$(document).on("pagecontainerbeforeshow",function( event, ui ) {
+$(document).on("pagecontainershow",function( event, ui ) {
 	if (ui.toPage.attr('id') == "dashboard") {
 		functions.push(dashboardControlsRefresh);
 	} else if (ui.toPage.attr('id') == "device_detail_page") {
@@ -379,7 +368,7 @@ $(document).ready(function() {
 		functions.forEach(function(entry) {
 			entry();
 		});
-	}, 1000);
+	}, interval_time);
 });
 
 // Hide address

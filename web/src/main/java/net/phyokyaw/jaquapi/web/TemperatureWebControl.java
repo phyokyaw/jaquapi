@@ -54,5 +54,9 @@ public class TemperatureWebControl {
 			return labels;
 		}
 
+		public double[] getValues() {
+			return values;
+		}
+
 	}
 }

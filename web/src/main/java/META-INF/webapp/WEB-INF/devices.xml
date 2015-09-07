@@ -247,12 +247,36 @@
 		<property name="devices" ref="feeding-devices" />
 		<property name="name" value="Feeding" />
 	</bean>
+	
+	<bean id="sock-change-devices" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
+					<property name="device" ref="pump" />
+					<property name="timeout" value="10" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
+					<property name="device" ref="skimmer" />
+					<property name="timeout" value="180" />
+					<property name="shouldbeOff" value="true" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="sockchange" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="2" />
+		<property name="devices" ref="sock-change-devices" />
+		<property name="name" value="Socks Change" />
+	</bean>
 
 	<bean id="programmes" class="java.util.ArrayList">
 	    <constructor-arg>
 	        <list>
 	        	<ref bean="waterchange" />
 	        	<ref bean="feeding" />
+	        	<ref bean="sockchange" />
 			</list>
 		</constructor-arg>
 	</bean>
