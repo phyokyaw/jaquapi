@@ -31,6 +31,10 @@ public class ParameterService {
 		return dao.findByParameterIdOrderByStoredTimeDesc(id).toArray(new ParameterRecord[]{});
 	}
 
+	public ParameterRecord[] getLastParameterRecords(long id) {
+		return dao.findTop10ByParameterIdOrderByStoredTimeDesc(id).toArray(new ParameterRecord[]{});
+	}
+
 	public ParameterRecord getLastParameterRecord(long id) {
 		return dao.findTopByParameterIdOrderByStoredTimeDesc(id);
 	}

@@ -19,7 +19,7 @@
 </head>
 <body>
 	<div id="parameter_detail_page" data-role="page">
-		<div data-role="header" style="overflow: hidden;">
+		<div data-role="header" style="overflow: hidden;" data-add-back-btn="true">
 			<h4>Aquarium control</h4>
 			<a href="#" data-icon="gear"
 				class="ui-btn-right ui-shadow ui-corner-all ui-btn-icon-notext">Setup</a>
@@ -36,7 +36,50 @@
 		<!-- /header -->
 		<div role="main" class="ui-content">
 			<h4 class="ui-bar ui-bar-a" align="center">${parameter.name} (${parameter.shortName})</h4>
-			<%-- <canvas id="parameterHistory" height="150"></canvas> --%>
+			<c:if test="${parameterHistory != null}">
+				<script>
+				var parameter_chart;
+				$(document).on("pagecontainershow",function( event, ui ) {
+					if (ui.toPage.attr('id') == "parameter_detail_page") {
+						var data = {
+						    labels: ${parameterHistory.labelsFormat},
+						    datasets: [
+						        {
+						            label: "My First dataset",
+						            fillColor: "rgba(220,220,220,0.2)",
+						            strokeColor: "rgba(220,220,220,1)",
+						            pointColor: "rgba(220,220,220,1)",
+						            pointStrokeColor: "#fff",
+						            pointHighlightFill: "#fff",
+						            pointHighlightStroke: "rgba(220,220,220,1)",
+						            data: ${parameterHistory.valuesFormat},
+						        }
+						    ]
+						};
+						options = {
+							animation : false
+						}
+					
+						var ctx = $("#parameterHistoryCanvas").get(0).getContext("2d");
+						$("#parameterHistoryCanvas").attr('width', $("#parameterHistoryCanvas").parent().width());
+						parameter_chart = new Chart(ctx).Line(data, options);
+					}
+					
+				});
+				$(document).on("pagecontainerbeforehide",function( event, ui ) {
+					if (ui.prevPage.attr('id') == "parameter_detail_page") {
+						if (parameter_chart != null) {
+							parameter_chart.destroy();
+							parameter_chart = null;
+						}
+					}
+				});
+				</script>
+				<div>
+				<canvas id="parameterHistoryCanvas" style="height:150px"></canvas>
+				</div>
+				
+			</c:if>
 			<form action="/secure/add_parameter_record/" method="get">
 				<label for="parameter_value">Test result</label>
 				<input type="hidden" name="id" id="parameter_id" value="${parameter.id}" />

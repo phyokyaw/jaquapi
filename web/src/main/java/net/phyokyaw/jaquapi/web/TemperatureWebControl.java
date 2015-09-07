@@ -53,8 +53,6 @@ public class TemperatureWebControl {
 		public String[] getLabels() {
 			return labels;
 		}
-		public double[] getValues() {
-			return values;
-		}
+
 	}
 }

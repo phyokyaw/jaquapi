@@ -5,6 +5,7 @@
 <head>
 	<title>Jaqua-pi aquarium controller</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="stylesheet" type="text/css"
 		href="<c:url value='/c/jquery.mobile-1.4.5.min.css' />" />
 	<link rel="stylesheet" type="text/css"
@@ -16,6 +17,10 @@
 	<script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
+	<link rel="apple-touch-icon" href="/i/app-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/i/app-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/i/app-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/i/app-icon-ipad-retina.png">
 </head>
 <body>
 	<div id="dashboard" data-role="page">
