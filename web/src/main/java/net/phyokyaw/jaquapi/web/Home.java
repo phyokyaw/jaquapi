@@ -38,8 +38,7 @@ public class Home {
 	private SensorService sensorService;
 
 	@RequestMapping("/")
-	public ModelAndView home(HttpServletRequest request)
-	{
+	public ModelAndView home(HttpServletRequest request) {
 		Device browserDevice = DeviceUtils.getCurrentDevice(request);
 		String page = "index-mobile";
 		ModelAndView mav = new ModelAndView(page);
@@ -67,5 +66,10 @@ public class Home {
 		controllerData.setTemperatureRecord(temperatureService.getTemperature());
 		controllerData.setSensors(sensorService.getSensorDevices());
 		return controllerData;
+	}
+	
+	@RequestMapping("/secure/setup")
+	public ModelAndView setup() {
+		return new ModelAndView("setup");
 	}
 }

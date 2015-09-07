@@ -21,7 +21,7 @@
 	<div id="dashboard" data-role="page">
 		<div data-role="header" style="overflow: hidden;">
 			<h4>Aquarium control</h4>
-			<a href="#" data-icon="gear"
+			<a href="/secure/setup" data-icon="gear"
 				class="ui-btn-right ui-shadow ui-corner-all ui-btn-icon-notext">Setup</a>
 			<div data-role="navbar">
 				<ul>
