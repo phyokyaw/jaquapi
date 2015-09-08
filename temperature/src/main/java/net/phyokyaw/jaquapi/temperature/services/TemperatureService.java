@@ -17,6 +17,8 @@ import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.phyokyaw.jaquapi.core.services.AquaService;
@@ -128,9 +130,23 @@ public class TemperatureService implements AquaService {
 					filteredRecords.add(records.get(i));
 				}
 			}
+		} else if (days == HistoryInterval.WEEK) {
+			Calendar start = new GregorianCalendar();
+			calendar.add(Calendar.DAY_OF_MONTH, -1);
+			Pageable one = new PageRequest(0, 1);
+			for (int i = 0; i < 7; i++) {
+				List<TemperatureRecord> result = dao.findByDate(calendar.getTime(), start.getTime(), one);
+				if (result == null || result.isEmpty()) {
+					break;
+				}
+				filteredRecords.addAll(result);
+				start.add(Calendar.DAY_OF_MONTH, -1);
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+			}
 		}
 		return filteredRecords;
 	}
+
 
 	public TemperatureRecord getTemperature() {
 		TemperatureRecord temp = new TemperatureRecord();

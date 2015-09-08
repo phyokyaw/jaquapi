@@ -233,8 +233,8 @@ var  ph_timeline_refresh = function() {
 
 $(document).on("pagecreate", "#ph_timeline_page", function( event ) {
 	$("[name=phHistorySelection]").change(function() {
-		temp_interval = $(this).val();
-		temp_timeline_refresh();
+		ph_interval = $(this).val();
+		ph_timeline_refresh();
 	});
 });
 

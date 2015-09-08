@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Jaqua-pi aquarium controller</title>
+	<title>Aquarium controller</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="stylesheet" type="text/css"

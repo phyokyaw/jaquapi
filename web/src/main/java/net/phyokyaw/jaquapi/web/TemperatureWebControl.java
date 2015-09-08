@@ -44,8 +44,9 @@ public class TemperatureWebControl {
 		public TemperatureHistoryData(List<TemperatureRecord> records, HistoryInterval interval) {
 			labels = new String[records.size()];
 			values = new double[records.size()];
+			String format = interval == HistoryInterval.WEEK ? "dd MMM" : "HH:mm";
 			for (int i = 0; i < labels.length; i++) {
-				labels[i] = new SimpleDateFormat("HH:mm").format(records.get(i).getStoredTime());
+				labels[i] = new SimpleDateFormat(format).format(records.get(i).getStoredTime());
 				values[i] = records.get(i).getValue();
 			}
 		}
