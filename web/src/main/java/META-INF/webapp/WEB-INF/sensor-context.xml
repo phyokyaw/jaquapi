@@ -30,20 +30,29 @@
 		<property name="onErrorMessage" value="Level low!" />
 	</bean>
 	
-	<!-- <bean id="alk_container_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
+	<bean id="alk_container_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
 		<constructor-arg value="2" />
-		<property name="name" value="ALK dosing" />
+		<property name="name" value="ALK container level" />
 		<property name="description" value="ALK dosing container liquid level" />
 		<property name="errorWhenOn" value="true" />
 		<property name="onErrorMessage" value="Level low!" />
 	</bean>
+	<!-- 
+	<bean id="skimmer_cup_sensor" class="net.phyokyaw.jaquapi.sensor.model.SensorDevice">
+		<constructor-arg value="2" />
+		<property name="name" value="Skimmer cup" />
+		<property name="description" value="Skimmer cup level" />
+		<property name="errorWhenOn" value="true" />
+		<property name="onErrorMessage" value="Level low!" />
+	</bean>
 	 -->
-
+	 
 	<bean id="sensorDevices" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
 				<ref bean="ato_water_sensor" />
 				<ref bean="sump_water_sensor" />
+				<ref bean="alk_container_sensor" />
 			</list>
 		</constructor-arg>
 	</bean>

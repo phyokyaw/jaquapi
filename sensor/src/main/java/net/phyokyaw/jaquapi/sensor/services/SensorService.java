@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.phyokyaw.jaquapi.core.SoundUtil;
 import net.phyokyaw.jaquapi.core.services.AquaService;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
 import net.phyokyaw.jaquapi.sensor.model.SensorDevice;
@@ -63,6 +64,9 @@ public class SensorService {
 						sensorDevice.setOn(false);
 					} else {
 						throw new Exception("Unable to get sensor data for " + sensorDevice.getName());
+					}
+					if (sensorDevice.isOnError()) {
+						SoundUtil.playClip();
 					}
 				}
 				System.out.flush();

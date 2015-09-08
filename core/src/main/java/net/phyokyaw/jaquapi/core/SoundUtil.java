@@ -11,7 +11,7 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class SountUtil {
+public class SoundUtil {
 	public static synchronized void playClip()
 			throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
 		class AudioListener implements LineListener {
@@ -34,7 +34,7 @@ public class SountUtil {
 		}
 		AudioListener listener = new AudioListener();
 		AudioInputStream audioInputStream = AudioSystem
-				.getAudioInputStream(SountUtil.class.getResourceAsStream("/sound.wav"));
+				.getAudioInputStream(SoundUtil.class.getResourceAsStream("/sound.wav"));
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.addLineListener(listener);

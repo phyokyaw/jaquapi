@@ -84,7 +84,7 @@
 				<label for="parameter_value">Test result</label>
 				<input type="hidden" name="id" id="parameter_id" value="${parameter.id}" />
 				<input type="number" data-clear-btn="true" name="value" pattern="[0-9]+([\.|,][0-9]+)?" step="0.01" id="parameter_value" value="" placeholder="Enter new value in ${parameter.unit}">
-				<input type="submit" value="Record">
+				<input type="submit" class="ui-btn-b" value="Record">
 				<input type="reset" value="Reset">
 			</form>
 		</div>

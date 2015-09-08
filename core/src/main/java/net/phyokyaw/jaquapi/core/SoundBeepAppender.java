@@ -23,7 +23,7 @@ public class SoundBeepAppender extends AppenderSkeleton {
 	protected void append(LoggingEvent arg0) {
 		if (arg0.getLevel().equals(Level.ERROR)) {
 			try {
-				SountUtil.playClip();
+				SoundUtil.playClip();
 			} catch (IOException | UnsupportedAudioFileException | LineUnavailableException | InterruptedException e) {
 				// Can't do anything!
 			}
