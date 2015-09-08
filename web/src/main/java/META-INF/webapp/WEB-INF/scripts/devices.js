@@ -284,19 +284,19 @@ $(document).on("pagecreate", "#temp_timeline_page", function( event ) {
 });
 
 // maintenance and programme
-$(document).on("pagecreate", "#programme_detail_page", function( event ) {
-	$("#activate_programme").click(function() {
-		$.ajax({
-				dataType : "json",
-				url : "/secure/activate_programme/" + $("#programme_detail_id").val(),
-				type : "GET",
-				success : function() {	
-					//
-				},
-				timeout : interval_time
-		});
-	});
-});
+//$(document).on("pagecreate", "#programme_detail_page", function( event ) {
+//	$("#activate_programme").click(function() {
+//		$.ajax({
+//				dataType : "json",
+//				url : "/secure/activate_programme/" + $("#programme_detail_id").val(),
+//				type : "GET",
+//				success : function() {	
+//					//
+//				},
+//				timeout : interval_time
+//		});
+//	});
+//});
 
 var programme_detail_refresh = function() {
 	$.ajax({

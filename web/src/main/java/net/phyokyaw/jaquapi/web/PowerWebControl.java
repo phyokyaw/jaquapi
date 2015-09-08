@@ -81,8 +81,9 @@ public class PowerWebControl {
 	}
 
 	@RequestMapping("/secure/activate_programme/{id}")
-	public void activateProgramme(@PathVariable("id") long id) {
+	public String activateProgramme(@PathVariable("id") long id) {
 		powerControlDeviceService.activateProgramme(id);
+		return "redirect:/programmes";
 	}
 
 	@RequestMapping("/programme_devices_status/{id}")

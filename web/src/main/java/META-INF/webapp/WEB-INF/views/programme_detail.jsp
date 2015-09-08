@@ -40,7 +40,7 @@
 		<!-- /header -->
 		<div role="main" class="ui-content">
 			<input id="programme_detail_id" type="hidden" value="${programmeStatus.id}" />
-			<a id="activate_programme" href="#" class="ui-btn ui-btn-b" >Do ${programmeStatus.name}</a>
+			<a id="activate_programme" href="/secure/activate_programme/${programmeStatus.id}" class="ui-btn ui-btn-b" >Do ${programmeStatus.name}</a>
 			<ul data-role="listview" data-inset="true">
 				<c:forEach items="${programmeStatus.programmeDevices}" var="element">
 					<li><img class="ui-li-icon"

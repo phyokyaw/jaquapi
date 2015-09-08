@@ -222,7 +222,7 @@
 	<bean id="waterchange" class="net.phyokyaw.jaquapi.programme.model.Programme">
 		<constructor-arg value="0" />
 		<property name="devices" ref="waterchange-devices" />
-		<property name="name" value="Water Change" />
+		<property name="name" value="Water change" />
 	</bean>
 
 	<bean id="feeding-devices" class="java.util.ArrayList">
@@ -268,7 +268,31 @@
 	<bean id="sockchange" class="net.phyokyaw.jaquapi.programme.model.Programme">
 		<constructor-arg value="2" />
 		<property name="devices" ref="sock-change-devices" />
-		<property name="name" value="Socks Change" />
+		<property name="name" value="Socks change" />
+	</bean>
+	
+	<bean id="diResinChange" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="3" />
+		<property name="devices">
+			<list />
+		</property>
+		<property name="name" value="DI Resin change" />
+	</bean>
+	
+	<bean id="po4MediaChange" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="4" />
+		<property name="devices">
+			<list />
+		</property>
+		<property name="name" value="PO4 Media change" />
+	</bean>
+	
+	<bean id="carbonChange" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="4" />
+		<property name="devices">
+			<list />
+		</property>
+		<property name="name" value="Carbon change" />
 	</bean>
 
 	<bean id="programmes" class="java.util.ArrayList">
@@ -277,6 +301,8 @@
 	        	<ref bean="waterchange" />
 	        	<ref bean="feeding" />
 	        	<ref bean="sockchange" />
+	        	<ref bean="diResinChange" />
+	        	<ref bean="carbonChange" />
 			</list>
 		</constructor-arg>
 	</bean>
