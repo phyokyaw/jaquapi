@@ -35,15 +35,13 @@
 		<!-- /header -->
 		<div role="main" class="ui-content">
 			<h4 class="ui-bar ui-bar-a" align="center">${device.name}</h4>
-			<div class="ui-grid-b">
-				<div class="ui-block-a" style="width: 20%">
-					<img src="/i/device_${device.id}.png" />
-				</div>
-				<div class="ui-block-b" style="width: 60%">
+			<img src="/i/device_${device.id}.png" />
+			<div class="ui-grid-a">
+				<div class="ui-block-a" style="width: 70%">
 					<p>${device.mode.formattedInfo}</p>
 				</div>
-				<div class="ui-block-c" style="width: 20%">
-					<p id="device_status"></p>
+				<div class="ui-block-b" style="width: 30%;">
+					<p class="ui-bar ui-bar-b" id="device_status"></p>
 				</div>
 			</div>
 			<div class="ui-grid-b">

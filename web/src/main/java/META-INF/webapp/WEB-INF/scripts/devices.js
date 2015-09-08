@@ -1,7 +1,7 @@
 
 var functions = [];
 
-var interval_time = 3000;
+var interval_time = 2500;
 
 var tempData;
 var phData;
