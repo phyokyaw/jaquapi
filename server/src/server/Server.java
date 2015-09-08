@@ -11,6 +11,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.pi4j.gpio.extension.mcp.MCP23017GpioProvider;
+import com.pi4j.gpio.extension.mcp.MCP23017Pin;
+import com.pi4j.io.gpio.PinMode;
+import com.pi4j.io.i2c.I2CBus;
+import com.pi4j.io.i2c.I2CFactory;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -69,7 +74,14 @@ public class Server {
 	}
 
 	private static String getI2c() {
-		return "ff";
+		try {
+			MCP23017GpioProvider f = new MCP23017GpioProvider(0x20, 0x01);
+			f.setMode(MCP23017Pin.GPIO_A0, PinMode.DIGITAL_OUTPUT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Response.ERROR.toString();
 	}
 
 	private static String setI2c(String string) {
