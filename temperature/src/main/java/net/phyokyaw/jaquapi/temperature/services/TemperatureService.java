@@ -77,6 +77,7 @@ public class TemperatureService implements AquaService {
 			while ((line = is.readLine()) != null) {
 				builder.append(line);
 			}
+			logger.info("Received value with: " + builder.toString());
 			Pattern pattern = Pattern.compile(".*t=(\\d+)");
 			Matcher matcher = pattern.matcher(builder.toString());
 			if (matcher.find()) {
