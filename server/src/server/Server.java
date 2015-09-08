@@ -2,15 +2,21 @@ package server;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 @SuppressWarnings("restriction")
 public class Server {
-
+	private enum Response {ERROR, OK};
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
         server.createContext("/service", new MyHandler());
@@ -22,7 +28,7 @@ public class Server {
         @Override
         public void handle(HttpExchange t) throws IOException {
         	Map<String, String> params = queryToMap(t.getRequestURI().getQuery());
-        	String response = "ERROR";
+        	String response = Response.ERROR.toString();
         	if (params.containsKey("temp")) {
         		response = getTemp();
         	} else if (params.containsKey("ph")) {
@@ -58,6 +64,7 @@ public class Server {
     
 
 	private static String getSensor(String string) {
+		
 		return "1";
 	}
 
@@ -76,7 +83,16 @@ public class Server {
 	}
 
 	private static String getTemp() {
-		// TODO Auto-generated method stub
-		return "23";
+		try {
+			List<String> lines = Files.readAllLines(Paths.get("/sys/bus/w1/devices/28-031466113fff/w1_slave"));
+			Pattern pattern = Pattern.compile(".*t=(\\d+)");
+			Matcher matcher = pattern.matcher(lines.get(1));
+			if (matcher.find()) {
+				return Double.toString(Double.parseDouble(matcher.group(1)) / 1000d);
+			}
+			return Response.ERROR.toString();
+		} catch (IOException e) {
+			return Response.ERROR.toString();
+		}
 	}
 }
