@@ -116,6 +116,17 @@ public class Device extends AbstractModel {
 		}
 		logger.debug(name + " mode is " + on);
 	}
+	
+	public boolean isOn() {
+		if (operableDevice != null) {
+			try {
+				return operableDevice.isOn();
+			} catch (Exception e) {
+				logger.error("Unable to get on off", e);
+			}
+		}
+		return false;
+	}
 
 	public Operatable getOperatable() {
 		return operableDevice;
