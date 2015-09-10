@@ -225,6 +225,7 @@
 		<module>programme</module>
 		<module>sensor</module>
 		<module>Parameter</module>
+		<module>remote</module>
 	</modules>
 </project>
 	
