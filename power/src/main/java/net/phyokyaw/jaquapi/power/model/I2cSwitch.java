@@ -6,11 +6,13 @@ import net.phyokyaw.jaquapi.core.model.Operatable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import remote.ControllerDataService;
+import remote.ValueUpdateListener;
 
-public class I2cSwitch implements Operatable {
+public class I2cSwitch implements Operatable, ValueUpdateListener {
 	
 // 	private static Logger logger = LoggerFactory.getLogger(I2cSwitch.class);
 	private final int id;
+	private String 
 	
 	@Autowired
 	private ControllerDataService controllerDataService;
@@ -20,7 +22,7 @@ public class I2cSwitch implements Operatable {
 	}
 
 	@Override
-	public void setOn(boolean isOn) throws Exception {
+	public void setOn(boolean on) throws Exception {
 //		String newVal = null;
 //		String currentHex = getHex();
 //		String bits = new BigInteger(currentHex, 16).toString(2);
@@ -39,9 +41,12 @@ public class I2cSwitch implements Operatable {
 //				logger.error("Unable to execute remote command", ex);
 //			}
 //		}
-		if (controllerDataService.getDeviceStatus(id) != isOn) {
-			controllerDataService.setDeviceUpdate(id, isOn);
+		if (this.on != on) {
+			setValue(controllerDataService.setDeviceUpdate(id, on));
 		}
+//		if (controllerDataService.getDeviceStatus(id) != isOn) {
+//			controllerDataService.setDeviceUpdate(id, isOn);
+//		}
 	}
 
 //	public static String getHex(int id, String currentVal) {
@@ -55,7 +60,7 @@ public class I2cSwitch implements Operatable {
 //		String bits = new BigInteger(currentHex, 16).toString(2);
 //		char bit = bits.charAt(bits.length() - id - 1);
 //		return (bit == '0');
-		return controllerDataService.getDeviceStatus(id);
+		return on;
 	}
 
 //	private String getHex() throws Exception {
@@ -79,5 +84,10 @@ public class I2cSwitch implements Operatable {
 	@Override
 	public String toString() {
 		return Integer.toString(id);
+	}
+
+	@Override
+	public void setValue(String value) {
+		on = true;
 	}
 }

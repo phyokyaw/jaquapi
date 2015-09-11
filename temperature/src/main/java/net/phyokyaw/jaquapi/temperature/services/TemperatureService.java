@@ -1,18 +1,19 @@
 package net.phyokyaw.jaquapi.temperature.services;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+
+import net.phyokyaw.jaquapi.core.services.AquaService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
+import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,29 +22,31 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import net.phyokyaw.jaquapi.core.services.AquaService;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
-import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
+import remote.ControllerDataService;
+import remote.ValueUpdateListener;
 
 @Service("temperature")
-public class TemperatureService implements AquaService {
+public class TemperatureService implements AquaService, ValueUpdateListener {
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 
 	@Autowired
 	private ScheduledService scheduledService;
+	
+	@Autowired
+	private ControllerDataService controllerDataService;
+	
 	@Autowired
 	private TemperatureDao dao;
 	private double value = 0.0;
 
-	private ScheduledFuture<?> updateSchedule;
+	//private ScheduledFuture<?> updateSchedule;
 	private ScheduledFuture<?> recordSchedule;
 
 	@PreDestroy
 	private void shutdown() {
-		if (updateSchedule != null) {
-			updateSchedule.cancel(false);
-		}
+//		if (updateSchedule != null) {
+//			updateSchedule.cancel(false);
+//		}
 		if (recordSchedule != null) {
 			recordSchedule.cancel(false);
 		}
@@ -51,12 +54,13 @@ public class TemperatureService implements AquaService {
 
 	@PostConstruct
 	private void setup() {
-		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-			@Override
-			public void run() {
-				update();
-			}
-		}, 1000 * 20);
+//		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
+//			@Override
+//			public void run() {
+//				update();
+//			}
+//		}, 1000 * 20);
+		controllerDataService.addValueUpdateListener("temp", this);
 		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
@@ -65,35 +69,35 @@ public class TemperatureService implements AquaService {
 		}, 1000 * 60);
 	}
 
-	private void update() {
-		logger.debug("Updating temp value");
-		try {
-			Runtime r = Runtime.getRuntime();
-			Process p;
-			String line;
-			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
-			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			StringBuilder builder = new StringBuilder();
-			while ((line = is.readLine()) != null) {
-				builder.append(line);
-			}
-			logger.info("Received value with: " + builder.toString());
-			Pattern pattern = Pattern.compile(".*t=(\\d+)");
-			Matcher matcher = pattern.matcher(builder.toString());
-			if (matcher.find()) {
-				value = Double.parseDouble(matcher.group(1)) / 1000;
-			} else {
-				throw new Exception("Unable to get Temperature data");
-			}
-			System.out.flush();
-			p.waitFor(); // wait for process to complete
-			logger.info("Updating temp value with: " + value);
-		} catch (Exception e) {
-			logger.error("Error executing temp reader", e);
-		}
-		//value = Double.valueOf(new DecimalFormat("#.##").format(23 + (new Random().nextDouble() * 2)));
-
-	}
+//	private void update() {
+//		logger.debug("Updating temp value");
+//		try {
+//			Runtime r = Runtime.getRuntime();
+//			Process p;
+//			String line;
+//			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
+//			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//			StringBuilder builder = new StringBuilder();
+//			while ((line = is.readLine()) != null) {
+//				builder.append(line);
+//			}
+//			logger.info("Received value with: " + builder.toString());
+//			Pattern pattern = Pattern.compile(".*t=(\\d+)");
+//			Matcher matcher = pattern.matcher(builder.toString());
+//			if (matcher.find()) {
+//				value = Double.parseDouble(matcher.group(1)) / 1000;
+//			} else {
+//				throw new Exception("Unable to get Temperature data");
+//			}
+//			System.out.flush();
+//			p.waitFor(); // wait for process to complete
+//			logger.info("Updating temp value with: " + value);
+//		} catch (Exception e) {
+//			logger.error("Error executing temp reader", e);
+//		}
+//		//value = Double.valueOf(new DecimalFormat("#.##").format(23 + (new Random().nextDouble() * 2)));
+//
+//	}
 
 	private void record() {
 		try {
@@ -159,5 +163,10 @@ public class TemperatureService implements AquaService {
 	@Override
 	public double getValue() {
 		return value;
+	}
+
+	@Override
+	public void setValue(String value) {
+		this.value = Double.parseDouble(value);
 	}
 }
