@@ -101,7 +101,7 @@ public class PowerControlDeviceService {
 		public DeviceStatus(Device device) {
 			id = device.getId();
 			modeInfo = device.getMode().getInfo();
-			on = device.getActiveMode().shouldBeOn();
+			on = device.isOn();
 			overridingModeTimeout = device.isOverridingModeScheduleActive() ? device.getOverridingModeTimeOut() : 0;
 			name = device.getName();
 		}

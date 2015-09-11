@@ -102,12 +102,15 @@ public class Device extends AbstractModel {
 	}
 
 	public void update() {
-		boolean shouldBeOn = overridingMode != null ? overridingMode.shouldBeOn() : mode.shouldBeOn();
-		setOn(shouldBeOn);
+		if (overridingMode != null) {
+			setOn(overridingMode.shouldBeOn());
+		} else {
+			setOn(mode.shouldBeOn());
+		}
 	}
 
 	private void setOn(boolean on) {
-		if (operableDevice != null) {
+		if (operableDevice != null && operableDevice.isReady()) {
 			try {
 				operableDevice.setOn(on);
 			} catch (Exception e) {
@@ -116,9 +119,9 @@ public class Device extends AbstractModel {
 		}
 		logger.debug(name + " mode is " + on);
 	}
-	
+
 	public boolean isOn() {
-		if (operableDevice != null) {
+		if (operableDevice != null && operableDevice.isReady()) {
 			try {
 				return operableDevice.isOn();
 			} catch (Exception e) {

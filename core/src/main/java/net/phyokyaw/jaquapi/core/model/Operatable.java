@@ -5,4 +5,5 @@ public interface Operatable {
 	boolean isOn() throws Exception;
 	@Override
 	String toString();
+	boolean isReady();
 }

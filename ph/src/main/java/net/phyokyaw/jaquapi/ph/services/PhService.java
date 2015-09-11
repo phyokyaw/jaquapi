@@ -1,7 +1,6 @@
 package net.phyokyaw.jaquapi.ph.services;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -22,14 +21,20 @@ import net.phyokyaw.jaquapi.core.services.AquaService;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
 import net.phyokyaw.jaquapi.ph.dao.PhDao;
 import net.phyokyaw.jaquapi.ph.model.PhRecord;
+import net.phyokyaw.jaquapi.remote.ControllerDataService;
 
 @Service("ph")
 public class PhService implements AquaService {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
 	private double value = 0.0d;
+	private static final double OFFSET = -4.8d;
 
 	@Autowired
 	private ScheduledService scheduledService;
+
+	@Autowired
+	private ControllerDataService controllerDataService;
+
 	@Autowired
 	private PhDao dao;
 
@@ -64,21 +69,11 @@ public class PhService implements AquaService {
 
 	private void update() {
 		try {
-			Runtime r = Runtime.getRuntime();
-			Process p;
-			String line;
-			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "jaquapi/scripts/phreader.py"});
-			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((line = is.readLine()) != null) {
-				value = Double.parseDouble(line);
-			}
-			System.out.flush();
-			p.waitFor(); // wait for process to complete
-			logger.info("Updating ph value with: " + value);
-		} catch (Exception e) {
+			value = Double.parseDouble(controllerDataService.getPhData()) + OFFSET;
+			logger.info("Updated ph value is " + value);
+		} catch (NumberFormatException | IOException e) {
 			logger.error("Error executing ph reader", e);
 		}
-		// value =8.0d;
 	}
 
 	private void record() {
@@ -139,4 +134,5 @@ public class PhService implements AquaService {
 	public double getValue() {
 		return value;
 	}
+
 }

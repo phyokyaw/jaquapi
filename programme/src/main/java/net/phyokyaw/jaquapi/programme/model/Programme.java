@@ -31,7 +31,7 @@ public class Programme {
 	public void activate() {
 		logger.debug(name + " programme activated");
 		for (ProgrammeDevice entry : programmeDevices) {
-			entry.getDevice().setOverridingMode(new OnOffMode(entry.isShouldbeOff()), entry.getTimeout() * 1000 * 60);
+			entry.getDevice().setOverridingMode(new OnOffMode(entry.isShouldbeOn()), entry.getTimeout() * 1000 * 60);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class Programme {
 	public static class ProgrammeDevice {
 		private Device device;
 		private long timeout;
-		private boolean shouldbeOff;
+		private boolean shouldbeOn;
 
 		public Device getDevice() {
 			return device;
@@ -71,11 +71,11 @@ public class Programme {
 		public void setTimeout(long timeout) {
 			this.timeout = timeout;
 		}
-		public boolean isShouldbeOff() {
-			return shouldbeOff;
+		public boolean isShouldbeOn() {
+			return shouldbeOn;
 		}
-		public void setShouldbeOff(boolean shouldbeOff) {
-			this.shouldbeOff = shouldbeOff;
+		public void setShouldbeOn(boolean shouldbeOn) {
+			this.shouldbeOn = shouldbeOn;
 		}
 
 		public DeviceStatus getDeviceStatus() {

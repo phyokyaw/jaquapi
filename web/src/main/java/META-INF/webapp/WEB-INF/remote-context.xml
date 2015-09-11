@@ -12,23 +12,8 @@
            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+	<import resource="classpath*:**/**core-context.xml"/>
 	
 	<context:annotation-config />
-	<import resource="classpath*:**/remote-context.xml" />
-	<import resource="classpath*:**/ph-context.xml" />
-	<import resource="classpath*:**/power-context.xml" />
-	<import resource="classpath*:**/temperature-context.xml" />
-	<import resource="classpath*:**/programme-context.xml" />
-	<import resource="classpath*:**/sensor-context.xml" />
-	<import resource="classpath*:**/parameter-context.xml" />
-	<mvc:annotation-driven />
-	<mvc:annotation-driven>
-		<mvc:argument-resolvers>
-			<bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />
-		</mvc:argument-resolvers>
-	</mvc:annotation-driven>
-	<mvc:interceptors>
-		<bean
-			class="org.springframework.mobile.device.DeviceResolverHandlerInterceptor" />
-	</mvc:interceptors>
+	<context:component-scan base-package="net.phyokyaw.jaquapi.remote" />
 </beans>

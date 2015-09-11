@@ -46,11 +46,11 @@
 					<li><img class="ui-li-icon"
 						src="/i/device_${element.device.id}.png" />
 						<h2>${element.device.name}</h2> <c:choose>
-							<c:when test="${element.shouldbeOff}">
-								<p>OFF for ${element.timeout} minutes.</p>
+							<c:when test="${element.shouldbeOn}">
+								<p>ON for ${element.timeout} minutes.</p>
 							</c:when>
 							<c:otherwise>
-								<p>ON for ${element.timeout} minutes.</p>
+								<p>OFF for ${element.timeout} minutes.</p>
 							</c:otherwise>
 						</c:choose> <c:choose>
 							<c:when test="${element.deviceStatus.overridden}">

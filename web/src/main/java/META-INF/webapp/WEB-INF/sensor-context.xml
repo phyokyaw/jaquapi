@@ -34,7 +34,7 @@
 		<constructor-arg value="2" />
 		<property name="name" value="ALK container level" />
 		<property name="description" value="ALK dosing container liquid level" />
-		<property name="errorWhenOn" value="true" />
+		<property name="errorWhenOn" value="false" />
 		<property name="onErrorMessage" value="Level low!" />
 	</bean>
 	<!-- 

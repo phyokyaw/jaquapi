@@ -1,19 +1,25 @@
 package net.phyokyaw.jaquapi.power.model;
 
 
-import net.phyokyaw.jaquapi.core.model.Operatable;
+import java.math.BigInteger;
 
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import remote.ControllerDataService;
-import remote.ValueUpdateListener;
+import net.phyokyaw.jaquapi.core.model.Operatable;
+import net.phyokyaw.jaquapi.remote.ControllerDataService;
+import net.phyokyaw.jaquapi.remote.ValueUpdateListener;
 
 public class I2cSwitch implements Operatable, ValueUpdateListener {
-	
-// 	private static Logger logger = LoggerFactory.getLogger(I2cSwitch.class);
+
+	private static Logger logger = LoggerFactory.getLogger(I2cSwitch.class);
+
 	private final int id;
-	private String 
-	
+	private String currentHex;
+
 	@Autowired
 	private ControllerDataService controllerDataService;
 
@@ -21,65 +27,31 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 		this.id = id;
 	}
 
-	@Override
-	public void setOn(boolean on) throws Exception {
-//		String newVal = null;
-//		String currentHex = getHex();
-//		String bits = new BigInteger(currentHex, 16).toString(2);
-//		char bit = bits.charAt(bits.length() - id - 1);
-//		if ((bit == '1' && isOn) || (bit == '0' && !isOn)) {
-//			newVal = getHex(id, currentHex);
-//		}
-//		if (newVal != null) {
-//			try {
-//				Runtime r = Runtime.getRuntime();
-//				Process p;
-//				p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "/usr/sbin/i2cset", "-y", "1", "0x20", "0x00", newVal});
-//				System.out.flush();
-//				p.waitFor(); // wait for process to complete
-//			} catch(Exception ex) {
-//				logger.error("Unable to execute remote command", ex);
-//			}
-//		}
-		if (this.on != on) {
-			setValue(controllerDataService.setDeviceUpdate(id, on));
-		}
-//		if (controllerDataService.getDeviceStatus(id) != isOn) {
-//			controllerDataService.setDeviceUpdate(id, isOn);
-//		}
+	@PostConstruct
+	private void setup() {
+		controllerDataService.addValueUpdateListener("devices", this);
 	}
 
-//	public static String getHex(int id, String currentVal) {
-//		int val = (int) Math.pow(2, id);
-//		return "0x" + Integer.toHexString(~(~Integer.parseInt(currentVal, 16) ^ val));
-//	}
+	@Override
+	public void setOn(boolean on) throws Exception {
+		if (isOn() != on) {
+			setValue(controllerDataService.setI2cUpdate(getNewHex(id, currentHex)));
+		}
+	}
+
+	public static String getNewHex(int id, String currentVal) {
+		int val = (int) Math.pow(2, id);
+		String newHex = "0x" + Integer.toHexString(~(~Integer.parseInt(currentVal, 16) ^ val));
+		logger.debug("New hex " + newHex + " for id " + id);
+		return newHex;
+	}
 
 	@Override
 	public boolean isOn() throws Exception {
-//		String currentHex = getHex();
-//		String bits = new BigInteger(currentHex, 16).toString(2);
-//		char bit = bits.charAt(bits.length() - id - 1);
-//		return (bit == '0');
-		return on;
+		String bits = new BigInteger(currentHex, 16).toString(2);
+		char bit = bits.charAt(bits.length() - id - 1);
+		return (bit == '0');
 	}
-
-//	private String getHex() throws Exception {
-//		String result = null;
-//		Runtime r = Runtime.getRuntime();
-//		Process p;
-//		String line;
-//		p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "/usr/sbin/i2cget", "-y", "1", "0x20", "0x00"});
-//		BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//		if ((line = is.readLine()) != null) {
-//			result = line.substring(2);
-//		}
-//		System.out.flush();
-//		p.waitFor(); // wait for process to complete
-//		if (result != null) {
-//			return result;
-//		}
-//		throw new Exception("Unable to get hex value from i2c command");
-//	}
 
 	@Override
 	public String toString() {
@@ -88,6 +60,11 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 
 	@Override
 	public void setValue(String value) {
-		on = true;
+		currentHex = value.substring(2);
+	}
+
+	@Override
+	public boolean isReady() {
+		return currentHex != null;
 	}
 }

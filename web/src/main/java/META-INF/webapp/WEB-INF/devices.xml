@@ -198,22 +198,22 @@
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="pump" />
 					<property name="timeout" value="30" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="skimmer" />
 					<property name="timeout" value="30" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="heater" />
 					<property name="timeout" value="30" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="ato" />
 					<property name="timeout" value="35" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 			</list>
 		</constructor-arg>
@@ -231,12 +231,12 @@
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="pump" />
 					<property name="timeout" value="10" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="ato" />
 					<property name="timeout" value="15" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 			</list>
 		</constructor-arg>
@@ -254,12 +254,12 @@
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="pump" />
 					<property name="timeout" value="10" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="skimmer" />
 					<property name="timeout" value="180" />
-					<property name="shouldbeOff" value="true" />
+					<property name="shouldbeOn" value="false" />
 				</bean>
 			</list>
 		</constructor-arg>

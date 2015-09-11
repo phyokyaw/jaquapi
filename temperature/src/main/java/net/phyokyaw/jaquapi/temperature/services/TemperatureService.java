@@ -10,11 +10,6 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import net.phyokyaw.jaquapi.core.services.AquaService;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
-import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +17,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import remote.ControllerDataService;
-import remote.ValueUpdateListener;
+import net.phyokyaw.jaquapi.core.services.AquaService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.remote.ControllerDataService;
+import net.phyokyaw.jaquapi.remote.ValueUpdateListener;
+import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
+import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 
 @Service("temperature")
 public class TemperatureService implements AquaService, ValueUpdateListener {
@@ -31,22 +30,18 @@ public class TemperatureService implements AquaService, ValueUpdateListener {
 
 	@Autowired
 	private ScheduledService scheduledService;
-	
+
 	@Autowired
 	private ControllerDataService controllerDataService;
-	
+
 	@Autowired
 	private TemperatureDao dao;
 	private double value = 0.0;
 
-	//private ScheduledFuture<?> updateSchedule;
 	private ScheduledFuture<?> recordSchedule;
 
 	@PreDestroy
 	private void shutdown() {
-//		if (updateSchedule != null) {
-//			updateSchedule.cancel(false);
-//		}
 		if (recordSchedule != null) {
 			recordSchedule.cancel(false);
 		}
@@ -54,12 +49,6 @@ public class TemperatureService implements AquaService, ValueUpdateListener {
 
 	@PostConstruct
 	private void setup() {
-//		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-//			@Override
-//			public void run() {
-//				update();
-//			}
-//		}, 1000 * 20);
 		controllerDataService.addValueUpdateListener("temp", this);
 		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
@@ -68,36 +57,6 @@ public class TemperatureService implements AquaService, ValueUpdateListener {
 			}
 		}, 1000 * 60);
 	}
-
-//	private void update() {
-//		logger.debug("Updating temp value");
-//		try {
-//			Runtime r = Runtime.getRuntime();
-//			Process p;
-//			String line;
-//			p = r.exec(new String[]{"ssh", AquaService.DEVICE_SSH_ADDR, "less", "/sys/bus/w1/devices/28-031466113fff/w1_slave"});
-//			BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//			StringBuilder builder = new StringBuilder();
-//			while ((line = is.readLine()) != null) {
-//				builder.append(line);
-//			}
-//			logger.info("Received value with: " + builder.toString());
-//			Pattern pattern = Pattern.compile(".*t=(\\d+)");
-//			Matcher matcher = pattern.matcher(builder.toString());
-//			if (matcher.find()) {
-//				value = Double.parseDouble(matcher.group(1)) / 1000;
-//			} else {
-//				throw new Exception("Unable to get Temperature data");
-//			}
-//			System.out.flush();
-//			p.waitFor(); // wait for process to complete
-//			logger.info("Updating temp value with: " + value);
-//		} catch (Exception e) {
-//			logger.error("Error executing temp reader", e);
-//		}
-//		//value = Double.valueOf(new DecimalFormat("#.##").format(23 + (new Random().nextDouble() * 2)));
-//
-//	}
 
 	private void record() {
 		try {
