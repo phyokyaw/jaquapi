@@ -12,6 +12,8 @@ var dashboardControlsRefresh = function() {
 		dataType : "json",
 		url : "/controller_data",
 		type : "GET",
+		beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
+        complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
 		success : function(data) {
 			temp_gauge.setValue(data["temperatureRecord"].value);
 			ph_gauge.setValue(data["phRecord"].value);
@@ -132,6 +134,8 @@ $(document).on("pagecreate", "#device_detail_page", function( event ) {
 	$("#submit_device_change").click(function() {
 		$.ajax({
 			dataType : "json",
+			beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
+            complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
 			url : "/secure/device_override/" + $("#device_detail_id").val() + "/" + isOn + "/" + $("#device_timout_minute_slider").val(),
 			type : "GET",
 			success : function(data) {
@@ -142,7 +146,9 @@ $(document).on("pagecreate", "#device_detail_page", function( event ) {
 	});
 	$("#device_programme_auto").click(function(event) {
 		$.ajax({
-			dataType : "json",
+			dataType : "json",			
+			beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
+            complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
 			url : "/secure/cancel_device_override/" + $("#device_detail_id").val(),
 			type : "GET",
 			success : function(data) {
@@ -203,6 +209,8 @@ var ph_interval = 'HOUR';
 var  ph_timeline_refresh = function() {
 	$.ajax({
 		dataType : "json",
+		beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
+        complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
 		url : "/ph_history?interval=" + ph_interval,
 		type : "GET",
 		success : function(phData) {	
@@ -245,6 +253,8 @@ var temp_interval = 'HOUR';
 var  temp_timeline_refresh = function() {
 	$.ajax({
 		dataType : "json",
+		beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
+        complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
 		url : "/temperature_history?interval=" + temp_interval,
 		type : "GET",
 		success : function(tempData) {	
