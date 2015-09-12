@@ -44,13 +44,15 @@
 				<div class="ui-grid-a">
 					<div class="ui-block-a">
 						<div class="ui-bar ui-bar-a">
+							<h4>Temp</h4>
 							<canvas id="tempGuage"></canvas>
 							<a href="/temp_timeline"
-								class="ui-btn ui-mini ui-corner-all ui-btn-icon-right ui-icon-info ui-btn-inline">Timeline</a>
+								class="ui-btn ui-btn-b ui-mini ui-corner-all ui-btn-icon-right ui-icon-info ui-btn-inline">Timeline</a>
 						</div>
 					</div>
 					<div class="ui-block-b">
 						<div class="ui-bar ui-bar-a">
+							<h4>pH</h4>
 							<canvas id="phGuage"></canvas>
 							<a href="/ph_timeline"
 								class="ui-btn ui-mini ui-corner-all ui-btn-icon-right ui-icon-info ui-btn-inline">Timeline</a>

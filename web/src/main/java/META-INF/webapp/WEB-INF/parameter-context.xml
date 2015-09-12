@@ -17,7 +17,7 @@
 	<bean id="KH" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
 		<constructor-arg value="0" />
 		<property name="name" value="Alkalinity" />
-		<property name="shortName" value="kh" />
+		<property name="shortName" value="KH" />
 		<property name="unit" value="dKh" />
 	</bean>
 	<bean id="CA" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
@@ -40,7 +40,7 @@
 	</bean>
 	<bean id="NO3" class="net.phyokyaw.jaquapi.parameter.model.Parameter">
 		<constructor-arg value="4" />
-		<property name="name" value="Nirate" />
+		<property name="name" value="Nitrate" />
 		<property name="shortName" value="NO3" />
 		<property name="unit" value="ppm" />
 	</bean>
