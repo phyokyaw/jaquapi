@@ -28,7 +28,7 @@
 	<bean id="switch_4" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="4" />
 	</bean>
-	<bean id="switch_4" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
+	<bean id="switch_5" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="5" />
 	</bean>
 	<bean id="switch_6" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
