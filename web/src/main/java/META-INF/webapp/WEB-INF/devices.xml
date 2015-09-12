@@ -297,6 +297,24 @@
 		</property>
 		<property name="name" value="Carbon change" />
 	</bean>
+	
+	<bean id="ato-refill-devices" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
+					<property name="device" ref="ato" />
+					<property name="timeout" value="20" />
+					<property name="shouldbeOn" value="false" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="atoRefill" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="5" />
+		<property name="devices" ref="sock-change-devices" />
+		<property name="name" value="ATO Refill" />
+	</bean>
 
 	<bean id="programmes" class="java.util.ArrayList">
 	    <constructor-arg>
@@ -306,6 +324,7 @@
 	        	<ref bean="sockchange" />
 	        	<ref bean="diResinChange" />
 	        	<ref bean="carbonChange" />
+	        	<ref bean="atoRefill" />
 			</list>
 		</constructor-arg>
 	</bean>

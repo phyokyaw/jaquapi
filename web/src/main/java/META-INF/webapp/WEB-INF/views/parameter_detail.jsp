@@ -76,7 +76,7 @@
 				});
 				</script>
 				<div>
-				<canvas id="parameterHistoryCanvas" style="height:150px"></canvas>
+				<canvas id="parameterHistoryCanvas" height="150"></canvas>
 				</div>
 				
 			</c:if>
