@@ -64,7 +64,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
-		<property name="operatable" ref="switch_4" />
+		<property name="operatable" ref="switch_3" />
 	</bean>
 
 	<!-- blue -->
@@ -117,7 +117,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
-		<property name="operatable" ref="switch_3" />
+		<property name="operatable" ref="switch_2" />
 	</bean>
 
 	<!-- refulight -->
@@ -139,16 +139,19 @@
 	<bean id="ato" class="net.phyokyaw.jaquapi.core.model.Device">
 		<constructor-arg value="4" />
 		<property name="name" value="ATO" />
+		<property name="operatable" ref="switch_4" />
 	</bean>
 
 	<bean id="pump" class="net.phyokyaw.jaquapi.core.model.Device">
 		<constructor-arg value="5" />
 		<property name="name" value="Return Pump" />
+		<property name="operatable" ref="switch_5" />
 	</bean>
 
 	<bean id="skimmer" class="net.phyokyaw.jaquapi.core.model.Device">
 		<constructor-arg value="6" />
 		<property name="name" value="Protein Skimmer" />
+		<property name="operatable" ref="switch_6" />
 	</bean>
 
 	<bean id="heater" class="net.phyokyaw.jaquapi.core.model.Device">
