@@ -35,6 +35,6 @@
 		<constructor-arg value="6" />
 	</bean>
 	<bean id="switch_7" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
-		<constructor-arg value="7"
+		<constructor-arg value="7"/>
 	</bean> 
 </beans>
