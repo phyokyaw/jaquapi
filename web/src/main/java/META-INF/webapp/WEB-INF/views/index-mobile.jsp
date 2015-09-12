@@ -55,7 +55,7 @@
 							<h4>pH</h4>
 							<canvas id="phGuage"></canvas>
 							<a href="/ph_timeline"
-								class="ui-btn ui-mini ui-corner-all ui-btn-icon-right ui-icon-info ui-btn-inline">Timeline</a>
+								class="ui-btn ui-btn-b ui-mini ui-corner-all ui-btn-icon-right ui-icon-info ui-btn-inline">Timeline</a>
 						</div>
 					</div>
 				</div>
