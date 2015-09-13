@@ -190,6 +190,7 @@
 	            <ref bean="fan" />
 	            <ref bean="pump" />
 	            <ref bean="skimmer" />
+	            <ref bean="ato" />
 	        </list>
 	    </constructor-arg>
 	</bean>
@@ -312,7 +313,7 @@
 	
 	<bean id="atoRefill" class="net.phyokyaw.jaquapi.programme.model.Programme">
 		<constructor-arg value="5" />
-		<property name="devices" ref="sock-change-devices" />
+		<property name="devices" ref="ato-refill-devices" />
 		<property name="name" value="ATO Refill" />
 	</bean>
 

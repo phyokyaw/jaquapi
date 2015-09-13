@@ -16,12 +16,12 @@ public class OnOffMode extends Mode {
 
 	@Override
 	public String getInfo() {
-		return "";
+		return "Auto ON/OFF";
 	}
 
 	@Override
 	public String getFormattedInfo() {
-		return "";
+		return "<b>Auto</b> ON/OFF";
 	}
 
 }
