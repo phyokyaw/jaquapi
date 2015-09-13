@@ -12,8 +12,8 @@ var dashboardControlsRefresh = function() {
 		dataType : "json",
 		url : "/controller_data",
 		type : "GET",
-		beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
-        complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
+		beforeSend: function() { showPageLoadingMsg(); }, //Show spinner
+        complete: function() { hidePageLoadingMsg() }, //Hide spinner
 		success : function(data) {
 			temp_gauge.setValue(data["temperatureRecord"].value);
 			ph_gauge.setValue(data["phRecord"].value);
@@ -24,6 +24,13 @@ var dashboardControlsRefresh = function() {
 	});
 }
 
+function showPageLoadingMsg() {
+	$.mobile.loading('show');
+}
+
+function hidePageLoadingMsg() {
+	$.mobile.loading('hide');
+}
 function dashboard_sensors(data) {
 	for(var k in data) {
 		if (data[k].onError == true) {
@@ -134,8 +141,8 @@ $(document).on("pagecreate", "#device_detail_page", function( event ) {
 	$("#submit_device_change").click(function() {
 		$.ajax({
 			dataType : "json",
-			beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
-            complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
+			beforeSend: function() { showPageLoadingMsg(); }, //Show spinner
+            complete: function() { hidePageLoadingMsg() }, //Hide spinner
 			url : "/secure/device_override/" + $("#device_detail_id").val() + "/" + isOn + "/" + $("#device_timout_minute_slider").val(),
 			type : "GET",
 			success : function(data) {
@@ -147,8 +154,8 @@ $(document).on("pagecreate", "#device_detail_page", function( event ) {
 	$("#device_programme_auto").click(function(event) {
 		$.ajax({
 			dataType : "json",			
-			beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
-            complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
+			beforeSend: function() { showPageLoadingMsg(); }, //Show spinner
+            complete: function() { hidePageLoadingMsg() }, //Hide spinner
 			url : "/secure/cancel_device_override/" + $("#device_detail_id").val(),
 			type : "GET",
 			success : function(data) {
@@ -209,8 +216,8 @@ var ph_interval = 'HOUR';
 var  ph_timeline_refresh = function() {
 	$.ajax({
 		dataType : "json",
-		beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
-        complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
+		beforeSend: function() { showPageLoadingMsg(); }, //Show spinner
+        complete: function() { hidePageLoadingMsg() }, //Hide spinner
 		url : "/ph_history?interval=" + ph_interval,
 		type : "GET",
 		success : function(phData) {	
@@ -253,8 +260,8 @@ var temp_interval = 'HOUR';
 var  temp_timeline_refresh = function() {
 	$.ajax({
 		dataType : "json",
-		beforeSend: function() { $.mobile.showPageLoadingMsg(); }, //Show spinner
-        complete: function() { $.mobile.hidePageLoadingMsg() }, //Hide spinner
+		beforeSend: function() { showPageLoadingMsg(); }, //Show spinner
+        complete: function() { hidePageLoadingMsg() }, //Hide spinner
 		url : "/temperature_history?interval=" + temp_interval,
 		type : "GET",
 		success : function(tempData) {	
@@ -293,20 +300,7 @@ $(document).on("pagecreate", "#temp_timeline_page", function( event ) {
 	});
 });
 
-// maintenance and programme
-//$(document).on("pagecreate", "#programme_detail_page", function( event ) {
-//	$("#activate_programme").click(function() {
-//		$.ajax({
-//				dataType : "json",
-//				url : "/secure/activate_programme/" + $("#programme_detail_id").val(),
-//				type : "GET",
-//				success : function() {	
-//					//
-//				},
-//				timeout : interval_time
-//		});
-//	});
-//});
+
 
 var programme_detail_refresh = function() {
 	$.ajax({
@@ -349,8 +343,10 @@ $(document).on("pagecontainershow",function( event, ui ) {
 	} else if (ui.toPage.attr('id') == "sensor_detail_page") {
 		functions.push(sensor_status_refresh);
 	} else if (ui.toPage.attr('id') == "temp_timeline_page") {
+		showPageLoadingMsg();
 		functions.push(temp_timeline_refresh);
 	} else if (ui.toPage.attr('id') == "ph_timeline_page") {
+		showPageLoadingMsg();
 		functions.push(ph_timeline_refresh);
 	} else if (ui.toPage.attr('id') == "programme_detail_page") {
 		functions.push(programme_detail_refresh);
@@ -381,39 +377,8 @@ $(document).ready(function() {
 	}, interval_time);
 });
 
-// Hide address
-//(function( win ){
-//	var doc = win.document;
-//	
-//	// If there's a hash, or addEventListener is undefined, stop here
-//	if( !location.hash && win.addEventListener ){
-//		//scroll to 1
-//		window.scrollTo( 0, 1 );
-//		var scrollTop = 1,
-//			getScrollTop = function(){
-//				return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
-//			},
-//		
-//			//reset to 0 on bodyready, if needed
-//			bodycheck = setInterval(function(){
-//				if( doc.body ){
-//					clearInterval( bodycheck );
-//					scrollTop = getScrollTop();
-//					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-//				}	
-//			}, 15 );
-//		
-//		win.addEventListener( "load", function(){
-//			setTimeout(function(){
-//				//at load, if user hasn't scrolled more than 20 or so...
-//				if( getScrollTop() < 20 ){
-//					//reset to hide addr bar at onload
-//					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-//				}
-//			}, 0);
-//		} );
-//	}
-//})( this );
+
+
 $(document).ready(function() {
 	if (navigator.userAgent.match(/Android/i)) {
 		window.scrollTo(0, 0); // reset in case prev not scrolled   

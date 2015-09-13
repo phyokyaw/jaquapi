@@ -54,7 +54,11 @@ public class ParameterWebControl {
 			String format = labels.length > 10 ? "dd MMM" : "dd MMM HH:mm";
 			for (int i = 0; i < labels.length; i++) {
 				labels[i] = new SimpleDateFormat(format).format(records[i].getStoredTime());
-				values[i] = Double.parseDouble(records[i].getValue());
+				if (records[i].getValue().isEmpty()) {
+					values[i] = 0.0;
+				} else {
+					values[i] = Double.parseDouble(records[i].getValue());
+				}
 			}
 		}
 

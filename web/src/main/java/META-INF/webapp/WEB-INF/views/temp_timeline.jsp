@@ -18,8 +18,8 @@
 	<script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
 </head>
 <body>
-	<div id="temp_timeline_page" data-role="page">
-		<div data-role="header" style="overflow: hidden;" data-add-back-btn="true">
+	<div id="temp_timeline_page" data-role="page"  style="overflow: visible;">
+		<div data-role="header" data-add-back-btn="true"  style="overflow: visible;">
 			<h4>Aquarium control</h4>
 			<div data-role="navbar">
 				<ul>
@@ -32,8 +32,8 @@
 			<!-- /navbar -->
 		</div>
 		<!-- /header -->
-		<div role="main" class="ui-content">
-			<div class="center-wrapper">
+		<div role="main" class="ui-content" style="overflow: visible;">
+			<div class="center-wrapper"  style="overflow: visible;">
 				<h4 class="ui-bar ui-bar-a">Temperature Time line</h4>
 				<canvas id="tempHistory" height="150"></canvas>
 			</div>

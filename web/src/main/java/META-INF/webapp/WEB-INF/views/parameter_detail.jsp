@@ -18,8 +18,8 @@
 <script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
 </head>
 <body>
-	<div id="parameter_detail_page" data-role="page">
-		<div data-role="header" style="overflow: hidden;" data-add-back-btn="true">
+	<div id="parameter_detail_page" data-role="page"  style="overflow: visible;">
+		<div data-role="header" data-add-back-btn="true"  style="overflow: visible;">
 			<h4>Aquarium control</h4>
 			<a href="#" data-icon="gear"
 				class="ui-btn-right ui-shadow ui-corner-all ui-btn-icon-notext">Setup</a>
@@ -34,14 +34,28 @@
 			<!-- /navbar -->
 		</div>
 		<!-- /header -->
-		<div role="main" class="ui-content">
+		<div id="para_main" role="main" class="ui-content" style="overflow: visible;">
 			<h4 class="ui-bar ui-bar-a" align="center">${parameter.name} (${parameter.shortName})</h4>
 			<c:if test="${parameterHistory != null}">
 				<script>
+				function update() {
+					
+ 					if (parameter_chart != null && data != null) {
+						parameter_chart.destroy();
+						window.setTimeout(function() {
+							var ctx = $("#parameterHistoryCanvas").get(0).getContext("2d");
+							$("#parameterHistoryCanvas").attr('width', $("#parameterHistoryCanvas").parent().width());
+							parameter_chart = new Chart(ctx).Line(data, options);
+						}, 800);
+						
+					} 
+				};
 				var parameter_chart;
-				$(document).on("pagecontainershow",function( event, ui ) {
+				var data;
+				var options;
+				function showstuff( event, ui ) {
 					if (ui.toPage.attr('id') == "parameter_detail_page") {
-						var data = {
+						data = {
 						    labels: ${parameterHistory.labelsFormat},
 						    datasets: [
 						        {
@@ -59,26 +73,35 @@
 						options = {
 							animation : false
 						}
-					
+						if (parameter_chart != null) {
+							parameter_chart.destroy();
+							parameter_chart = null;
+						}
 						var ctx = $("#parameterHistoryCanvas").get(0).getContext("2d");
 						$("#parameterHistoryCanvas").attr('width', $("#parameterHistoryCanvas").parent().width());
+						$("#parameterHistoryCanvas").attr('top', $("#parameterHistoryCanvas").parent().position().top);
 						parameter_chart = new Chart(ctx).Line(data, options);
+						parameter_chart.update();
+						$(window).on("orientationchange", update);
 					}
-					
-				});
-				$(document).on("pagecontainerbeforehide",function( event, ui ) {
+				}
+				$(document).on("pagecontainershow", showstuff);
+				function hidestuff( event, ui ) {
 					if (ui.prevPage.attr('id') == "parameter_detail_page") {
 						if (parameter_chart != null) {
 							parameter_chart.destroy();
 							parameter_chart = null;
 						}
+						$(document).off("pagecontainershow", showstuff);
+						$(document).off("pagecontainerbeforehide", hidestuff);
+						$(window).off("orientationchange", update);
 					}
-				});
+				}
+				$(document).on("pagecontainerbeforehide", hidestuff);
 				</script>
-				<div>
-				<canvas id="parameterHistoryCanvas" height="150"></canvas>
+				<div  style="overflow: visible;">
+				<canvas id="parameterHistoryCanvas" height="150"  style="overflow: visible;"></canvas>
 				</div>
-				
 			</c:if>
 			<form action="/secure/add_parameter_record/" method="get">
 				<label for="parameter_value">Test result</label>
