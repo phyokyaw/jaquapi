@@ -169,6 +169,8 @@ $(document).on("pagecreate", "#device_detail_page", function( event ) {
 var device_status_refresh = function() {
 	$.ajax({
 		dataType : "json",
+		beforeSend: function() { showPageLoadingMsg(); }, //Show spinner
+        complete: function() { hidePageLoadingMsg() }, //Hide spinner
 		url : "/device_status/" + $("#device_detail_id").val(),
 		type : "GET",
 		success : function(data) {
@@ -194,6 +196,8 @@ var device_status_refresh = function() {
 var  sensor_status_refresh = function() {
 	$.ajax({
 		dataType : "json",
+		beforeSend: function() { showPageLoadingMsg(); }, //Show spinner
+        complete: function() { hidePageLoadingMsg() }, //Hide spinner
 		url : "/sensor_status/" + $("#sensor_detail_id").val(),
 		type : "GET",
 		success : function(data) {
