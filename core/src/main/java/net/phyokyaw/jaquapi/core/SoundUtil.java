@@ -34,7 +34,7 @@ public class SoundUtil {
 		}
 		AudioListener listener = new AudioListener();
 		AudioInputStream audioInputStream = AudioSystem
-				.getAudioInputStream(SoundUtil.class.getResourceAsStream("/sound.wav"));
+				.getAudioInputStream(SoundUtil.class.getResource("/sound.wav"));
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.addLineListener(listener);
