@@ -326,6 +326,7 @@
 	        	<ref bean="diResinChange" />
 	        	<ref bean="carbonChange" />
 	        	<ref bean="atoRefill" />
+	        	<ref bean="po4MediaChange" />
 			</list>
 		</constructor-arg>
 	</bean>
