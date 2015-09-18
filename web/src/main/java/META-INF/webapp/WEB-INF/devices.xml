@@ -283,16 +283,9 @@
 		<property name="name" value="DI Resin change" />
 	</bean>
 	
-	<bean id="po4MediaChange" class="net.phyokyaw.jaquapi.programme.model.Programme">
-		<constructor-arg value="4" />
-		<property name="devices">
-			<list />
-		</property>
-		<property name="name" value="PO4 Media change" />
-	</bean>
 	
 	<bean id="carbonChange" class="net.phyokyaw.jaquapi.programme.model.Programme">
-		<constructor-arg value="5" />
+		<constructor-arg value="4" />
 		<property name="devices">
 			<list />
 		</property>
@@ -315,6 +308,14 @@
 		<constructor-arg value="5" />
 		<property name="devices" ref="ato-refill-devices" />
 		<property name="name" value="ATO Refill" />
+	</bean>
+	
+	<bean id="po4MediaChange" class="net.phyokyaw.jaquapi.programme.model.Programme">
+		<constructor-arg value="6" />
+		<property name="devices">
+			<list />
+		</property>
+		<property name="name" value="PO4 Media change" />
 	</bean>
 
 	<bean id="programmes" class="java.util.ArrayList">
