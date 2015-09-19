@@ -49,6 +49,9 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 	@Override
 	public boolean isOn() throws Exception {
 		String bits = new BigInteger(currentHex, 16).toString(2);
+		if (bits.length() == 4) {
+			bits = "0000" + bits;
+		}
 		char bit = bits.charAt(bits.length() - id - 1);
 		return (bit == '0');
 	}
@@ -61,9 +64,6 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 	@Override
 	public void setValue(String value) {
 		currentHex = value.substring(2);
-		if (currentHex.length() == 1) {
-			currentHex = "0" + currentHex;
-		}
 	}
 
 	@Override
