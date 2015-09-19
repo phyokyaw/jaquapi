@@ -120,19 +120,12 @@
 		<property name="operatable" ref="switch_2" />
 	</bean>
 
-	<!-- refulight -->
+	<!-- wm -->
 
-	<bean id="refulight" class="net.phyokyaw.jaquapi.core.model.Device">
+	<bean id="wm" class="net.phyokyaw.jaquapi.core.model.Device">
 		<constructor-arg value="3" />
-		<property name="name" value="Refugium Light" />
-		<property name="mode">
-			<bean class="net.phyokyaw.jaquapi.core.model.DateTimeScheduleMode">
-				<constructor-arg value="20" />
-				<constructor-arg value="00" />
-				<constructor-arg value="08" />
-				<constructor-arg value="00" />
-			</bean>
-		</property>
+		<property name="name" value="Wave Makers" />
+		<property name="operatable" ref="switch_7" />
 	</bean>
 
 	<!-- ATO -->
@@ -185,7 +178,7 @@
 	        <list>
 	            <ref bean="lighting-white" />
 	            <ref bean="lighting-blue" /> 
-	            <!-- <ref bean="refulight" /> -->
+	            <ref bean="wm" />
 	            <ref bean="heater" /> 
 	            <ref bean="fan" />
 	            <ref bean="pump" />
@@ -234,12 +227,17 @@
 			<list>
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="pump" />
-					<property name="timeout" value="10" />
+					<property name="timeout" value="12" />
 					<property name="shouldbeOn" value="false" />
 				</bean>
 				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
 					<property name="device" ref="ato" />
 					<property name="timeout" value="15" />
+					<property name="shouldbeOn" value="false" />
+				</bean>
+				<bean class="net.phyokyaw.jaquapi.programme.model.Programme.ProgrammeDevice">
+					<property name="device" ref="wm" />
+					<property name="timeout" value="6" />
 					<property name="shouldbeOn" value="false" />
 				</bean>
 			</list>
