@@ -61,7 +61,7 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 	@Override
 	public void setValue(String value) {
 		currentHex = value.substring(2);
-		if (currentHex.length() == 3) {
+		if (currentHex.length() == 1) {
 			currentHex = "0" + currentHex;
 		}
 	}
