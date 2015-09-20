@@ -48,10 +48,7 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 
 	@Override
 	public boolean isOn() throws Exception {
-		String bits = new BigInteger(currentHex, 16).toString(2);
-		if (bits.length() == 4) {
-			bits = "0000" + bits;
-		}
+		String bits = String.format("%8s", new BigInteger(currentHex, 16).toString(2)).replace(' ', '0');
 		char bit = bits.charAt(bits.length() - id - 1);
 		return (bit == '0');
 	}
