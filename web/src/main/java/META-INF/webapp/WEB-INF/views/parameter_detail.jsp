@@ -25,7 +25,7 @@
 				class="ui-btn-right ui-shadow ui-corner-all ui-btn-icon-notext">Setup</a>
 			<div data-role="navbar">
 				<ul>
-					<li><a href="/" data-icon="home">Dushboard</a></li>
+					<li><a href="/" data-icon="home">Dashboard</a></li>
 					<li><a href="/programmes" data-icon="action">Maintenance</a></li>
 					<li><a href="/parameters" data-icon="star"
 						class="ui-btn-active ui-state-persist">Params</a></li>
