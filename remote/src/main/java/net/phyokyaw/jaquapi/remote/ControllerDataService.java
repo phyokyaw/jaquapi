@@ -95,9 +95,12 @@ public class ControllerDataService {
 	}
 
 
-	public String setI2cUpdate(String value) throws IOException {
+	public void setI2cUpdate(String value) throws IOException {
 		JSONObject json = getRemoteData("action=write&value=" + value);
-		return json.getString("devices");
+		String result = json.getString("devices");
+		for (ValueUpdateListener listener : listeners.get("devices")) {
+			listener.setValue(result);
+		}
 	}
 
 	public String getPhData() throws IOException {
