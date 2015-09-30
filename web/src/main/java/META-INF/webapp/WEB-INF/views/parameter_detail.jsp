@@ -29,6 +29,8 @@
 					<li><a href="/programmes" data-icon="action">Maintenance</a></li>
 					<li><a href="/parameters" data-icon="star"
 						class="ui-btn-active ui-state-persist">Params</a></li>
+					<li><a href="/live"
+						data-icon="camera">Live Cam</a></li>
 				</ul>
 			</div>
 			<!-- /navbar -->

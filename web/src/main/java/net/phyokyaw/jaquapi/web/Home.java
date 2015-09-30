@@ -67,9 +67,14 @@ public class Home {
 		controllerData.setSensors(sensorService.getSensorDevices());
 		return controllerData;
 	}
-	
+
 	@RequestMapping("/secure/setup")
 	public ModelAndView setup() {
 		return new ModelAndView("setup");
+	}
+
+	@RequestMapping("/live")
+	public ModelAndView live() {
+		return new ModelAndView("live");
 	}
 }
