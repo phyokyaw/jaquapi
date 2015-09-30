@@ -47,6 +47,15 @@
 			    <label for="phHistorySelection_week">Week</label>
 			</fieldset>
 			</form>
+			<canvas id="videoCanvas" width="640" height="480">
+				<p>Video not support</p>
+			</canvas>
+			<script type="text/javascript">
+		// Setup the WebSocket connection and start the player
+				var client = new WebSocket( 'ws://127.0.0.1:8084/' );
+				var canvas = document.getElementById('videoCanvas');
+				var player = new jsmpeg(client, {canvas:canvas});
+			</script>
 		</div>
 		<!-- /content -->
 	</div>

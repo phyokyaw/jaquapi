@@ -14,6 +14,8 @@
 		src="<c:url value='/s/jquery-1.11.0.min.js' />"></script>
 	<script type="text/javascript"
 		src="<c:url value='/s/jquery.mobile-1.4.5.min.js' />"></script>
+	<script type="text/javascript"
+		src="<c:url value='/s/jsmpg.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/gauge.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/Chart.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
