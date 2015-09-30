@@ -19,7 +19,7 @@
 <script type="text/javascript" src="<c:url value='/s/devices.js' />"></script>
 </head>
 <body>
-	<div id="ph_timeline_page" data-role="page" style="overflow: visible;">
+	<div id="live_page" data-role="page" style="overflow: visible;">
 		<div data-role="header" style="overflow: visible;">
 			<h4>Aquarium control</h4>
 			<div data-role="navbar">
@@ -40,14 +40,6 @@
 				<canvas id="videoCanvas" width="640" height="480">
 					<p>Video not support</p>
 				</canvas>
-				<script type="text/javascript">
-					// Setup the WebSocket connection and start the player
-					var client = new WebSocket('ws://phyokyaw.net:8084/');
-					var canvas = document.getElementById('videoCanvas');
-					var player = new jsmpeg(client, {
-						canvas : canvas
-					});
-				</script>
 			</div>
 		</div>
 		<!-- /content -->
