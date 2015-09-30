@@ -52,7 +52,7 @@
 			</canvas>
 			<script type="text/javascript">
 		// Setup the WebSocket connection and start the player
-				var client = new WebSocket( 'ws://127.0.0.1:8084/' );
+				var client = new WebSocket( 'ws://192.168.0.14:8084/' );
 				var canvas = document.getElementById('videoCanvas');
 				var player = new jsmpeg(client, {canvas:canvas});
 			</script>
