@@ -37,6 +37,7 @@ public class ControllerDataService {
 	private static final String PORT = "8080";
 	private static final String URL = "http://" + IP + ":" + PORT  + "/?";
 	private static final String USER_AGENT = "Mozilla/5.0";
+	private static final long UPDATE_INTERVAL_IN_MINS = 3L;
 
 	private ScheduledFuture<?> updateSchedule;
 
@@ -61,7 +62,7 @@ public class ControllerDataService {
 					logger.error("Unable to get data", e);
 				}
 			}
-		}, 1000 * 3);
+		}, 1000 * UPDATE_INTERVAL_IN_MINS);
 	}
 
 	@PreDestroy
@@ -95,9 +96,12 @@ public class ControllerDataService {
 	}
 
 
-	public String setI2cUpdate(String value) throws IOException {
+	public void setI2cUpdate(String value) throws IOException {
 		JSONObject json = getRemoteData("action=write&value=" + value);
-		return json.getString("devices");
+		String result = json.getString("devices");
+		for (ValueUpdateListener listener : listeners.get("devices")) {
+			listener.setValue(result);
+		}
 	}
 
 	public String getPhData() throws IOException {

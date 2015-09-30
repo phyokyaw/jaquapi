@@ -35,7 +35,7 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 	@Override
 	public void setOn(boolean on) throws Exception {
 		if (isOn() != on) {
-			setValue(controllerDataService.setI2cUpdate(getNewHex(id, currentHex)));
+			controllerDataService.setI2cUpdate(getNewHex(id, currentHex));
 		}
 	}
 
