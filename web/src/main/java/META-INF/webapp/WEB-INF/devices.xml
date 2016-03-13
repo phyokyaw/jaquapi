@@ -17,8 +17,8 @@
 	<!-- white -->
 	<bean id="lighting-white-weekday-time"
 		class="net.phyokyaw.jaquapi.core.model.DateTimeScheduleMode.OnOfftime">
-		<constructor-arg value="13" />
-		<constructor-arg value="0" />
+		<constructor-arg value="15" />
+		<constructor-arg value="00" />
 		<constructor-arg value="22" />
 		<constructor-arg value="0" />
 	</bean>
@@ -70,8 +70,8 @@
 	<!-- blue -->
 	<bean id="lighting-blue-weekday-time"
 		class="net.phyokyaw.jaquapi.core.model.DateTimeScheduleMode.OnOfftime">
-		<constructor-arg value="12" />
-		<constructor-arg value="0" />
+		<constructor-arg value="14" />
+		<constructor-arg value="30" />
 		<constructor-arg value="22" />
 		<constructor-arg value="30" />
 	</bean>

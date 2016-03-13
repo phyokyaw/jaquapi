@@ -339,7 +339,7 @@ var programme_detail_refresh = function() {
 // Parameters
 
 $(document).on("pagecreate", "#live_page", function( event ) {
-	var client = new WebSocket('ws://phyokyaw.net:8084/');
+	var client = new WebSocket('ws://fishy-live.phyokyaw.net:8084/');
 	var canvas = document.getElementById('videoCanvas');
 	var player = new jsmpeg(client, {
 		canvas : canvas
