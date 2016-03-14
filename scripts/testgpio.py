@@ -16,11 +16,17 @@ def ReadChannel(channel):
   data = ((adc[1]&3) << 8) + adc[2]
   return data
 
+def ConvertVolts(data,places):
+  volts = (data * 5.0) / float(1023)
+  volts = round(volts,places)
+  return volts
+
 client = mqtt.Client()
 
 def my_callback(channel):
     (result, mid) = client.publish("switch %d" % channel, GPIO.input(channel))
-    (result, mid) = client.publish("switch ph", ReadChannel(0))
+    level = ReadChannel(0)
+    (result, mid) = client.publish("switch ph", ConvertVolts(level, 2))
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
