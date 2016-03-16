@@ -1,7 +1,6 @@
 package net.phyokyaw.jaquapi.remote;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
 
 import javax.annotation.PostConstruct;
 
@@ -14,36 +13,54 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.core.util.MultiToMultiMap;
 
 @Service("remoteMqtt")
 public class RemoteMessagingService {
 	private static final Logger logger = LoggerFactory.getLogger(RemoteMessagingService.class);
-	
+
 	private static final String PASSWORD = "password";
 	private static final String USER_NAME = "admin";
-	private final String broker = "tcp://iot.eclipse.org:1883";
+	private final String broker = "tcp://192.168.0.11:61613";
 	private final String clientId = "tankcontrol";
 	private final MemoryPersistence persistence = new MemoryPersistence();
-	private static final String topic = "/fishtank/connection";
-	
+	private static final String FISH_TANK_CONNECTION = "/fishtank/connection";
+	private ScheduledFuture<?> retryConnection = null;
+
+	@Autowired
+	private ScheduledService scheduledService;
+
+	private MultiToMultiMap<String, MessageListener> messageListners = new MultiToMultiMap<String, MessageListener>();
+
 	private MqttClient sampleClient;
-	
-	
+
 	private final MqttCallback mqttCallback = new MqttCallback() {
 		@Override
 		public void connectionLost(Throwable cause) {
-			// TODO Retry
+			logger.error("Unable to connect to server, retrying...", cause);
+			connect();
 		}
 
 		@Override
 		public void messageArrived(String topic, MqttMessage message)
 				throws Exception {
-			if (mesageUsers.containsKey(topic)) {
-				mesageUsers.get(topic).messageArrived(message.toString());
+			for (MessageListener listeners : messageListners.getValues(topic)) {
+				listeners.messageArrived(message.toString());
 			}
-			if(topic.equals(topic)) {
-				
+
+			if(topic.equals(FISH_TANK_CONNECTION)) {
+				int state = Integer.parseInt(message.toString());
+				boolean sensorsAvailable = (state == 1);
+				for (MessageListener listeners : messageListners.getAllValues()) {
+					listeners.connectionAvailable(sensorsAvailable);
+				}
+				if (!sensorsAvailable) {
+					logger.error("Connection lost with sensors");
+				}
 			}
 		}
 
@@ -52,7 +69,6 @@ public class RemoteMessagingService {
 			// TODO Auto-generated method stub
 		}
 	};
-	private Map<String, MessageListener> mesageUsers = new HashMap<String, MessageListener>();
 
 	@PostConstruct
 	private void setup() {
@@ -60,27 +76,46 @@ public class RemoteMessagingService {
 	}
 
 	private void connect() {
-		try {
-			sampleClient = new MqttClient(broker, clientId, persistence);
-			MqttConnectOptions connOpts = new MqttConnectOptions();
-			connOpts.setCleanSession(true);
-			connOpts.setUserName(USER_NAME);
-			connOpts.setPassword(PASSWORD.toCharArray());
-			sampleClient.setCallback(mqttCallback);
-			sampleClient.connect(connOpts);
-			sampleClient.subscribe(topic);
-		} catch (MqttException e) {
-			logger.error("Unable to connect", e);
-		}
+		sampleClient = null;
+		retryConnection = scheduledService.addScheduleAtFixrate(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					sampleClient = new MqttClient(broker, clientId, persistence);
+					MqttConnectOptions connOpts = new MqttConnectOptions();
+					connOpts.setCleanSession(true);
+					connOpts.setUserName(USER_NAME);
+					connOpts.setPassword(PASSWORD.toCharArray());
+					sampleClient.setCallback(mqttCallback);
+					sampleClient.connect(connOpts);
+					if (sampleClient.isConnected()) {
+						retryConnection.cancel(false);
+					}
+					sampleClient.subscribe(FISH_TANK_CONNECTION);
+					for (String key : messageListners.getAllKeys()) {
+						sampleClient.subscribe(key);
+					}
+				} catch (MqttException e) {
+					logger.error("Unable to connect", e);
+				}
+			}
+		}, 1000 * 10); // 10s
 	}
-	
+
 	public void addMessageListener(String topic, MessageListener messageListener) {
-		mesageUsers.put(topic, messageListener);
+		messageListners.put(topic, messageListener);
 		try {
-			sampleClient.subscribe(topic);
+			if (sampleClient.isConnected()) {
+				sampleClient.subscribe(topic);
+			}
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static void main(String[] args) {
+		RemoteMessagingService s = new RemoteMessagingService();
+		s.setup();
 	}
 }

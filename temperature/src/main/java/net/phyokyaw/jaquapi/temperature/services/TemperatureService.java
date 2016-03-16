@@ -1,3 +1,4 @@
+
 package net.phyokyaw.jaquapi.temperature.services;
 
 import java.util.ArrayList;
@@ -10,19 +11,19 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import net.phyokyaw.jaquapi.core.services.AquaService;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.remote.MessageListener;
-import net.phyokyaw.jaquapi.remote.RemoteMessagingService;
-import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
-import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import net.phyokyaw.jaquapi.core.services.AquaService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.remote.MessageListener;
+import net.phyokyaw.jaquapi.remote.RemoteMessagingService;
+import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
+import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 
 @Service("temperature")
 public class TemperatureService implements AquaService, MessageListener {
@@ -134,6 +135,6 @@ public class TemperatureService implements AquaService, MessageListener {
 	@Override
 	public void connectionAvailable(boolean connectionState) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
