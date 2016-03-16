@@ -56,7 +56,7 @@ public class RemoteMessagingService {
 				int state = Integer.parseInt(message.toString());
 				boolean sensorsAvailable = (state == 1);
 				for (MessageListener listeners : messageListners.getAllValues()) {
-					listeners.connectionAvailable(sensorsAvailable);
+					listeners.sensorStateChanged(sensorsAvailable);
 				}
 				if (!sensorsAvailable) {
 					logger.error("Connection lost with sensors");
@@ -76,11 +76,11 @@ public class RemoteMessagingService {
 	}
 
 	private void connect() {
-		sampleClient = null;
 		retryConnection = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
 				try {
+					logger.debug("trying to connect");
 					sampleClient = new MqttClient(broker, clientId, persistence);
 					MqttConnectOptions connOpts = new MqttConnectOptions();
 					connOpts.setCleanSession(true);
@@ -89,6 +89,7 @@ public class RemoteMessagingService {
 					sampleClient.setCallback(mqttCallback);
 					sampleClient.connect(connOpts);
 					if (sampleClient.isConnected()) {
+						logger.debug("connected, canceling retry");
 						retryConnection.cancel(false);
 					}
 					sampleClient.subscribe(FISH_TANK_CONNECTION);
@@ -109,8 +110,7 @@ public class RemoteMessagingService {
 				sampleClient.subscribe(topic);
 			}
 		} catch (MqttException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Unable to subscribe " + topic, e);
 		}
 	}
 

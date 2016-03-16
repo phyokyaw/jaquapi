@@ -53,12 +53,6 @@ public class TemperatureService implements AquaService, MessageListener {
 	@PostConstruct
 	private void setup() {
 		messagingService.addMessageListener(primary, this);
-		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-			@Override
-			public void run() {
-				//
-			}
-		}, 1000 * 60);
 	}
 
 	private void record() {
@@ -133,8 +127,19 @@ public class TemperatureService implements AquaService, MessageListener {
 	}
 
 	@Override
-	public void connectionAvailable(boolean connectionState) {
-		// TODO Auto-generated method stub
-
+	public void sensorStateChanged(boolean sensorAvailable) {
+		if (sensorAvailable) {
+			recordSchedule = scheduledService.addScheduleAtFixrate(1000 * 20, new Runnable() {
+				@Override
+				public void run() {
+					record();
+				}
+			}, 1000 * 60);
+		} else {
+			if (recordSchedule != null) {
+				recordSchedule.cancel(false);
+			}
+			value = 0.0;
+		}
 	}
 }
