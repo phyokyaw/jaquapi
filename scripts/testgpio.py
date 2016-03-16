@@ -33,12 +33,10 @@ def publish_ph():
     phdata = 3.5 * ((data * 5.0) / float(1023))
     phdata = round(phdata, 2)
     (result, mid) = client.publish(device_name + "/ph", phdata)
-    print "ph " + str(phdata)
 
 def publish_temperature():
     for f in listdir("/sys/bus/w1/devices/"):
     	filename = "/sys/bus/w1/devices/" + f + "/w1_slave"
-        print filename
         if isfile(filename):
             tfile = open(filename) 
             text = tfile.read()
@@ -47,11 +45,13 @@ def publish_temperature():
             temperature = float(temperaturedata[2:])
             temperature = temperature / 1000
             (result, mid) = client.publish(device_name + "/temperature/" + f, temperature)
+            print temperature
 
 client = mqtt.Client()
 
 def switch_changed(channel):
     (result, mid) = client.publish(device_name + "/switch/%d" % gpio_switches.index(channel), GPIO.input(channel))
+    print GPIO.input(channel)
 
 def on_connect(client, userdata, flags, rc):
     global connected
@@ -61,6 +61,7 @@ def on_connect(client, userdata, flags, rc):
         client.publish(device_name + "/connection", "1", 0, retain=True)
 
 def on_disconnect(client, userdata, rc):
+    global connected
     connected = False
 
 for key in gpio_switches:
@@ -74,7 +75,6 @@ client.connect(mqtt_server_ip, mqtt_server_port, 60)
 client.loop_start()
 
 while True:
-    global connected
     if connected == True:
         publish_ph()
         publish_temperature()
