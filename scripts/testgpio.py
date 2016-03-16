@@ -9,7 +9,7 @@ from os.path import isfile
 
 GPIO.setmode(GPIO.BCM)
 
-device_name = "fishtank"
+device_name = "/fishtank"
 gpio_switches = [5, 6, 12, 13, 16]
 ph_analog_channel = 0
 report_inteval_in_sec = 10

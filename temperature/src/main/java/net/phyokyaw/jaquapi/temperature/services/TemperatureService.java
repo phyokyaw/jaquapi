@@ -10,6 +10,13 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import net.phyokyaw.jaquapi.core.services.AquaService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.remote.MessageListener;
+import net.phyokyaw.jaquapi.remote.RemoteMessagingService;
+import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
+import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +24,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import net.phyokyaw.jaquapi.core.services.AquaService;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.remote.ControllerDataService;
-import net.phyokyaw.jaquapi.remote.ValueUpdateListener;
-import net.phyokyaw.jaquapi.temperature.dao.TemperatureDao;
-import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
-
 @Service("temperature")
-public class TemperatureService implements AquaService, ValueUpdateListener {
+public class TemperatureService implements AquaService, MessageListener {
+	private static final String topic = "/fishtank/temperature";
+	private static final String primary = topic + "/12345";
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 
 	@Autowired
 	private ScheduledService scheduledService;
 
 	@Autowired
-	private ControllerDataService controllerDataService;
+	private RemoteMessagingService messagingService;
 
 	@Autowired
 	private TemperatureDao dao;
@@ -49,11 +51,11 @@ public class TemperatureService implements AquaService, ValueUpdateListener {
 
 	@PostConstruct
 	private void setup() {
-		controllerDataService.addValueUpdateListener("temp", this);
+		messagingService.addMessageListener(primary, this);
 		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
 			@Override
 			public void run() {
-				record();
+				//
 			}
 		}, 1000 * 60);
 	}
@@ -125,7 +127,13 @@ public class TemperatureService implements AquaService, ValueUpdateListener {
 	}
 
 	@Override
-	public void setValue(String value) {
-		this.value = Double.parseDouble(value);
+	public void messageArrived(String message) {
+		value = Double.parseDouble(message);
+	}
+
+	@Override
+	public void connectionAvailable(boolean connectionState) {
+		// TODO Auto-generated method stub
+		
 	}
 }
