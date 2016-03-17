@@ -2,13 +2,12 @@ package net.phyokyaw.jaquapi.sensor.model;
 
 import java.util.concurrent.ScheduledFuture;
 
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.remote.MessageListener;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.remote.MessageListener;
-import net.phyokyaw.jaquapi.remote.RemoteMessagingService;
 
 public class SensorDevice implements MessageListener {
 	private static Logger logger = LoggerFactory.getLogger(SensorDevice.class);
