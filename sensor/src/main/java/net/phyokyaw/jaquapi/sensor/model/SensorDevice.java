@@ -1,14 +1,27 @@
 package net.phyokyaw.jaquapi.sensor.model;
 
+import java.util.concurrent.ScheduledFuture;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
 import net.phyokyaw.jaquapi.remote.MessageListener;
+import net.phyokyaw.jaquapi.remote.RemoteMessagingService;
 
 public class SensorDevice implements MessageListener {
+	private static Logger logger = LoggerFactory.getLogger(SensorDevice.class);
 	private final long id;
 	private boolean on;
 	private String name;
 	private String description;
 	private boolean errorWhenOn;
 	private String onErrorMessage;
+	
+	@Autowired
+	private ScheduledService scheduledService;
+	private ScheduledFuture<?> recordSchedule;
 
 	public SensorDevice(long id) {
 		this.id = id;
@@ -65,6 +78,18 @@ public class SensorDevice implements MessageListener {
 	@Override
 	public void messageArrived(String topic, String message) {
 		setOn(Integer.parseInt(message) == 1);
+		if (isOnError()) {
+			recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
+				@Override
+				public void run() {
+					logger.error("Error on " + name);
+				}
+			}, 1000 * 10);
+		} else {
+			if (recordSchedule != null) {
+				recordSchedule.cancel(false);
+			}
+		}
 	}
 
 	@Override
