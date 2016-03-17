@@ -49,7 +49,7 @@ public class RemoteMessagingService {
 		public void messageArrived(String topic, MqttMessage message)
 				throws Exception {
 			for (MessageListener listeners : messageListners.getValues(topic)) {
-				listeners.messageArrived(message.toString());
+				listeners.messageArrived(topic, message.toString());
 			}
 
 			if(topic.equals(FISH_TANK_CONNECTION)) {

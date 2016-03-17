@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import net.phyokyaw.jaquapi.remote.RemoteMessagingService;
 import net.phyokyaw.jaquapi.sensor.model.SensorDevice;
 
 import org.slf4j.Logger;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 @Service("sensor")
 public class SensorService {
-	private static final Logger logger = LoggerFactory.getLogger(SensorService.class);
-
+//	private static final Logger logger = LoggerFactory.getLogger(SensorService.class);
+	private static final String TOPIC = "/fishtank/switch/";
+	@Autowired
+	private RemoteMessagingService messagingService;
 
 	@Autowired
 	private List<SensorDevice> sensorDevices;
@@ -22,7 +25,9 @@ public class SensorService {
 
 	@PostConstruct
 	private void setup() {
-		
+		for(SensorDevice sensorDevice : sensorDevices) {
+			messagingService.addMessageListener(TOPIC + sensorDevice.getId(), sensorDevice);
+		}
 	}
 
 
@@ -38,23 +43,4 @@ public class SensorService {
 		}
 		return null;
 	}
-
-//	@Override
-//	public void setValue(String value) {
-//		JSONObject obj = new JSONObject(value);
-//		for (SensorDevice sensorDevice : sensorDevices) {
-//			String keyId = Long.toString(sensorDevice.getId());
-//			if (obj.has(keyId)) {
-//				sensorDevice.setOn(obj.getInt(keyId) == 1);
-//				if (sensorDevice.isOnError()) {
-//					try {
-//						SoundUtil.playClip();
-//					} catch (IOException | UnsupportedAudioFileException | LineUnavailableException
-//							| InterruptedException e) {
-//						logger.error("Unable to play sound", e);
-//					}
-//				}
-//			}
-//		}
-//	}
 }

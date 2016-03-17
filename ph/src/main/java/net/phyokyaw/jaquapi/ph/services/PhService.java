@@ -13,7 +13,11 @@ import net.phyokyaw.jaquapi.core.services.AquaService;
 import net.phyokyaw.jaquapi.core.services.ScheduledService;
 import net.phyokyaw.jaquapi.ph.dao.PhDao;
 import net.phyokyaw.jaquapi.ph.model.PhRecord;
+import net.phyokyaw.jaquapi.remote.MessageListener;
+import net.phyokyaw.jaquapi.remote.RemoteMessagingService;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +26,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service("ph")
-public class PhService implements AquaService {
+public class PhService implements AquaService, MessageListener {
 	private static Logger logger = LoggerFactory.getLogger(PhService.class);
+	private static final String TOPIC = "/fishtank/ph";
 	private double value = 0.0d;
-	private static final double OFFSET = -4.8d;
 
 	@Autowired
 	private ScheduledService scheduledService;
-
+	
+	@Autowired
+	private RemoteMessagingService messagingService;
 
 	@Autowired
 	private PhDao dao;
 
-	private ScheduledFuture<?> updateSchedule;
 	private ScheduledFuture<?> recordSchedule;
-
+	private DateTime lastRecorded;
+	
 	@PreDestroy
 	private void shutdown() {
-		if (updateSchedule != null) {
-			updateSchedule.cancel(false);
-		}
 		if (recordSchedule != null) {
 			recordSchedule.cancel(false);
 		}
@@ -49,27 +52,7 @@ public class PhService implements AquaService {
 
 	@PostConstruct
 	private void setup() {
-//		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-//			@Override
-//			public void run() {
-//				update();
-//			}
-//		}, 1000 * 20); //20s
-//		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-//			@Override
-//			public void run() {
-//				record();
-//			}
-//		}, 1000 * 60); //60s
-	}
-
-	private void update() {
-//		try {
-//			value = Double.parseDouble(controllerDataService.getPhData()) + OFFSET;
-//			logger.info("Updated ph value is " + value);
-//		} catch (NumberFormatException | IOException e) {
-//			logger.error("Error executing ph reader", e);
-//		}
+		messagingService.addMessageListener(TOPIC, this);
 	}
 
 	private void record() {
@@ -129,6 +112,36 @@ public class PhService implements AquaService {
 	@Override
 	public double getValue() {
 		return value;
+	}
+
+	@Override
+	public void messageArrived(String topic, String message) {
+		value = Double.parseDouble(message);
+		lastRecorded = new DateTime();
+	}
+
+	@Override
+	public void sensorStateChanged(boolean sensorAvailable) {
+		if (sensorAvailable) {
+			recordSchedule = scheduledService.addScheduleAtFixrate(1000 * 20, new Runnable() {
+				@Override
+				public void run() {
+					if (lastRecorded != null) {
+						Interval interval = new Interval(lastRecorded, new DateTime());
+						if (interval.toDuration().getStandardMinutes() > 2) {
+							logger.error("Ph data not updated for last " + interval.toDuration().getStandardHours() + " hours");
+						} else {
+							record();
+						}
+					}
+				}
+			}, 1000 * 60);
+		} else {
+			if (recordSchedule != null) {
+				recordSchedule.cancel(false);
+			}
+			lastRecorded = null;
+		}
 	}
 
 }

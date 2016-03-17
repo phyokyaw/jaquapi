@@ -11,6 +11,8 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ public class TemperatureService implements AquaService, MessageListener {
 	@Autowired
 	private TemperatureDao dao;
 	private double value = 0.0;
+	private DateTime lastRecorded;
 
 	private ScheduledFuture<?> recordSchedule;
 
@@ -122,8 +125,9 @@ public class TemperatureService implements AquaService, MessageListener {
 	}
 
 	@Override
-	public void messageArrived(String message) {
+	public void messageArrived(String topic, String message) {
 		value = Double.parseDouble(message);
+		lastRecorded = new DateTime();
 	}
 
 	@Override
@@ -132,14 +136,21 @@ public class TemperatureService implements AquaService, MessageListener {
 			recordSchedule = scheduledService.addScheduleAtFixrate(1000 * 20, new Runnable() {
 				@Override
 				public void run() {
-					record();
+					if (lastRecorded != null) {
+						Interval interval = new Interval(lastRecorded, new DateTime());
+						if (interval.toDuration().getStandardMinutes() > 2) {
+							logger.error("Temperature data not updated for last " + interval.toDuration().getStandardHours() + " hours");
+						} else {
+							record();
+						}
+					}
 				}
 			}, 1000 * 60);
 		} else {
 			if (recordSchedule != null) {
 				recordSchedule.cancel(false);
 			}
-			value = 0.0;
+			lastRecorded = null;
 		}
 	}
 }

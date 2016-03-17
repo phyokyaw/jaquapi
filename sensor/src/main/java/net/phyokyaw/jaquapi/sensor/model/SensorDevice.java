@@ -1,6 +1,8 @@
 package net.phyokyaw.jaquapi.sensor.model;
 
-public class SensorDevice {
+import net.phyokyaw.jaquapi.remote.MessageListener;
+
+public class SensorDevice implements MessageListener {
 	private final long id;
 	private boolean on;
 	private String name;
@@ -59,5 +61,13 @@ public class SensorDevice {
 	public boolean isOnError() {
 		return (on == errorWhenOn);
 	}
+
+	@Override
+	public void messageArrived(String topic, String message) {
+		setOn(Integer.parseInt(message) == 1);
+	}
+
+	@Override
+	public void sensorStateChanged(boolean connectionState) {}
 
 }

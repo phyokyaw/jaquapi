@@ -12,7 +12,7 @@ GPIO.setmode(GPIO.BCM)
 device_name = "/fishtank"
 gpio_switches = [5, 6, 12, 13, 16]
 ph_analog_channel = 0
-report_inteval_in_sec = 10
+report_inteval_in_sec = 60
 user_name = 'admin'
 password = 'password'
 mqtt_server_ip = "192.168.0.11"
