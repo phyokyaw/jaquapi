@@ -117,7 +117,7 @@ public class Device extends AbstractModel {
 				logger.error("Unable to set on off", e);
 			}
 		}
-		logger.debug(name + " mode is " + on);
+//		logger.debug(name + " mode is " + on);
 	}
 
 	public boolean isOn() {

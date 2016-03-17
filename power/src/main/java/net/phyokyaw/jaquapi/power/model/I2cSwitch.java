@@ -5,23 +5,20 @@ import java.math.BigInteger;
 
 import javax.annotation.PostConstruct;
 
+import net.phyokyaw.jaquapi.core.model.Operatable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import net.phyokyaw.jaquapi.core.model.Operatable;
-import net.phyokyaw.jaquapi.remote.ControllerDataService;
-import net.phyokyaw.jaquapi.remote.ValueUpdateListener;
-
-public class I2cSwitch implements Operatable, ValueUpdateListener {
+public class I2cSwitch implements Operatable {
 
 	private static Logger logger = LoggerFactory.getLogger(I2cSwitch.class);
 
 	private final int id;
 	private String currentHex;
 
-	@Autowired
-	private ControllerDataService controllerDataService;
+//	@Autowired
+//	private ControllerDataService controllerDataService;
 
 	public I2cSwitch(int id) {
 		this.id = id;
@@ -29,13 +26,13 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 
 	@PostConstruct
 	private void setup() {
-		controllerDataService.addValueUpdateListener("devices", this);
+//		controllerDataService.addValueUpdateListener("devices", this);
 	}
 
 	@Override
 	public void setOn(boolean on) throws Exception {
 		if (isOn() != on) {
-			controllerDataService.setI2cUpdate(getNewHex(id, currentHex));
+			//controllerDataService.setI2cUpdate(getNewHex(id, currentHex));
 		}
 	}
 
@@ -58,10 +55,6 @@ public class I2cSwitch implements Operatable, ValueUpdateListener {
 		return Integer.toString(id);
 	}
 
-	@Override
-	public void setValue(String value) {
-		currentHex = value.substring(2);
-	}
 
 	@Override
 	public boolean isReady() {

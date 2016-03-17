@@ -1,6 +1,5 @@
 package net.phyokyaw.jaquapi.ph.services;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -10,18 +9,17 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import net.phyokyaw.jaquapi.core.services.AquaService;
+import net.phyokyaw.jaquapi.core.services.ScheduledService;
+import net.phyokyaw.jaquapi.ph.dao.PhDao;
+import net.phyokyaw.jaquapi.ph.model.PhRecord;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import net.phyokyaw.jaquapi.core.services.AquaService;
-import net.phyokyaw.jaquapi.core.services.ScheduledService;
-import net.phyokyaw.jaquapi.ph.dao.PhDao;
-import net.phyokyaw.jaquapi.ph.model.PhRecord;
-import net.phyokyaw.jaquapi.remote.ControllerDataService;
 
 @Service("ph")
 public class PhService implements AquaService {
@@ -32,8 +30,6 @@ public class PhService implements AquaService {
 	@Autowired
 	private ScheduledService scheduledService;
 
-	@Autowired
-	private ControllerDataService controllerDataService;
 
 	@Autowired
 	private PhDao dao;
@@ -53,27 +49,27 @@ public class PhService implements AquaService {
 
 	@PostConstruct
 	private void setup() {
-		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-			@Override
-			public void run() {
-				update();
-			}
-		}, 1000 * 20); //20s
-		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
-			@Override
-			public void run() {
-				record();
-			}
-		}, 1000 * 60); //60s
+//		updateSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
+//			@Override
+//			public void run() {
+//				update();
+//			}
+//		}, 1000 * 20); //20s
+//		recordSchedule = scheduledService.addScheduleAtFixrate(new Runnable() {
+//			@Override
+//			public void run() {
+//				record();
+//			}
+//		}, 1000 * 60); //60s
 	}
 
 	private void update() {
-		try {
-			value = Double.parseDouble(controllerDataService.getPhData()) + OFFSET;
-			logger.info("Updated ph value is " + value);
-		} catch (NumberFormatException | IOException e) {
-			logger.error("Error executing ph reader", e);
-		}
+//		try {
+//			value = Double.parseDouble(controllerDataService.getPhData()) + OFFSET;
+//			logger.info("Updated ph value is " + value);
+//		} catch (NumberFormatException | IOException e) {
+//			logger.error("Error executing ph reader", e);
+//		}
 	}
 
 	private void record() {

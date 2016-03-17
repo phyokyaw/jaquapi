@@ -25,7 +25,7 @@ public class RemoteMessagingService {
 
 	private static final String PASSWORD = "password";
 	private static final String USER_NAME = "admin";
-	private final String broker = "tcp://192.168.0.11:61613";
+	private final String broker = "tcp://127.0.0.1:61613";
 	private final String clientId = "tankcontrol";
 	private final MemoryPersistence persistence = new MemoryPersistence();
 	private static final String FISH_TANK_CONNECTION = "/fishtank/connection";
@@ -97,7 +97,7 @@ public class RemoteMessagingService {
 						sampleClient.subscribe(key);
 					}
 				} catch (MqttException e) {
-					logger.error("Unable to connect", e);
+					logger.error("Unable to connect: " + e.getMessage());
 				}
 			}
 		}, 1000 * 10); // 10s
@@ -106,7 +106,7 @@ public class RemoteMessagingService {
 	public void addMessageListener(String topic, MessageListener messageListener) {
 		messageListners.put(topic, messageListener);
 		try {
-			if (sampleClient.isConnected()) {
+			if (sampleClient != null && sampleClient.isConnected()) {
 				sampleClient.subscribe(topic);
 			}
 		} catch (MqttException e) {

@@ -13,7 +13,7 @@
            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
            
-	<bean id="switch_0" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
+<bean id="switch_0" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
 		<constructor-arg value="0" />
 	</bean>
 	<bean id="switch_1" class="net.phyokyaw.jaquapi.power.model.I2cSwitch">
