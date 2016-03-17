@@ -92,6 +92,6 @@ public class SensorDevice implements MessageListener {
 	}
 
 	@Override
-	public void sensorStateChanged(boolean connectionState) {}
+	public void sensorStateChanged(boolean sensorDeviceConnected) {}
 
 }
