@@ -59,6 +59,10 @@ def on_connect(client, userdata, flags, rc):
         connected = True
         client.will_set(device_name + "/connection", "0", 0, retain=True)
         client.publish(device_name + "/connection", "1", 0, retain=True)
+        for key in gpio_switches:
+            switch_changed(key)
+            publish_ph()
+            publish_temperature()
 
 def on_disconnect(client, userdata, rc):
     global connected

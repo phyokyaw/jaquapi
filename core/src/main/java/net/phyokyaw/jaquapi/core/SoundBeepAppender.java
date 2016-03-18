@@ -1,9 +1,6 @@
 package net.phyokyaw.jaquapi.core;
 
-import java.io.IOException;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import java.awt.Toolkit;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
@@ -22,11 +19,7 @@ public class SoundBeepAppender extends AppenderSkeleton {
 	@Override
 	protected void append(LoggingEvent arg0) {
 		if (arg0.getLevel().equals(Level.ERROR)) {
-			try {
-				SoundUtil.playClip();
-			} catch (IOException | UnsupportedAudioFileException | LineUnavailableException | InterruptedException e) {
-				// Can't do anything!
-			}
+			Toolkit.getDefaultToolkit().beep();
 		}
 	}
 
