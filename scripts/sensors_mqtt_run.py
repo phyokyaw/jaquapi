@@ -33,6 +33,7 @@ def publish_ph():
     phdata = 3.5 * ((data * 5.0) / float(1023))
     phdata = round(phdata, 2)
     (result, mid) = client.publish(device_name + "/ph", phdata)
+    print "ph " + phdata
 
 def publish_temperature():
     for f in listdir("/sys/bus/w1/devices/"):
@@ -45,13 +46,13 @@ def publish_temperature():
             temperature = float(temperaturedata[2:])
             temperature = temperature / 1000
             (result, mid) = client.publish(device_name + "/temperature/" + f, temperature)
-            print temperature
+            print "temp " + temperature
 
 client = mqtt.Client()
 
 def switch_changed(channel):
     (result, mid) = client.publish(device_name + "/switch/%d" % gpio_switches.index(channel), GPIO.input(channel))
-    print GPIO.input(channel)
+    print "channel " + channel + ": " + GPIO.input(channel)
 
 def on_connect(client, userdata, flags, rc):
     global connected
@@ -61,12 +62,15 @@ def on_connect(client, userdata, flags, rc):
         client.publish(device_name + "/connection", "1", 0, retain=True)
         for key in gpio_switches:
             switch_changed(key)
-            publish_ph()
-            publish_temperature()
+        publish_sensors()
 
 def on_disconnect(client, userdata, rc):
     global connected
     connected = False
+
+def publish_sensors():
+    publish_ph()
+    publish_temperature()
 
 for key in gpio_switches:
     GPIO.add_event_detect(key, GPIO.FALLING, callback=switch_changed, bouncetime=300)
@@ -78,10 +82,14 @@ client.username_pw_set(user_name,password)
 client.connect(mqtt_server_ip, mqtt_server_port, 60)
 client.loop_start()
 
-while True:
-    if connected == True:
-        publish_ph()
-        publish_temperature()
-    time.sleep(report_inteval_in_sec)
-
-GPIO.cleanup()           # clean up GPIO on normal exit  
+try:
+	while True:
+	    if connected == True:
+	    	publish_sensors
+	    time.sleep(report_inteval_in_sec)
+except KeyboardInterrupt:  
+    # here you put any code you want to run before the program   
+    # exits when you press CTRL+C  
+    print "\n", counter # print value of counter
+finally:
+    GPIO.cleanup()           # clean up GPIO on normal exit  
