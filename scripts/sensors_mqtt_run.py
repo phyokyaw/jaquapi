@@ -73,7 +73,7 @@ def publish_sensors():
     publish_temperature()
 
 for key in gpio_switches:
-    GPIO.add_event_detect(key, GPIO.FALLING, callback=switch_changed, bouncetime=300)
+    GPIO.add_event_detect(key, GPIO.FALLING, callback=switch_changed, bouncetime=50)
 
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
@@ -89,7 +89,7 @@ try:
 	    time.sleep(report_inteval_in_sec)
 except KeyboardInterrupt:  
     # here you put any code you want to run before the program   
-    # exits when you press CTRL+C  
-    print "\n", counter # print value of counter
+    # exits when you press CTRL+C
+    client.disconnect()
 finally:
     GPIO.cleanup()           # clean up GPIO on normal exit  
