@@ -56,7 +56,7 @@ public class RemoteMessagingService {
 				int state = Integer.parseInt(message.toString());
 				boolean sensorsAvailable = (state == 1);
 				for (MessageListener listeners : messageListners.getAllValues()) {
-					listeners.sensorStateChanged(sensorsAvailable);
+					listeners.sensorDeviceConnection(sensorsAvailable);
 				}
 				if (!sensorsAvailable) {
 					logger.error("Connection lost with sensors");

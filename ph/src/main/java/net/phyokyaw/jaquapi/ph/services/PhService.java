@@ -121,7 +121,7 @@ public class PhService implements AquaService, MessageListener {
 	}
 
 	@Override
-	public void sensorStateChanged(boolean sensorAvailable) {
+	public void sensorDeviceConnection(boolean sensorAvailable) {
 		if (sensorAvailable) {
 			recordSchedule = scheduledService.addScheduleAtFixrate(1000 * 20, new Runnable() {
 				@Override
