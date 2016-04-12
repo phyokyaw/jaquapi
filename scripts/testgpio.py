@@ -33,6 +33,7 @@ def publish_ph():
     phdata = 3.5 * ((data * 5.0) / float(1023))
     phdata = round(phdata, 2)
     (result, mid) = client.publish(device_name + "/ph", phdata)
+    print phdata
 
 def publish_temperature():
     for f in listdir("/sys/bus/w1/devices/"):
@@ -51,7 +52,8 @@ client = mqtt.Client()
 
 def switch_changed(channel):
     (result, mid) = client.publish(device_name + "/switch/%d" % gpio_switches.index(channel), GPIO.input(channel))
-    print GPIO.input(channel)
+    if GPIO.input(channel) == 1:
+       print "De-De"
 
 def on_connect(client, userdata, flags, rc):
     global connected
@@ -59,13 +61,15 @@ def on_connect(client, userdata, flags, rc):
         connected = True
         client.will_set(device_name + "/connection", "0", 0, retain=True)
         client.publish(device_name + "/connection", "1", 0, retain=True)
+	publish_ph()
+	publish_temperature()
 
 def on_disconnect(client, userdata, rc):
     global connected
     connected = False
 
 for key in gpio_switches:
-    GPIO.add_event_detect(key, GPIO.FALLING, callback=switch_changed, bouncetime=300)
+    GPIO.add_event_detect(key, GPIO.FALLING, callback=switch_changed, bouncetime=10)
 
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
@@ -73,7 +77,7 @@ client.on_disconnect = on_disconnect
 client.username_pw_set(user_name,password)
 client.connect(mqtt_server_ip, mqtt_server_port, 60)
 client.loop_start()
-
+print "started"
 while True:
     if connected == True:
         publish_ph()
