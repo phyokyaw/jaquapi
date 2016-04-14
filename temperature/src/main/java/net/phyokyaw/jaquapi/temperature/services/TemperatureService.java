@@ -30,7 +30,7 @@ import net.phyokyaw.jaquapi.temperature.model.TemperatureRecord;
 @Service("temperature")
 public class TemperatureService implements AquaService, MessageListener {
 	private static final String topic = "/fishtank/temperature";
-	private static final String primary = topic + "/12345";
+	private static final String primary = topic + "/28-031466113fff";
 	private static final Logger logger = LoggerFactory.getLogger(TemperatureService.class);
 
 	@Autowired
