@@ -25,7 +25,7 @@ public class RemoteMessagingService {
 
 	private static final String PASSWORD = "password";
 	private static final String USER_NAME = "admin";
-	private final String broker = "tcp://127.0.0.1:61613";
+	private final String broker = "tcp://localhost:1883";
 	private final String clientId = "tankcontrol";
 	private final MemoryPersistence persistence = new MemoryPersistence();
 	private static final String FISH_TANK_CONNECTION = "/fishtank/connection";
