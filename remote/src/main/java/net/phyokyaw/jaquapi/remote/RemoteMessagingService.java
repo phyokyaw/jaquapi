@@ -23,9 +23,9 @@ import net.phyokyaw.jaquapi.core.util.MultiToMultiMap;
 public class RemoteMessagingService {
 	private static final Logger logger = LoggerFactory.getLogger(RemoteMessagingService.class);
 
-	private static final String PASSWORD = "password";
+	private static final String PASSWORD = "admin";
 	private static final String USER_NAME = "admin";
-	private final String broker = "tcp://localhost:1883";
+	private final String broker = "tcp://192.168.0.14:1883";
 	private final String clientId = "tankcontrol";
 	private final MemoryPersistence persistence = new MemoryPersistence();
 	private static final String FISH_TANK_CONNECTION = "/fishtank/connection";
